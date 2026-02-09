@@ -1,7 +1,7 @@
-package com.davinc.sistemaodettediogo.servlet;
+package com.davinc.sistemaodettediogo.controller;
 
-import com.davinc.sistemaodettediogo.model.aluno.Aluno;
-import com.davinc.sistemaodettediogo.model.aluno.AlunoDAO;
+import com.davinc.sistemaodettediogo.model.Aluno;
+import com.davinc.sistemaodettediogo.dao.AlunoDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.davinc.sistemaodettediogo.model.aluno;
+package com.davinc.sistemaodettediogo.model;
 
 public class Aluno {
     String nomeCompleto;

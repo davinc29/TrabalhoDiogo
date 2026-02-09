@@ -1,4 +1,4 @@
-package com.davinc.sistemaodettediogo.servlet;
+package com.davinc.sistemaodettediogo.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

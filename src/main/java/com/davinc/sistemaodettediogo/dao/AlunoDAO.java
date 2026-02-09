@@ -1,6 +1,7 @@
-package com.davinc.sistemaodettediogo.model.aluno;
+package com.davinc.sistemaodettediogo.dao;
 
-import com.davinc.sistemaodettediogo.dao.Conexao;
+import com.davinc.sistemaodettediogo.database.Conexao;
+import com.davinc.sistemaodettediogo.model.Aluno;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

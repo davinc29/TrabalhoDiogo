@@ -1,4 +1,4 @@
-package com.davinc.sistemaodettediogo.model.profesor;
+package com.davinc.sistemaodettediogo.model;
 
 public class Professor {
     String nome;

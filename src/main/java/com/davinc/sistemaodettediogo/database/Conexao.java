@@ -1,4 +1,4 @@
-package com.davinc.sistemaodettediogo.dao;
+package com.davinc.sistemaodettediogo.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -41,5 +41,6 @@ public class Conexao {
         }
         return false;
     }
+
 
 }
