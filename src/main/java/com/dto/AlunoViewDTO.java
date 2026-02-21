@@ -7,13 +7,17 @@ public class AlunoViewDTO {
     private String nome;
     private Long matricula;
     private String email;
+    private String turma_ano;
 
-    public AlunoViewDTO(UUID idAluno, String nome, Long matricula, String email) {
+    public AlunoViewDTO(UUID idAluno, String nome, Long matricula, String email, String turma_ano) {
         this.idAluno = idAluno;
         this.nome = nome;
         this.matricula = matricula;
         this.email = email;
+        this.turma_ano = turma_ano;
     }
+
+    public AlunoViewDTO() {}
 
     public UUID getIdAluno() {
         return idAluno;
@@ -47,6 +51,14 @@ public class AlunoViewDTO {
         this.email = email;
     }
 
+    public String getTurma_ano() {
+        return turma_ano;
+    }
+
+    public void setTurma_ano(String turma_ano) {
+        this.turma_ano = turma_ano;
+    }
+
     @Override
     public String toString() {
         return "AlunoViewDTO{" +
@@ -54,6 +66,7 @@ public class AlunoViewDTO {
                 ", nome='" + nome + '\'' +
                 ", matricula=" + matricula +
                 ", email='" + email + '\'' +
+                ", turma_ano='" + turma_ano + '\'' +
                 '}';
     }
 }

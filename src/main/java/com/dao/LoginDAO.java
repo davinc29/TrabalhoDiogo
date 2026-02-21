@@ -23,7 +23,7 @@ public class LoginDAO extends DAO {
                     SELECT
                         id,
                         nome,
-                        usuario,
+                        username,
                         email,
                         senha
                     FROM
@@ -33,7 +33,7 @@ public class LoginDAO extends DAO {
                     
                     """;
 
-        String nome, usuario, email, senhaHash;
+        String nome, username, email, senhaHash;
         ProfessorDTO professor;
         UUID id;
 
@@ -60,9 +60,9 @@ public class LoginDAO extends DAO {
                 id = UUID.fromString(idString);
 
                 nome = rs.getString("nome");
-                usuario = rs.getString("usuario");
+                username = rs.getString("username");
 
-                professor = new ProfessorDTO(id, nome, usuario, credenciais.getEmail());
+                professor = new ProfessorDTO(id, nome, username, credenciais.getEmail());
             }
         }
 
