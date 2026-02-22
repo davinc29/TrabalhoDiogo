@@ -52,11 +52,13 @@ public class LoginServlet extends HttpServlet {
 
                         case 1 -> {
                             AlunoViewDTO aluno = encontrarAluno(credenciais);
+                            session.setAttribute("usuario", aluno);
                             destino = AREA_RESTRITA_ALUNO;
                         }
 
                         case 2 -> {
                             ProfessorDTO professor = encontrarProfessor(credenciais);
+                            session.setAttribute("usuario", professor);
                             destino = AREA_RESTRITA_PROFESSOR;
                         }
                     }
