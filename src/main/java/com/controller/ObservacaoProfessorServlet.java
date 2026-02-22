@@ -1,6 +1,8 @@
 package com.controller;
 
+import com.dao.AlunoDAO;
 import com.dao.ObservacaoDAO;
+import com.dto.AlunoViewDTO;
 import com.dto.ObservacaoViewDTO;
 import com.exception.ExcecaoDeJSP;
 import com.model.Observacao;
@@ -36,8 +38,6 @@ public class ObservacaoProfessorServlet extends HttpServlet {
             switch (action) {
                 case "read" -> {
                     String idAluno = req.getParameter("id_aluno");
-                    String turmaAno = req.getParameter("turma_ano");
-                    String nomeDisciplina = req.getParameter("nome_disciplina");
                     List<ObservacaoViewDTO> observacoes = new ArrayList<>();
 
                     if (!idAluno.isEmpty()) {
@@ -45,11 +45,6 @@ public class ObservacaoProfessorServlet extends HttpServlet {
                         UUID idAlunoUuid = UUID.fromString(idAluno);
 
                         observacoes = listarPorAluno(idAlunoUuid);
-                    } else if (!turmaAno.isEmpty() && !nomeDisciplina.isEmpty()) {
-                        turmaAno = turmaAno.trim();
-                        nomeDisciplina = nomeDisciplina.trim();
-
-                        observacoes = listarPorSala(turmaAno, nomeDisciplina);
                     }
 
                     req.setAttribute("observacoes", observacoes);
@@ -57,12 +52,18 @@ public class ObservacaoProfessorServlet extends HttpServlet {
                 }
 
                 case "create" -> {
+                    AlunoViewDTO aluno = listarAlunoPorId(req);
+
+                    req.setAttribute("aluno", aluno);
+
                     destino = PAGINA_CADASTRO;
                 }
 
                 case "update" -> {
-
+                    AlunoViewDTO aluno = listarAlunoPorId(req);
                     Observacao observacao = pesquisarPorId(req);
+
+                    req.setAttribute("aluno", aluno);
                     req.setAttribute("observacao", observacao);
 
                     destino = PAGINA_EDICAO;
@@ -176,14 +177,6 @@ public class ObservacaoProfessorServlet extends HttpServlet {
         }
     }
 
-    public List<ObservacaoViewDTO> listarPorSala(String turmaAno, String nomeDisiciplina) throws SQLException, ClassNotFoundException{
-        try(ObservacaoDAO dao = new ObservacaoDAO()) {
-
-            return dao.listarPorSala(turmaAno, nomeDisiciplina);
-        }
-
-    }
-
     public void deletar(HttpServletRequest req) throws SQLException, ClassNotFoundException{
         String temp = req.getParameter("id_observacao");
         Integer idObservacao = Integer.parseInt(temp.trim());
@@ -199,6 +192,15 @@ public class ObservacaoProfessorServlet extends HttpServlet {
 
         try (ObservacaoDAO dao = new ObservacaoDAO()) {
             return dao.pesquisarPorId(idObservacao);
+        }
+    }
+
+    public AlunoViewDTO listarAlunoPorId(HttpServletRequest req) throws SQLException{
+        String idAluno = req.getParameter("id_aluno");
+        UUID idAlunoUuid = UUID.fromString(idAluno.trim());
+
+        try (AlunoDAO dao = new AlunoDAO()) {
+            return dao.listarAlunoPorId(idAlunoUuid);
         }
     }
 }

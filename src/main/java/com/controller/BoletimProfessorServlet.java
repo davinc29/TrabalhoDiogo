@@ -55,7 +55,6 @@ public class BoletimProfessorServlet extends HttpServlet {
                 case "create" -> {
                     AlunoViewDTO aluno = listarAlunoPorId(req);
 
-
                     req.setAttribute("aluno", aluno);
 
                     destino = PAGINA_CADASTRO;
