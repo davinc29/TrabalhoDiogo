@@ -5,13 +5,12 @@ import com.model.Observacao;
 import com.model.Professor;
 import com.utils.SenhaUtils;
 
+import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.sql.Statement;
+import java.util.*;
 
 public class ProfessorDAO extends DAO{
 
@@ -178,5 +177,28 @@ public class ProfessorDAO extends DAO{
 
         conn.commit();
         return professor;
+    }
+
+    public Map<String, UUID> mapNomeId () throws SQLException {
+        String sql = """
+                SELECT
+                    id,
+                    nome
+                FROM
+                    professor
+                """;
+
+        Map<String, UUID> mapNomeId = new HashMap<>();
+
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while(rs.next()) {
+                String nome = rs.getString("nome");
+                UUID id = rs.getObject("id", UUID.class);
+
+                mapNomeId.put(nome, id);
+            }
+        }
+
+        return mapNomeId;
     }
 }

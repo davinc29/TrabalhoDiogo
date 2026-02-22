@@ -7,10 +7,10 @@ public class Boletim {
     private Double nota1;
     private Double nota2;
     private Double media;
-    private Integer idAluno;
+    private UUID idAluno;
     private Integer idDisciplina;
 
-    public Boletim(UUID idBoletim, Double nota1, Double nota2, Double media, Integer idAluno, Integer idDisciplina) {
+    public Boletim(UUID idBoletim, Double nota1, Double nota2, Double media, UUID idAluno, Integer idDisciplina) {
         this.id = idBoletim;
         this.nota1 = nota1;
         this.nota2 = nota2;
@@ -19,7 +19,7 @@ public class Boletim {
         this.idDisciplina = idDisciplina;
     }
 
-    public Boletim(Double nota1, Double nota2, Double media, Integer idAluno, Integer idDisciplina) {
+    public Boletim(Double nota1, Double nota2, Double media, UUID idAluno, Integer idDisciplina) {
         this.nota1 = nota1;
         this.nota2 = nota2;
         this.media = media;
@@ -76,6 +76,6 @@ public class Boletim {
     }
 
     public String toString() {
-        return String.format("ID Boletim: %s\nNota 1: %.2f\n Nota2: %.2f\nMédia: %.2f\nID Aluno: %d\nID Disciplina: %d\n", id, nota1, nota2, media, idAluno, idDisciplina);
+        return String.format("ID Boletim: %s\nNota 1: %.2f\n Nota2: %.2f\nMédia: %.2f\nID Aluno: %s\nID Disciplina: %d\n", id, nota1, nota2, media, idAluno, idDisciplina);
     }
 }
