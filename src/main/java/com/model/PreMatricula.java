@@ -3,20 +3,12 @@ package com.model;
 import java.util.UUID;
 
 public class PreMatricula {
-    private Integer idMatricula;
     private String matricula;
+    private String turmaAno;
 
-    public PreMatricula(Integer idMatricula, String matricula) {
-        this.idMatricula = idMatricula;
+    public PreMatricula(String matricula, String turmaAno) {
         this.matricula = matricula;
-    }
-
-    public Integer getIdMatricula() {
-        return idMatricula;
-    }
-
-    public void setIdMatricula(Integer idMatricula) {
-        this.idMatricula = idMatricula;
+        this.turmaAno = turmaAno;
     }
 
     public String getMatricula() {
@@ -27,7 +19,15 @@ public class PreMatricula {
         this.matricula = matricula;
     }
 
+    public String getTurmaAno() {
+        return turmaAno;
+    }
+
+    public void setTurmaAno(String turmaAno) {
+        this.turmaAno = turmaAno;
+    }
+
     public String toString() {
-        return String.format("ID Matricula: %d\nMatricula: %s");
+        return String.format("Matricula: %s\nTurma e Ano: %s\n", matricula, turmaAno);
     }
 }

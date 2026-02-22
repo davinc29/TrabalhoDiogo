@@ -10,9 +10,8 @@ public class BoletimViewDTO {
     private Double nota2;
     private Double media;
     private String situacao;
-    private String observacao;
 
-    public BoletimViewDTO(UUID id,String matricula, String nomeDisciplina, Double nota1, Double nota2, Double media, String situacao, String observacoes) {
+    public BoletimViewDTO(UUID id,String matricula, String nomeDisciplina, Double nota1, Double nota2, Double media, String situacao) {
         this.id = id;
         this.matricula = matricula;
         this.nomeDisciplina = nomeDisciplina;
@@ -20,7 +19,6 @@ public class BoletimViewDTO {
         this.nota2 = nota2;
         this.media = media;
         this.situacao = situacao;
-        this.observacao = observacoes;
     }
 
     public UUID getId() {
@@ -79,14 +77,6 @@ public class BoletimViewDTO {
         this.situacao = situacao;
     }
 
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
     @Override
     public String toString() {
         return "BoletimViewDTO{" +
@@ -97,7 +87,6 @@ public class BoletimViewDTO {
                 ", nota2=" + nota2 +
                 ", media=" + media +
                 ", situacao='" + situacao + '\'' +
-                ", observacoes='" + observacao + '\'' +
                 '}';
     }
 }

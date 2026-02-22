@@ -21,7 +21,7 @@ public class ProfessorDAO extends DAO{
 //    CREATE
     public void cadastrar(Professor professor) throws SQLException{
         String nome = professor.getNome();
-        String usuario = professor.getUsuario();
+        String usuario = professor.getUsername();
         String email = professor.getEmail();
 
         String senha = professor.getSenha();
@@ -136,7 +136,7 @@ public class ProfessorDAO extends DAO{
         // Dados originais
         UUID id = original.getId();
         String nome = atualizado.getNome();
-        String usuario = atualizado.getUsuario();
+        String usuario = atualizado.getUsername();
         String email = atualizado.getEmail();
 
         StringBuilder sql = new StringBuilder("UPDATE professor SET");
@@ -146,7 +146,7 @@ public class ProfessorDAO extends DAO{
             sql.append(" nome = ?, ");
             valores.add(nome);
         }
-        if (!Objects.equals(usuario, original.getUsuario())) {
+        if (!Objects.equals(usuario, original.getUsername())) {
             sql.append("usuario = ?, ");
             valores.add(usuario);
         }

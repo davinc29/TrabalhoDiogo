@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.dao.LoginDAO;
+import com.dto.AlunoViewDTO;
 import com.dto.LoginDTO;
 import com.dto.ProfessorDTO;
 import com.exception.ExcecaoDeJSP;
@@ -16,9 +17,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/login-professor")
-public class LoginProfessorServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
-    private static final String AREA_RESTRITA = "/portal-professor/index.jsp";
+    private static final String AREA_RESTRITA_ALUNO = "/portal-aluno/index.jsp";
+    private static final String AREA_RESTRITA_PROFESSOR = "/portal-professor/index.jsp";
     private static final String PAGINA_LOGIN = "jsp/professorLogin.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
@@ -37,9 +39,27 @@ public class LoginProfessorServlet extends HttpServlet {
         try {
             switch (action) {
                 case "login" -> {
+                    String email = req.getParameter("email").trim();
+                    String senha = req.getParameter("senha").trim();
+
+                    LoginDTO credenciais = new LoginDTO(email, senha);
+
                     // Login que retorna objeto de professor para futura exibição
-                    ProfessorDTO professor = login(req);
-                    session.setAttribute("professor", professor);
+                    Integer num = login(credenciais);
+
+                    switch (num) {
+                        case 0 -> throw ExcecaoDeJSP.falhaLogin();
+
+                        case 1 -> {
+                            AlunoViewDTO aluno = encontrarAluno(credenciais);
+                            destino = AREA_RESTRITA_ALUNO;
+                        }
+
+                        case 2 -> {
+                            ProfessorDTO professor = encontrarProfessor(credenciais);
+                            destino = AREA_RESTRITA_PROFESSOR;
+                        }
+                    }
                 }
 
                 case "logout" -> {
@@ -51,9 +71,6 @@ public class LoginProfessorServlet extends HttpServlet {
 
                 default -> throw new RuntimeException("valor inválido para o parâmetro 'action': " + action);
             }
-
-            destino = AREA_RESTRITA;
-
         }
         // Se houver alguma exceção de JSP (que acontece em execução e com interação do user), aciona o método doGet
         catch (ExcecaoDeJSP e) {
@@ -80,20 +97,21 @@ public class LoginProfessorServlet extends HttpServlet {
     }
 
     // === LOGIN ===
-    private ProfessorDTO login(HttpServletRequest req) throws SQLException, ClassNotFoundException, ExcecaoDeJSP {
-        String email = req.getParameter("email").trim();
-        String senha = req.getParameter("senha").trim();
-        LoginDTO credenciais = new LoginDTO(email, senha);
-
+    private Integer login(LoginDTO credenciais) throws SQLException, ClassNotFoundException, ExcecaoDeJSP {
         try (LoginDAO dao = new LoginDAO()) {
-            ProfessorDTO usuario = dao.login(credenciais);
+            return dao.login(credenciais);
+        }
+    }
 
-            // Validação de login
-            if (usuario == null) {
-                throw ExcecaoDeJSP.falhaLogin();
-            }
+    private ProfessorDTO encontrarProfessor(LoginDTO credenciais) throws SQLException{
+        try (LoginDAO dao = new LoginDAO()) {
+            return dao.encontrarProfessor(credenciais);
+        }
+    }
 
-            return usuario;
+    private AlunoViewDTO encontrarAluno(LoginDTO credenciais) throws SQLException {
+        try (LoginDAO dao = new LoginDAO()) {
+            return dao.encontrarAluno(credenciais);
         }
     }
 

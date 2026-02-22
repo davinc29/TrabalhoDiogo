@@ -5,14 +5,14 @@ import java.util.UUID;
 public class Professor {
     private UUID idProfessor;
     private String nome;
-    private String usuario;
+    private String username;
     private String email;
     private String senha;
 
     public Professor(UUID id, String nome, String username, String email, String senha) {
         this.idProfessor = id;
         this.nome = nome;
-        this.usuario = username;
+        this.username = username;
         this.email = email;
         this.senha = senha;
     }
@@ -34,12 +34,12 @@ public class Professor {
         this.nome = nome;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -59,6 +59,6 @@ public class Professor {
     }
 
     public String toString() {
-        return String.format("ID: %s\nNome: %s\nUsername: %s\nEmail: %s\nSenha: %s\n", idProfessor, nome, usuario, email, senha);
+        return String.format("ID: %s\nNome: %s\nUsername: %s\nEmail: %s\nSenha: %s\n", idProfessor, nome, username, email, senha);
     }
 }

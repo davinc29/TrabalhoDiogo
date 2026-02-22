@@ -1,7 +1,6 @@
 package com.dao;
 
 import com.dto.BoletimViewDTO;
-import com.dto.ObservacoesViewDTO;
 import com.model.Boletim;
 
 import java.sql.PreparedStatement;
@@ -22,7 +21,6 @@ public class BoletimDAO extends DAO{
         Double nota1 = boletim.getNota1();
         Double nota2 = boletim.getNota2();
         Double media = boletim.getMedia();
-        String observacoes = boletim.getObservacoes();
         Integer idAluno = boletim.getIdAluno();
         Integer idDisciplina = boletim.getIdDisciplina();
 
@@ -37,7 +35,6 @@ public class BoletimDAO extends DAO{
             pstmt.setDouble(1,nota1);
             pstmt.setDouble(2,nota2);
             pstmt.setDouble(3,media);
-            pstmt.setString(4,observacoes);
             pstmt.setInt(5,idAluno);
             pstmt.setInt(6,idDisciplina);
 
@@ -74,11 +71,10 @@ public class BoletimDAO extends DAO{
                 Double nota1 = rs.getDouble("nota1");
                 Double nota2 = rs.getDouble("nota2");
                 Double media = rs.getDouble("media");
-                String observacoes = rs.getString("observacoes");
                 Integer idAluno = rs.getInt("id_aluno");
                 Integer idDisciplina = rs.getInt("id_disciplina");
 
-                boletim = new Boletim(idBoletim, nota1, nota2, media, observacoes, idAluno, idDisciplina);
+                boletim = new Boletim(idBoletim, nota1, nota2, media, idAluno, idDisciplina);
             }
         } catch (SQLException e) {
             conn.rollback();
@@ -99,7 +95,6 @@ public class BoletimDAO extends DAO{
                     b.nota1 as nota1,
                     b.nota2 as nota2,
                     b.media as media,
-                    b.observacoes as observacoes
                 FROM
                     boletim b
                 JOIN
@@ -128,7 +123,6 @@ public class BoletimDAO extends DAO{
                 Double nota1 = rs.getDouble("nota1");
                 Double nota2 = rs.getDouble("nota2");
                 Double media = rs.getDouble("media");
-                String observacoes = rs.getString("observacoes");
 
                 String situacao;
                 if (media.isNaN()) {
@@ -140,7 +134,7 @@ public class BoletimDAO extends DAO{
                     situacao = "Reprovado";
                 }
 
-                BoletimViewDTO boletim = new BoletimViewDTO(idBoletim, matricula, nomeDisciplina, nota1, nota2, media, situacao, observacoes);
+                BoletimViewDTO boletim = new BoletimViewDTO(idBoletim, matricula, nomeDisciplina, nota1, nota2, media, situacao);
 
                 boletins.add(boletim);
             }
@@ -151,115 +145,6 @@ public class BoletimDAO extends DAO{
 
         conn.commit();
         return boletins;
-    }
-
-    public List<BoletimViewDTO> listarPorSala(String turmaAno, String nomeDisciplinaFiltro) throws SQLException{
-
-        String sql = """
-                SELECT DISTINCT
-                    b.id as id_boletim
-                    a.matricula as matricula,
-                    d.nome as nome_disciplina,
-                    b.nota1 as nota1,
-                    b.nota2 as nota2,
-                    b.media as media,
-                    b.observacoes as observacoes
-                FROM
-                    boletim b
-                JOIN
-                    aluno a
-                    ON a.id = b.id_aluno
-                JOIN
-                    disciplina d
-                    ON d.id = b.id_disciplina
-                WHERE
-                    a.turma_ano = ? AND
-                    d.nome = ?
-                """;
-
-        List<BoletimViewDTO> boletins = new ArrayList<>();
-
-        try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1,turmaAno);
-            pstmt.setString(2,nomeDisciplinaFiltro);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                String idBoletimString = String.valueOf(rs.getObject("id_boletim"));
-                UUID idBoletim = UUID.fromString(idBoletimString);
-
-                String matricula = rs.getString("matricula");
-                String nomeDisciplina = rs.getString("nome_disciplina");
-                Double nota1 = rs.getDouble("nota1");
-                Double nota2 = rs.getDouble("nota2");
-                Double media = rs.getDouble("media");
-                String observacoes = rs.getString("observacoes");
-
-                String situacao;
-                if (media.isNaN()) {
-                    situacao = null;
-                } else if (media >= 7) {
-                    situacao = "Aprovado";
-                }
-                else {
-                    situacao = "Reprovado";
-                }
-
-                BoletimViewDTO boletim = new BoletimViewDTO(idBoletim, matricula, nomeDisciplina, nota1, nota2, media, situacao, observacoes);
-
-                boletins.add(boletim);
-            }
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
-        }
-
-        conn.commit();
-        return boletins;
-    }
-
-    public List<ObservacoesViewDTO> observacoes(UUID idAluno) throws SQLException{
-        String sql = """
-                SELECT
-                    d.nome as nome_disciplina,
-                    p.nome as nome_professor,
-                    b.observacoes as observacoes
-                FROM
-                    boletim b
-                JOIN
-                    disciplina d
-                    ON d.id = b.id_disciplina
-                JOIN
-                    professor p
-                    ON p.id = d.id_professor
-                WHERE
-                    id = ?
-                """;
-
-        List<ObservacoesViewDTO> listaObservacoes = new ArrayList<>();
-
-        try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setObject(1,idAluno);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                String nomeDisciplina = rs.getString("nome_disciplina");
-                String nomeProfessor = rs.getString("nome_professor");
-                String observacoes = rs.getString("observacoes");
-
-                ObservacoesViewDTO observacoesViewDTO = new ObservacoesViewDTO(nomeDisciplina, nomeProfessor, observacoes);
-
-                listaObservacoes.add(observacoesViewDTO);
-            }
-        } catch (SQLException e ) {
-            conn.rollback();
-            throw e;
-        }
-
-        conn.commit();
-        return listaObservacoes;
     }
 
     public void atualizar(Boletim original, Boletim atualizado) throws SQLException{
@@ -267,9 +152,6 @@ public class BoletimDAO extends DAO{
         Double nota1 = atualizado.getNota1();
         Double nota2 = atualizado.getNota2();
         Double media = atualizado.getMedia();
-        String observacoes = atualizado.getObservacoes();
-        Integer idAluno = atualizado.getIdAluno();
-        Integer idDisciplina = atualizado.getIdDisciplina();
 
         StringBuilder sql = new StringBuilder("UPDATE boletim SET ");
         List<Object> valores = new ArrayList<>();
@@ -286,18 +168,6 @@ public class BoletimDAO extends DAO{
             sql.append("media = ?, ");
             valores.add(media);
         }
-        if (!Objects.equals(observacoes, original.getObservacoes())) {
-            sql.append("observacoes = ?, ");
-            valores.add(observacoes);
-        }
-        if (!Objects.equals(idAluno, original.getIdAluno())) {
-            sql.append("id_aluno = ?, ");
-            valores.add(idAluno);
-        }
-        if (!Objects.equals(idDisciplina, original.getIdDisciplina())) {
-            sql.append("id_disciplina = ?, ");
-            valores.add(idDisciplina);
-        }
 
         if (valores.isEmpty()) {
             return;
@@ -305,6 +175,7 @@ public class BoletimDAO extends DAO{
 
         sql.setLength(sql.length() - 2);
         sql.append(" WHERE id = ?");
+        valores.add(id);
 
         try(PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
             for (int i = 0; i < valores.size(); i++) {

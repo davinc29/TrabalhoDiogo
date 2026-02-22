@@ -1,12 +1,12 @@
 package com.dto;
 
-public class ObservacoesViewDTO {
+public class ObservacaoViewDTO {
 
     private String nomeDisciplina;
     private String nomeProfessor;
     private String observacao;
 
-    public ObservacoesViewDTO(String nomeDisciplina, String nomeProfessor, String observacao) {
+    public ObservacaoViewDTO(String nomeDisciplina, String nomeProfessor, String observacao) {
         this.nomeDisciplina = nomeDisciplina;
         this.nomeProfessor = nomeProfessor;
         this.observacao = observacao;

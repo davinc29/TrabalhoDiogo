@@ -1,11 +1,9 @@
 package com.controller;
 
-import com.dao.AlunoDAO;
-import com.dao.BoletimDAO;
-import com.dto.AlunoViewDTO;
-import com.dto.BoletimViewDTO;
+import com.dao.ObservacaoDAO;
+import com.dto.ObservacaoViewDTO;
 import com.exception.ExcecaoDeJSP;
-import com.model.Boletim;
+import com.model.Observacao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,18 +11,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.net.IDN;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@WebServlet("/boletim-professor")
-public class BoletimProfessorServlet extends HttpServlet {
+@WebServlet("/observacao-professor")
+public class ObservacaoProfessorServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL = "portal-professor/boletim.jsp";
-    private static final String PAGINA_CADASTRO = "portal-professor/cadastrar-boletim.jsp";
-    private static final String PAGINA_EDICAO = "jsp/editar-boletim.jsp";
+    private static final String PAGINA_PRINCIPAL = "portal-professor/observacao.jsp";
+    private static final String PAGINA_CADASTRO = "portal-professor/cadastrar-observacao.jsp";
+    private static final String PAGINA_EDICAO = "jsp/editar-observacao.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override
@@ -39,34 +36,34 @@ public class BoletimProfessorServlet extends HttpServlet {
             switch (action) {
                 case "read" -> {
                     String idAluno = req.getParameter("id_aluno");
-                    List<BoletimViewDTO> boletins = new ArrayList<>();
+                    String turmaAno = req.getParameter("turma_ano");
+                    String nomeDisciplina = req.getParameter("nome_disciplina");
+                    List<ObservacaoViewDTO> observacoes = new ArrayList<>();
 
                     if (!idAluno.isEmpty()) {
                         idAluno = idAluno.trim();
                         UUID idAlunoUuid = UUID.fromString(idAluno);
 
-                        boletins = listarPorAluno(idAlunoUuid);
+                        observacoes = listarPorAluno(idAlunoUuid);
+                    } else if (!turmaAno.isEmpty() && !nomeDisciplina.isEmpty()) {
+                        turmaAno = turmaAno.trim();
+                        nomeDisciplina = nomeDisciplina.trim();
+
+                        observacoes = listarPorSala(turmaAno, nomeDisciplina);
                     }
 
-                    req.setAttribute("boletins", boletins);
+                    req.setAttribute("observacoes", observacoes);
                     destino = PAGINA_PRINCIPAL;
                 }
 
                 case "create" -> {
-                    AlunoViewDTO aluno = listarAlunoPorId(req);
-
-
-                    req.setAttribute("aluno", aluno);
-
                     destino = PAGINA_CADASTRO;
                 }
 
                 case "update" -> {
-                    AlunoViewDTO aluno = listarAlunoPorId(req);
-                    Boletim boletim = pesquisarPorId(req);
 
-                    req.setAttribute("aluno", aluno);
-                    req.setAttribute("boletim", boletim);
+                    Observacao observacao = pesquisarPorId(req);
+                    req.setAttribute("observacao", observacao);
 
                     destino = PAGINA_EDICAO;
                 }
@@ -135,84 +132,73 @@ public class BoletimProfessorServlet extends HttpServlet {
 
     public void cadastrar(HttpServletRequest req) throws SQLException, ClassNotFoundException, ExcecaoDeJSP{
         String temp = req.getParameter("id_aluno").trim();
-        Integer idAluno = Integer.parseInt(temp);
+        UUID idAluno = UUID.fromString(temp);
 
         temp = req.getParameter("id_disciplina").trim();
         Integer idDisciplina = Integer.parseInt(temp);
 
-        temp = req.getParameter("nota1");
-        Double nota1 = (temp != null && !temp.isBlank() ? Double.parseDouble(temp.trim()) : null);
+        temp = req.getParameter("texto_observacao");
+        String textoObservacao = (temp != null && !temp.isBlank() ? temp.trim() : null);
 
-        temp = req.getParameter("nota2");
-        Double nota2 = (temp != null && !temp.isBlank() ? Double.parseDouble(temp.trim()) : null);
+        Observacao observacao = new Observacao(textoObservacao, idAluno, idDisciplina);
 
-        Double media = (nota1 == null || nota2 == null ? null : (nota1+nota2)/2);
-
-        Boletim boletim = new Boletim(nota1, nota2, media, idAluno, idDisciplina);
-
-        try (BoletimDAO dao = new BoletimDAO()) {
-            dao.cadastrar(boletim);
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+            dao.cadastrar(observacao);
         }
     }
 
     public void atualizar(HttpServletRequest req) throws SQLException, ClassNotFoundException, ExcecaoDeJSP{
-        String temp = req.getParameter("id_boletim").trim();
-        UUID idBoletim = UUID.fromString(temp);
+        String temp = req.getParameter("id_observacao").trim();
+        Integer idObservacao = Integer.parseInt(temp);
 
         temp = req.getParameter("id_aluno").trim();
-        Integer idAluno = Integer.parseInt(temp);
+        UUID idAluno = UUID.fromString(temp);
 
         temp = req.getParameter("id_disciplina").trim();
         Integer idDisciplina = Integer.parseInt(temp);
 
-        temp = req.getParameter("nota1");
-        Double nota1 = (temp != null && !temp.isBlank() ? Double.parseDouble(temp.trim()) : null);
+        temp = req.getParameter("texto_observacao");
+        String textoObservacao = (temp != null && !temp.isBlank() ? temp.trim() : null);
 
-        temp = req.getParameter("nota2");
-        Double nota2 = (temp != null && !temp.isBlank() ? Double.parseDouble(temp.trim()) : null);
+        Observacao observacaoAlterado = new Observacao(idObservacao, textoObservacao, idAluno, idDisciplina);
 
-        Double media = (nota1 == null || nota2 == null ? null : (nota1+nota2)/2);
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+            Observacao observacaoOriginal = dao.pesquisarPorId(idObservacao);
 
-        Boletim boletimAlterado = new Boletim(idBoletim, nota1, nota2, media, idAluno, idDisciplina);
-
-        try (BoletimDAO dao = new BoletimDAO()) {
-            Boletim boletimOriginal = dao.pesquisarPorId(idBoletim);
-
-            dao.atualizar(boletimOriginal, boletimAlterado);
+            dao.atualizar(observacaoOriginal, observacaoAlterado);
         }
     }
 
-    public List<BoletimViewDTO> listarPorAluno(UUID idAluno) throws SQLException, ClassNotFoundException{
-        try (BoletimDAO dao = new BoletimDAO()) {
+    public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno) throws SQLException, ClassNotFoundException{
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
 
             return dao.listarPorAluno(idAluno);
         }
     }
 
+    public List<ObservacaoViewDTO> listarPorSala(String turmaAno, String nomeDisiciplina) throws SQLException, ClassNotFoundException{
+        try(ObservacaoDAO dao = new ObservacaoDAO()) {
+
+            return dao.listarPorSala(turmaAno, nomeDisiciplina);
+        }
+
+    }
+
     public void deletar(HttpServletRequest req) throws SQLException, ClassNotFoundException{
-        String idBoletim = req.getParameter("id_boletim");
-        UUID idBoletimUuid = UUID.fromString(idBoletim.trim());
+        String temp = req.getParameter("id_observacao");
+        Integer idObservacao = Integer.parseInt(temp.trim());
 
-        try (BoletimDAO dao = new BoletimDAO()) {
-            dao.deletar(idBoletimUuid);
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+            dao.deletar(idObservacao);
         }
     }
 
-    public Boletim pesquisarPorId(HttpServletRequest req) throws SQLException, ClassNotFoundException{
-        String idBoletim = req.getParameter("id_boletim");
-        UUID idBoletimUuid = UUID.fromString(idBoletim.trim());
+    public Observacao pesquisarPorId(HttpServletRequest req) throws SQLException, ClassNotFoundException{
+        String temp = req.getParameter("id_observacao");
+        Integer idObservacao = Integer.parseInt(temp.trim());
 
-        try (BoletimDAO dao = new BoletimDAO()) {
-            return dao.pesquisarPorId(idBoletimUuid);
-        }
-    }
-
-    public AlunoViewDTO listarAlunoPorId(HttpServletRequest req) throws SQLException{
-        String idAluno = req.getParameter("id_aluno");
-        UUID idAlunoUuid = UUID.fromString(idAluno.trim());
-
-        try (AlunoDAO dao = new AlunoDAO()) {
-            return dao.listarAlunoPorId(idAlunoUuid);
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+            return dao.pesquisarPorId(idObservacao);
         }
     }
 }
