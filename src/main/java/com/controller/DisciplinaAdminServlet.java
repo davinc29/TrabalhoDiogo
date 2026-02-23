@@ -9,6 +9,7 @@ import com.exception.ExcecaoDeJSP;
 import com.model.Disciplina;
 import com.model.Observacao;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,9 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@WebServlet("/disciplinas")
 public class DisciplinaAdminServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL = "admin/disciplina.jsp";
+    private static final String PAGINA_PRINCIPAL_ADMIN = "admin/disciplina.jsp";
+    private static final String PAGINA_PRINCIPAL_ALUNO = "portal-aluno/disciplina.jsp";
     private static final String PAGINA_CADASTRO = "admin/cadastrar-disciplina.jsp";
     private static final String PAGINA_EDICAO = "admin/editar-disciplina.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
@@ -30,6 +33,8 @@ public class DisciplinaAdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        String usuario = req.getParameter("usuario").trim();
+
         action = (action == null ? "read" : action.trim());
 
         boolean erro = true;
@@ -41,7 +46,8 @@ public class DisciplinaAdminServlet extends HttpServlet {
                     List<DisciplinaViewDTO> disciplinas = listar();
 
                     req.setAttribute("disciplinas", disciplinas);
-                    destino = PAGINA_PRINCIPAL;
+
+                    destino = (usuario.equals("admin") ? PAGINA_PRINCIPAL_ADMIN : PAGINA_PRINCIPAL_ALUNO);
                 }
 
                 case "create" -> {
@@ -179,7 +185,7 @@ public class DisciplinaAdminServlet extends HttpServlet {
         }
     }
 
-    private List<DisciplinaViewDTO> listar() throws SQLException{
+    private static List<DisciplinaViewDTO> listar() throws SQLException{
         try (DisciplinaDAO dao = new DisciplinaDAO()) {
             return dao.listar();
         }

@@ -59,11 +59,11 @@ public class Boletim {
         this.media = media;
     }
 
-    public Integer getIdAluno() {
+    public UUID getIdAluno() {
         return idAluno;
     }
 
-    public void setIdAluno(Integer idAluno) {
+    public void setIdAluno(UUID idAluno) {
         this.idAluno = idAluno;
     }
 

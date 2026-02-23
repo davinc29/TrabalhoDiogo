@@ -18,10 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@WebServlet("/observacao-professor")
+@WebServlet("/observacoes")
 public class ObservacaoProfessorServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL = "portal-professor/observacao.jsp";
+    private static final String PAGINA_PRINCIPAL_PROFESSOR = "portal-professor/observacao.jsp";
+    private static final String PAGINA_PRINCIPAL_ALUNO = "portal-aluno/observacao.jsp";
     private static final String PAGINA_CADASTRO = "portal-professor/cadastrar-observacao.jsp";
     private static final String PAGINA_EDICAO = "jsp/editar-observacao.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
@@ -29,6 +30,8 @@ public class ObservacaoProfessorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        String usuario = req.getParameter("usuario").trim();
+
         action = (action == null ? "read" : action.trim());
 
         boolean erro = true;
@@ -48,7 +51,8 @@ public class ObservacaoProfessorServlet extends HttpServlet {
                     }
 
                     req.setAttribute("observacoes", observacoes);
-                    destino = PAGINA_PRINCIPAL;
+
+                    destino = (usuario.equals("professor") ? PAGINA_PRINCIPAL_PROFESSOR : PAGINA_PRINCIPAL_ALUNO);
                 }
 
                 case "create" -> {

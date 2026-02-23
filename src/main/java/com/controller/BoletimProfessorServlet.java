@@ -22,7 +22,8 @@ import java.util.UUID;
 @WebServlet("/boletim-professor")
 public class BoletimProfessorServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL = "portal-professor/boletim.jsp";
+    private static final String PAGINA_PRINCIPAL_PROFESSOR = "portal-professor/boletim.jsp";
+    private static final String PAGINA_PRINCIPAL_ALUNO = "portal-professor/boletim.jsp";
     private static final String PAGINA_CADASTRO = "portal-professor/cadastrar-boletim.jsp";
     private static final String PAGINA_EDICAO = "jsp/editar-boletim.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
@@ -30,6 +31,8 @@ public class BoletimProfessorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
+        String usuario = req.getParameter("usuario").trim();
+
         action = (action == null ? "read" : action.trim());
 
         boolean erro = true;
@@ -49,7 +52,8 @@ public class BoletimProfessorServlet extends HttpServlet {
                     }
 
                     req.setAttribute("boletins", boletins);
-                    destino = PAGINA_PRINCIPAL;
+
+                    destino = (usuario.equals("professor") ? PAGINA_PRINCIPAL_PROFESSOR : PAGINA_PRINCIPAL_ALUNO);
                 }
 
                 case "create" -> {
@@ -134,7 +138,7 @@ public class BoletimProfessorServlet extends HttpServlet {
 
     public void cadastrar(HttpServletRequest req) throws SQLException, ClassNotFoundException, ExcecaoDeJSP{
         String temp = req.getParameter("id_aluno").trim();
-        Integer idAluno = Integer.parseInt(temp);
+        UUID idAluno = UUID.fromString(temp);
 
         temp = req.getParameter("id_disciplina").trim();
         Integer idDisciplina = Integer.parseInt(temp);
@@ -159,7 +163,7 @@ public class BoletimProfessorServlet extends HttpServlet {
         UUID idBoletim = UUID.fromString(temp);
 
         temp = req.getParameter("id_aluno").trim();
-        Integer idAluno = Integer.parseInt(temp);
+        UUID idAluno = UUID.fromString(temp);
 
         temp = req.getParameter("id_disciplina").trim();
         Integer idDisciplina = Integer.parseInt(temp);
