@@ -21,7 +21,7 @@ public class BoletimDAO extends DAO{
         Double nota1 = boletim.getNota1();
         Double nota2 = boletim.getNota2();
         Double media = boletim.getMedia();
-        Integer idAluno = boletim.getIdAluno();
+        UUID idAluno = boletim.getIdAluno();
         Integer idDisciplina = boletim.getIdDisciplina();
 
         String sql = """
@@ -35,7 +35,7 @@ public class BoletimDAO extends DAO{
             pstmt.setDouble(1,nota1);
             pstmt.setDouble(2,nota2);
             pstmt.setDouble(3,media);
-            pstmt.setInt(5,idAluno);
+            pstmt.setObject(5,idAluno);
             pstmt.setInt(6,idDisciplina);
 
             pstmt.execute();
@@ -71,7 +71,7 @@ public class BoletimDAO extends DAO{
                 Double nota1 = rs.getDouble("nota1");
                 Double nota2 = rs.getDouble("nota2");
                 Double media = rs.getDouble("media");
-                Integer idAluno = rs.getInt("id_aluno");
+                UUID idAluno = rs.getObject("id_aluno", UUID.class);
                 Integer idDisciplina = rs.getInt("id_disciplina");
 
                 boletim = new Boletim(idBoletim, nota1, nota2, media, idAluno, idDisciplina);
