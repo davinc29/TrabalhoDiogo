@@ -13,14 +13,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.net.IDN;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @WebServlet("/boletim-professor")
-public class BoletimProfessorServlet extends HttpServlet {
+public class BoletimServlet extends HttpServlet {
 
     private static final String PAGINA_PRINCIPAL_PROFESSOR = "portal-professor/boletim.jsp";
     private static final String PAGINA_PRINCIPAL_ALUNO = "portal-professor/boletim.jsp";

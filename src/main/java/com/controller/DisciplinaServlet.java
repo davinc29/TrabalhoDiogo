@@ -1,13 +1,10 @@
 package com.controller;
 
-import com.dao.AlunoDAO;
 import com.dao.DisciplinaDAO;
 import com.dao.ProfessorDAO;
-import com.dto.AlunoViewDTO;
 import com.dto.DisciplinaViewDTO;
 import com.exception.ExcecaoDeJSP;
 import com.model.Disciplina;
-import com.model.Observacao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,13 +13,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 @WebServlet("/disciplinas")
-public class DisciplinaAdminServlet extends HttpServlet {
+public class DisciplinaServlet extends HttpServlet {
 
     private static final String PAGINA_PRINCIPAL_ADMIN = "admin/disciplina.jsp";
     private static final String PAGINA_PRINCIPAL_ALUNO = "portal-aluno/disciplina.jsp";

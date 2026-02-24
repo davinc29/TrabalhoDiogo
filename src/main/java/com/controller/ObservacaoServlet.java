@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @WebServlet("/observacoes")
-public class ObservacaoProfessorServlet extends HttpServlet {
+public class ObservacaoServlet extends HttpServlet {
 
     private static final String PAGINA_PRINCIPAL_PROFESSOR = "portal-professor/observacao.jsp";
     private static final String PAGINA_PRINCIPAL_ALUNO = "portal-aluno/observacao.jsp";
