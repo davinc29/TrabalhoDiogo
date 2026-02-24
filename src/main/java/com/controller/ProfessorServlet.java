@@ -22,9 +22,9 @@ import java.util.UUID;
 @WebServlet("/professores")
 public class ProfessorServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL = "/admin/professores.java";
-    private static final String PAGINA_CADASTRO = "/admin/cadastrar-professor.java";
-    private static final String PAGINA_EDICAO = "/admin/editar-professor.java";
+    private static final String PAGINA_PRINCIPAL = "/admin/professores.jsp";
+    private static final String PAGINA_CADASTRO = "/admin/cadastrar-professor.jsp";
+    private static final String PAGINA_EDICAO = "/admin/editar-professor.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override

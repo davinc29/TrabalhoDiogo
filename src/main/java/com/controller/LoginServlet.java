@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/login-professor")
+@WebServlet("/sistema-filter")
 public class LoginServlet extends HttpServlet {
 
     private static final String AREA_RESTRITA_ALUNO = "/portal-aluno/index.jsp";
