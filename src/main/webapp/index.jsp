@@ -19,7 +19,7 @@
     <!-- Layout Computer -->
     <section class="d-sm-flex align-items-center vh-100 d-none">
       <div class="login-container container-md">
-        <form>
+        <form action="${pageContext.request.contextPath}/sistema_filter?action=login" method="post">
           <div class="mb-3">
             <h1 class="fs-1 fw-bold text-secondary"><a href="portal-adm/administradores/administradores.html" style="text-decoration: none; color: white;">Login</a></h1>
             <p class="fs-5 fw-semibold text-secondary">
@@ -30,22 +30,22 @@
           <div class="mb-3 d-flex flex-column gap-3 text-secondary">
             <div class="d-flex flex-column">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email"/>
+              <input required type="email" class="form-control" id="email" name="email"/>
             </div>
 
             <div class="mb-3 d-flex flex-column">
               <label for="password" class="form-label">Senha</label>
-              <input type="password" class="form-control" id="password" />
+              <input required type="password" class="form-control" id="password" name="senha" autocomplete="off"/>
             </div>
 
             <div class="button-text-box d-flex flex-column text-center">
               <button type="submit" class="btn btn-secondary opacity-75">
-                Entrar <a href="portal-professor/home.html">Prof</a><a href="portal-aluno/home.html">Aluno</a>
+                Entrar
               </button>
               <div class="cadastro-box d-flex justify-content-center">
                 <p>
                   Não tem conta?
-                  <a href="cadastro.html" class="text-decoration-none text-primary fw-bold"
+                  <a href="${pageContext.request.contextPath}/cadastro-aluno" class="text-decoration-none text-primary fw-bold"
                     >Cadastrar-se</a
                   >
                 </p>
@@ -58,7 +58,7 @@
       <div class="text-container container-md">
         <h2 class="fs-1 fw-bold">
           <span class="text-secondary">Bem-</span>Vindo ao <br />
-          <span class="text-secondary">portal d</span>o estudante
+          <span class="text-secondary">Uni</span>code
         </h2>
         <div class="image">
           <img src="assets/login-image.svg" alt="Homem lendo um livro" />
