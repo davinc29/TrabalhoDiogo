@@ -9,9 +9,9 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/portal-professor/conta-edit.css" />
-    <script src="../../javascript/mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico">
+    <link rel="stylesheet" href="../../css/portal-aluno/conta.css" />
+    <script src="mobile-navbar.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
   <body>
     <!-- Layout Computer -->
@@ -20,13 +20,13 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="notas/notas.html">Notas</a>
+              <a class="page-text" href="boletim.jsp">Boletim</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes/observacoes.html"
+              <a class="page-text" href="observacoes.jsp"
                 >Observações</a
               >
             </li>
@@ -40,7 +40,7 @@
       <div class="w-100 m-5">
         <header class="d-flex w-100 justify-content-between">
           <div class="lh-1">
-            <p class="fs-5 fw-bold">Portal do Professor</p>
+            <p class="fs-5 fw-bold">Portal do Estudante</p>
             <p class="fs-5 text-primary">
               <span class="fw-bold">Quarta-Feira</span>, 04 Fev 2026
             </p>
@@ -59,42 +59,37 @@
             <div class="bg-primary box-name m-3">
               <p class="fs-4 fw-bold text-secondary">RE</p>
             </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Rahquel Emídio</p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Gustavo Kenzo</p>
           </div>
         </header>
         <main>
           <div class="account-card">
             <div class="informacoes-topo">
-              <h2>Rahquel Korzh Emidio</h2>
-              <p>Professora de Português</p>
+              <h2>Gustavo Kenzo Shirahata Ota</h2>
+              <div class="matricula-turma d-flex justify-content-between">
+                <p><span class="fw-bold">Matrícula: </span>1234567890</p>
+                <p><span class="fw-bold">Turma: </span>1ºJ</p>
+              </div>
             </div>
 
             <div class="campos">
               <div class="email d-flex flex-column mb-4">
-                <label for="email-id">E-mail atual</label>
+                <label for="email-id">E-mail</label>
                 <input type="text" id="email-id" required disabled />
               </div>
-              <div class="email d-flex flex-column mb-4">
-                <label for="email-id">Novo e-mail</label>
-                <input type="text" id="email-id" required />
-              </div>
-
-              <div class="senha d-flex flex-column mb-4">
-                <label for="senha-id">Senha atual</label>
-                <input type="password" id="senha-id" required disabled />
-              </div>
               <div class="senha d-flex flex-column">
-                <label for="senha-id">Nova senha</label>
-                <input type="password" id="senha-id" required />
+                <label for="senha-id">Senha</label>
+                <input type="password" id="senha-id" required disabled />
               </div>
             </div>
 
-            <div class="edit-container">
-              <button class="edit-button">
-                Salvar
-              </button>
+            <div class="edit-container justify-content-between">
               <div class="edit-button">
-                <a href="conta.html">Cancelar</a>
+                <a href="../../index.jsp">Sair</a>
+              </div>
+
+              <div class="edit-button">
+                <a href="conta-edit.jsp">Editar</a>
               </div>
             </div>
           </div>

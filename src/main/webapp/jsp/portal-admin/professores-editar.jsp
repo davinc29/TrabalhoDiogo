@@ -9,7 +9,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/admin/professores-adicionar.css" />
+    <link rel="stylesheet" href="../../css/admin/professores-editar.css" />
     <script src="mobile-navbar.js"></script>
     <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
@@ -22,15 +22,15 @@
             <li class="page-item can-hover">
               <a
                 class="page-text"
-                href="administradores.html"
+                href="administradores.jsp"
                 >Administradores</a
               >
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="alunos.html">Alunos</a>
+              <a class="page-text" href="alunos.jsp">Alunos</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="professores.html">Professores</a>
+              <a class="page-text" href="professores.jsp">Professores</a>
             </li>
           </ul>
         </nav>
@@ -78,6 +78,10 @@
                 <div class="d-flex flex-column">
                   <div class="linha-cima d-flex">
                     <div class="campo d-flex flex-column">
+                      <label for="primeiro-semestre">Id:</label>
+                      <input type="text" id="turma-id" required disabled />
+                    </div>
+                    <div class="campo d-flex flex-column">
                       <label for="primeiro-semestre">Disciplina:</label>
                       <input
                         type="text"
@@ -95,6 +99,8 @@
                         required
                       />
                     </div>
+                  </div>
+                  <div class="linha-baixo d-flex mt-3">
                     <div class="campo d-flex flex-column">
                       <label for="primeiro-semestre">Usuário:</label>
                       <input
@@ -104,9 +110,6 @@
                         required
                       />
                     </div>
-                  </div>
-                  <div class="linha-baixo d-flex mt-3">
-                    
                     <div class="campo d-flex flex-column">
                       <label for="segundo-semestre">Email:</label>
                       <input
@@ -130,11 +133,11 @@
 
                 <div class="opcoes d-flex">
                   <div class="save-container">
-                    <button class="save" type="submit">Criar</button>
+                    <button class="save" type="submit">Salvar</button>
                   </div>
 
                   <div class="return-button">
-                    <a href="professores.html">Cancelar</a>
+                    <a href="professores.jsp">Cancelar</a>
                   </div>
                 </div>
               </form>

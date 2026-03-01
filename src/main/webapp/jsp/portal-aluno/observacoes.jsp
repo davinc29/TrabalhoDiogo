@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Capelus - Conta</title>
+    <title>Capelus - Observações</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/portal-aluno/conta.css" />
+    <link rel="stylesheet" href="../../css/portal-aluno/observacoes.css" />
     <script src="mobile-navbar.js"></script>
     <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
@@ -20,18 +20,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="boletim.html">Boletim</a>
-            </li>
-            <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.html"
-                >Observações</a
-              >
+              <a class="page-text" href="boletim.jsp">Boletim</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="observacoes.html">Observações</a>
+            </li>
+            <li class="page-item can-hover">
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -40,7 +38,7 @@
       <div class="w-100 m-5">
         <header class="d-flex w-100 justify-content-between">
           <div class="lh-1">
-            <p class="fs-5 fw-bold">Portal do Estudante</p>
+            <p class="fs-5 fw-bold">Portal do Professor</p>
             <p class="fs-5 text-primary">
               <span class="fw-bold">Quarta-Feira</span>, 04 Fev 2026
             </p>
@@ -63,35 +61,54 @@
           </div>
         </header>
         <main>
-          <div class="account-card">
-            <div class="informacoes-topo">
-              <h2>Gustavo Kenzo Shirahata Ota</h2>
-              <div class="matricula-turma d-flex justify-content-between">
-                <p><span class="fw-bold">Matrícula: </span>1234567890</p>
-                <p><span class="fw-bold">Turma: </span>1ºJ</p>
+          <div class="filter-box d-flex flex-column">
+            <div class="linha-cima d-flex">
+              <div class="filter-name">
+                <input type="text" placeholder="Buscar por professor..." />
+              </div>
+              <div class="filter-name ms-4">
+                <input
+                  type="text"
+                  placeholder="Buscar por disciplina..."
+                />
+              </div>
+              <div class="filter-name ms-4">
+                <input
+                  type="text"
+                  placeholder="Buscar por observação..."
+                />
               </div>
             </div>
-
-            <div class="campos">
-              <div class="email d-flex flex-column mb-4">
-                <label for="email-id">E-mail</label>
-                <input type="text" id="email-id" required disabled />
-              </div>
-              <div class="senha d-flex flex-column">
-                <label for="senha-id">Senha</label>
-                <input type="password" id="senha-id" required disabled />
+            <div class="linha-baixo d-flex mt-3">
+              <div class="filter-button">
+                <button>Aplicar Filtro</button>
               </div>
             </div>
+          </div>
 
-            <div class="edit-container justify-content-between">
-              <div class="edit-button">
-                <a href="../../index.jsp">Sair</a>
-              </div>
-
-              <div class="edit-button">
-                <a href="conta-edit.html">Editar</a>
-              </div>
-            </div>
+          <div class="tabela-container">
+            <table class="tabela-observacoes">
+              <tr>
+                <th>Professor</th>
+                <th>Disciplina</th>
+                <th>Observação</th>
+              </tr>
+              <tr>
+                <td>
+                  <p>Rahquel Korzh</p>
+                </td>
+                <td>
+                  <p>Português</p>
+                </td>
+                <td class="coluna-observacao">
+                  <p>
+                    Você precisa melhorar, pois vc é muito ruim, Meu Deus HAHA
+                    HAA AHAHAH AHAHAH AHAHAH AHA HAHA HAH HAHAH AHAH HAHA HA HA
+                    HA HA HAH AH AH AHHA HA HAH AH HA
+                  </p>
+                </td>
+              </tr>
+            </table>
           </div>
         </main>
       </div>

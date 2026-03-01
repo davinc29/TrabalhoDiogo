@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -20,7 +21,7 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item can-hover">
               <a class="page-text" href="notas/notas.html">Notas</a>
@@ -84,7 +85,7 @@
               </div>
 
               <div class="edit-button">
-                <a href="conta-edit.html">Editar</a>
+                <a href="conta-edit.jsp">Editar</a>
               </div>
             </div>
           </div>

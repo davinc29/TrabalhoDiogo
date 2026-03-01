@@ -23,13 +23,13 @@
               <a class="page-text" href="home.html">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="boletim.html">Boletim</a>
+              <a class="page-text" href="boletim.jsp">Boletim</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.html">Observações</a>
+              <a class="page-text" href="observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -104,7 +104,7 @@
 
               <div class="d-flex justify-content-end me-4">
                 <a
-                  href="observacoes.html"
+                  href="observacoes.jsp"
                   class="text-decoration-none"
                   style="color: black"
                   >Ver mais ></a
@@ -165,7 +165,7 @@
 
                 <div class="d-flex justify-content-end me-4">
                   <a
-                    href="boletim.html"
+                    href="boletim.jsp"
                     class="text-decoration-none"
                     style="color: black"
                     >Ver mais ></a

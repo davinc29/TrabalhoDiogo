@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Capelus - Administradores</title>
+    <title>Capelus - Alunos</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/admin/administradores-editar.css" />
+    <link rel="stylesheet" href="../../css/admin/alunos-editar.css" />
     <script src="mobile-navbar.js"></script>
     <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
@@ -19,16 +19,18 @@
       <aside class="bg-primary sidebar">
         <nav class="text-secondary">
           <ul class="">
-            <li class="page-item active">
-              <a class="page-text" href="administradores.html"
+            <li class="page-item can-hover">
+              <a
+                class="page-text"
+                href="administradores.jsp"
                 >Administradores</a
               >
             </li>
-            <li class="page-item can-hover">
-              <a class="page-text" href="alunos.html">Alunos</a>
+            <li class="page-item active">
+              <a class="page-text" href="alunos.jsp">Alunos</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="professores.html"
+              <a class="page-text" href="professores.jsp"
                 >Professores</a
               >
             </li>
@@ -82,31 +84,26 @@
                       <input type="text" id="turma-id" required disabled />
                     </div>
                     <div class="campo d-flex flex-column">
-                      <label for="primeiro-semestre">Contrato:</label>
-                      <input
-                        type="text"
-                        id="turma-id"
-                        required
-                        disabled
-                      />
+                      <label for="primeiro-semestre">Matrícula:</label>
+                      <input type="text" id="turma-id" required disabled />
                     </div>
                     <div class="campo d-flex flex-column">
-                      <label for="turma-id">Administrador:</label>
+                      <label for="turma-id">Turma:</label>
                       <input
                         type="text"
                         id="turma-id"
-                        placeholder="Ex: Kleber Onipotente"
+                        placeholder="Ex: 1ºJ"
                         required
                       />
                     </div>
                   </div>
                   <div class="linha-baixo d-flex mt-3">
                     <div class="campo d-flex flex-column">
-                      <label for="primeiro-semestre">Usuário:</label>
+                      <label for="primeiro-semestre">Nome:</label>
                       <input
                         type="text"
                         id="turma-id"
-                        placeholder="Ex: KleberNextstage"
+                        placeholder="Ex: Kleber Silva"
                         required
                       />
                     </div>
@@ -115,7 +112,7 @@
                       <input
                         type="text"
                         id="turma-id"
-                        placeholder="Ex: kleber.oni@gmail.com"
+                        placeholder="Ex: kleber.silva@gmail.com"
                         required
                       />
                     </div>
@@ -137,7 +134,7 @@
                   </div>
 
                   <div class="return-button">
-                    <a href="administradores.html">Cancelar</a>
+                    <a href="alunos.jsp">Cancelar</a>
                   </div>
                 </div>
               </form>

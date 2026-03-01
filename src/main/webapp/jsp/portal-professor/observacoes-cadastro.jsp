@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -9,7 +10,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/portal-professor/observacoes-editar.css" />
+    <link rel="stylesheet" href="../../css/portal-professor/observacoes-cadastro.css" />
     <script src="../../javascript/mobile-navbar.js"></script>
     <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico">
   </head>
@@ -20,18 +21,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
+            </li>
+            <li class="page-item can-hover">
+              <a class="page-text" href="notas.jsp">Notas</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="notas.html">Notas</a>
+              <a class="page-text" href="observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.html"
-                >Observações</a
-              >
-            </li>
-            <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -97,11 +96,11 @@
 
                 <div class="opcoes d-flex">
                   <div class="save-container">
-                    <button class="save" type="submit">Salvar</button>
+                    <button class="save" type="submit">Criar</button>
                   </div>
 
                   <div class="return-button">
-                    <a href="observacoes-adicionar.html">Cancelar</a>
+                    <a href="observacoes-adicionar.jsp">Cancelar</a>
                   </div>
                 </div>
               </form>

@@ -19,7 +19,7 @@
     <!-- Layout Computer -->
     <section class="d-sm-flex align-items-center vh-100 d-none">
       <div class="login-container container-md">
-        <form action="${pageContext.request.contextPath}/sistema_filter?action=login" method="post">
+        <form action="${pageContext.request.contextPath}/sistema-filter?action=login" method="post">
           <div class="mb-3">
             <h1 class="fs-1 fw-bold text-secondary"><a href="portal-adm/administradores/administradores.html" style="text-decoration: none; color: white;">Login</a></h1>
             <p class="fs-5 fw-semibold text-secondary">

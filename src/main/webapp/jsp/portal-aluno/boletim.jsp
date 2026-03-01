@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Capelus - Administradores</title>
+    <title>Capelus - Boletim</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/admin/administradores.css" />
+    <link rel="stylesheet" href="../../css/portal-aluno/boletim.css" />
     <script src="mobile-navbar.js"></script>
     <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
@@ -19,18 +19,17 @@
       <aside class="bg-primary sidebar">
         <nav class="text-secondary">
           <ul class="">
+            <li class="page-item can-hover">
+              <a class="page-text" href="home.jsp">Home</a>
+            </li>
             <li class="page-item active">
-              <a class="page-text" href="administradores.html"
-                >Administradores</a
-              >
+              <a class="page-text" href="boletim.html">Boletim</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="alunos.html">Alunos</a>
+              <a class="page-text" href="observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="professores.html"
-                >Professores</a
-              >
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -39,7 +38,7 @@
       <div class="w-100 m-5">
         <header class="d-flex w-100 justify-content-between">
           <div class="lh-1">
-            <p class="fs-5 fw-bold">Portal do Administrador</p>
+            <p class="fs-5 fw-bold">Portal do Professor</p>
             <p class="fs-5 text-primary">
               <span class="fw-bold">Quarta-Feira</span>, 04 Fev 2026
             </p>
@@ -58,44 +57,37 @@
             <div class="bg-primary box-name m-3">
               <p class="fs-4 fw-bold text-secondary">RE</p>
             </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Ryan Cursino</p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Gustavo Kenzo</p>
           </div>
         </header>
         <main>
           <div class="filter-box d-flex flex-column">
-            <div class="linha-um d-flex">
+            <div class="linha-cima d-flex">
               <div class="filter-name">
-                <input type="text" placeholder="Buscar por id..." />
+                <input type="text" placeholder="Buscar por disciplina..." />
               </div>
               <div class="filter-name ms-4">
-                <input type="text" placeholder="Buscar por contrato..." />
+                <input
+                  type="text"
+                  placeholder="Buscar por nota do primeiro semestre..."
+                />
               </div>
               <div class="filter-name ms-4">
-                <input type="text" placeholder="Buscar por administrador..." />
+                <input
+                  type="text"
+                  placeholder="Buscar por nota do segundo semestre..."
+                />
               </div>
             </div>
-            <div class="linha-dois d-flex mt-3">
+            <div class="linha-baixo d-flex mt-3">
               <div class="filter-name">
-                <input type="text" placeholder="Buscar por usuário..." />
+                <input type="text" placeholder="Buscar por média..." />
               </div>
               <div class="filter-name ms-4">
-                <input type="text" placeholder="Buscar por email..." />
+                <input type="text" placeholder="Buscar por situação..." />
               </div>
-              <div class="filter-name ms-4">
-                <input type="text" placeholder="Buscar por senha..." />
-              </div>
-            </div>
-            <div class="linha-tres d-flex mt-3 justify-content-between">
-              <div class="d-flex lado-esquerdo">
-                <div class="filter-button">
-                  <button>Aplicar Filtro</button>
-                </div>
-              </div>
-
-              <div class="d-flex lado-direito">
-                <div class="add-button">
-                  <a href="administradores-adicionar.html">+ Adicionar</a>
-                </div>
+              <div class="filter-button ms-4">
+                <button>Aplicar Filtro</button>
               </div>
             </div>
           </div>
@@ -103,48 +95,27 @@
           <div class="tabela-container">
             <table class="tabela-notas">
               <tr>
-                <th>Id</th>
-                <th>Contrato</th>
-                <th>Administrador</th>
-                <th>Usuário</th>
-                <th>Email</th>
-                <th>Senha</th>
+                <th>Disciplina</th>
+                <th>Primeiro Semestre</th>
+                <th>Segundo Semestre</th>
+                <th>Média</th>
+                <th>Situação</th>
               </tr>
               <tr>
                 <td>
-                  <p>1</p>
+                  <p>Português</p>
                 </td>
                 <td>
-                  <p>123456789</p>
+                  <p>4,6</p>
                 </td>
                 <td>
-                  <p>Ryan Cursino</p>
+                  <p>4,6</p>
                 </td>
                 <td>
-                  <p>RyanNegoDoce</p>
+                  <p>4,6</p>
                 </td>
                 <td>
-                  <p>ryan.moraes@institutojef.org.br</p>
-                </td>
-                <td>
-                  <p>SenhaSecreta123</p>
-                </td>
-                <td>
-                  <a href="administradores-editar.html">
-                    <img
-                      class="table-icon"
-                      src="../../assets/editar.svg"
-                      alt="Editar Icon"
-                    />
-                  </a>
-                  <a href="#">
-                    <img
-                      class="table-icon"
-                      style="margin-left: 30px"
-                      src="../../assets/apagar.svg"
-                      alt="Deletar Icon"
-                    />
-                  </a>
+                  <p>Reprovado</p>
                 </td>
               </tr>
             </table>

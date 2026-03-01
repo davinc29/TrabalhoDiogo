@@ -1,17 +1,18 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Capelus - Boletim</title>
+    <title>Capelus - Notas</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/portal-aluno/boletim.css" />
-    <script src="mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
+    <link rel="stylesheet" href="../../css/portal-professor/notas-adicionar.css" />
+    <script src="../../javascript/mobile-navbar.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico">
   </head>
   <body>
     <!-- Layout Computer -->
@@ -20,16 +21,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="boletim.html">Boletim</a>
+              <a class="page-text" href="notas.jsp">Notas</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.html">Observações</a>
+              <a class="page-text" href="observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -57,14 +58,14 @@
             <div class="bg-primary box-name m-3">
               <p class="fs-4 fw-bold text-secondary">RE</p>
             </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Gustavo Kenzo</p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Rahquel Emídio</p>
           </div>
         </header>
         <main>
           <div class="filter-box d-flex flex-column">
             <div class="linha-cima d-flex">
               <div class="filter-name">
-                <input type="text" placeholder="Buscar por disciplina..." />
+                <input type="text" placeholder="Buscar por id..." />
               </div>
               <div class="filter-name ms-4">
                 <input
@@ -79,15 +80,23 @@
                 />
               </div>
             </div>
-            <div class="linha-baixo d-flex mt-3">
-              <div class="filter-name">
-                <input type="text" placeholder="Buscar por média..." />
+            <div class="linha-baixo d-flex mt-3 justify-content-between">
+              <div class="d-flex lado-esquerdo">
+                <div class="filter-name" style="width: 46%;">
+                  <input type="text" placeholder="Buscar por média..." />
+                </div>
+                <div class="filter-button ms-4">
+                  <button>Aplicar Filtro</button>
+                </div>
               </div>
-              <div class="filter-name ms-4">
-                <input type="text" placeholder="Buscar por situação..." />
-              </div>
-              <div class="filter-button ms-4">
-                <button>Aplicar Filtro</button>
+
+              <div class="d-flex lado-direito">
+                <div class="add-button ms-4">
+                  <a href="notas-cadastro.jsp">+ Adicionar</a>
+                </div>
+                <div class="return-button ms-4">
+                  <a href="notas.jsp">< Voltar</a>
+                </div>
               </div>
             </div>
           </div>
@@ -95,15 +104,26 @@
           <div class="tabela-container">
             <table class="tabela-notas">
               <tr>
-                <th>Disciplina</th>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Matrícula</th>
+                <th>Turma</th>
                 <th>Primeiro Semestre</th>
                 <th>Segundo Semestre</th>
                 <th>Média</th>
-                <th>Situação</th>
               </tr>
               <tr>
                 <td>
-                  <p>Português</p>
+                  <p>1</p>
+                </td>
+                <td>
+                  <p>Gustavo Kenzo</p>
+                </td>
+                <td>
+                  <p>123456789</p>
+                </td>
+                <td>
+                  <p>1ºJ</p>
                 </td>
                 <td>
                   <p>4,6</p>
@@ -115,7 +135,21 @@
                   <p>4,6</p>
                 </td>
                 <td>
-                  <p>Reprovado</p>
+                  <a href="notas-editar.jsp">
+                    <img
+                      class="table-icon"
+                      src="../../assets/editar.svg"
+                      alt="Editar Icon"
+                    />
+                  </a>
+                  <a href="#">
+                    <img
+                      class="table-icon"
+                      style="margin-left: 30px"
+                      src="../../assets/apagar.svg"
+                      alt="Deletar Icon"
+                    />
+                  </a>
                 </td>
               </tr>
             </table>

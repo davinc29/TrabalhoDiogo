@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -20,16 +21,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item active">
               <a class="page-text" href="notas.html">Notas</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.html">Observações</a>
+              <a class="page-text" href="observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -90,7 +91,7 @@
                 </div>
                 <div class="aluno-adicionar">
                   <div class="botao-adicionar">
-                    <a href="notas-adicionar.html">+</a>
+                    <a href="notas-adicionar.jsp">+</a>
                   </div>
                   <p class="text-primary">Adicionar Nota</p>
                 </div>
@@ -108,7 +109,7 @@
                 </div>
                 <div class="aluno-adicionar">
                   <div class="botao-adicionar">
-                    <a href="notas-adicionar.html">+</a>
+                    <a href="notas-adicionar.jsp">+</a>
                   </div>
                   <p class="text-primary">Adicionar Nota</p>
                 </div>
@@ -126,7 +127,7 @@
                 </div>
                 <div class="aluno-adicionar">
                   <div class="botao-adicionar">
-                    <a href="notas-adicionar.html">+</a>
+                    <a href="notas-adicionar.jsp">+</a>
                   </div>
                   <p class="text-primary">Adicionar Nota</p>
                 </div>
@@ -146,7 +147,7 @@
                 </div>
                 <div class="aluno-adicionar">
                   <div class="botao-adicionar">
-                    <a href="notas-adicionar.html">+</a>
+                    <a href="notas-adicionar.jsp">+</a>
                   </div>
                   <p class="text-primary">Adicionar Nota</p>
                 </div>
@@ -164,7 +165,7 @@
                 </div>
                 <div class="aluno-adicionar">
                   <div class="botao-adicionar">
-                    <a href="notas-adicionar.html">+</a>
+                    <a href="notas-adicionar.jsp">+</a>
                   </div>
                   <p class="text-primary">Adicionar Nota</p>
                 </div>
@@ -182,7 +183,7 @@
                 </div>
                 <div class="aluno-adicionar">
                   <div class="botao-adicionar">
-                    <a href="notas-adicionar.html">+</a>
+                    <a href="notas-adicionar.jsp">+</a>
                   </div>
                   <p class="text-primary">Adicionar Nota</p>
                 </div>

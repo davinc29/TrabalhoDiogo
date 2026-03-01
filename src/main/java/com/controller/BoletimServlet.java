@@ -21,10 +21,10 @@ import java.util.UUID;
 @WebServlet("/boletim-professor")
 public class BoletimServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL_PROFESSOR = "portal-professor/boletim.jsp";
-    private static final String PAGINA_PRINCIPAL_ALUNO = "portal-professor/boletim.jsp";
-    private static final String PAGINA_CADASTRO = "portal-professor/cadastrar-boletim.jsp";
-    private static final String PAGINA_EDICAO = "jsp/editar-boletim.jsp";
+    private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/notas.jsp";
+    private static final String PAGINA_PRINCIPAL_ALUNO = "/jsp/portal-aluno/boletim.jsp";
+    private static final String PAGINA_CADASTRO = "/jsp/portal-professor/notas-cadastrar.jsp";
+    private static final String PAGINA_EDICAO = "/jsp/portal-professor/notas-editar.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override

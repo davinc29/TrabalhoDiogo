@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -29,7 +30,7 @@
               <a class="page-text" href="observacoes/observacoes.html">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -103,7 +104,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end me-4">
-                  <a href="observacoes.html" class="text-decoration-none" style="color: black">Ver mais ></a>
+                  <a href="observacoes.jsp" class="text-decoration-none" style="color: black">Ver mais ></a>
                 </div>
             </div>
 
@@ -142,7 +143,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end me-4">
-                  <a href="notas.html" class="text-decoration-none" style="color: black">Ver mais ></a>
+                  <a href="notas.jsp" class="text-decoration-none" style="color: black">Ver mais ></a>
                 </div>
 
               </div>

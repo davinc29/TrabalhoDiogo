@@ -20,15 +20,15 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item active">
-              <a class="page-text" href="administradores.html"
+              <a class="page-text" href="administradores.jsp"
                 >Administradores</a
               >
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="alunos.html">Alunos</a>
+              <a class="page-text" href="alunos.jsp">Alunos</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="professores.html"
+              <a class="page-text" href="professores.jsp"
                 >Professores</a
               >
             </li>
@@ -124,7 +124,7 @@
                   </div>
 
                   <div class="return-button">
-                    <a href="administradores.html">Cancelar</a>
+                    <a href="administradores.jsp">Cancelar</a>
                   </div>
                 </div>
               </form>

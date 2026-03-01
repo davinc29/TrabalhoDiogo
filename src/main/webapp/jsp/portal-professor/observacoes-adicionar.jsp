@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -20,16 +21,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="notas.html">Notas</a>
+              <a class="page-text" href="notas.jsp">Notas</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="observacoes.html">Observações</a>
+              <a class="page-text" href="observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -72,10 +73,10 @@
               <button>Aplicar Filtro</button>
             </div>
             <div class="add-button ms-4">
-              <a href="observacoes-cadastro.html">+ Adicionar</a>
+              <a href="observacoes-cadastro.jsp">+ Adicionar</a>
             </div>
             <div class="return-button ms-4">
-              <a href="observacoes.html">< Voltar</a>
+              <a href="observacoes.jsp">< Voltar</a>
             </div>
           </div>
 
@@ -109,7 +110,7 @@
                   </p>
                 </td>
                 <td>
-                  <a href="observacoes-editar.html">
+                  <a href="observacoes-editar.jsp">
                     <img
                       class="table-icon"
                       src="../../assets/editar.svg"

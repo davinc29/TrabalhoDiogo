@@ -19,9 +19,9 @@ import java.sql.SQLException;
 @WebServlet("/sistema-filter")
 public class LoginServlet extends HttpServlet {
 
-    private static final String AREA_RESTRITA_ALUNO = "/portal-aluno/index.jsp";
-    private static final String AREA_RESTRITA_PROFESSOR = "/portal-professor/index.jsp";
-    private static final String PAGINA_LOGIN = "jsp/professorLogin.jsp";
+    private static final String AREA_RESTRITA_ALUNO = "/jsp/portal-aluno/home.jsp";
+    private static final String AREA_RESTRITA_PROFESSOR = "/jsp/portal-professor/home.jsp";
+    private static final String PAGINA_LOGIN = "/index.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override

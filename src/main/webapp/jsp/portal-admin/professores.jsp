@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Capelus - Alunos</title>
+    <title>Capelus - Professores</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/admin/alunos.css" />
+    <link rel="stylesheet" href="../../css/admin/professores.css" />
     <script src="mobile-navbar.js"></script>
     <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico">
   </head>
@@ -20,12 +20,12 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="administradores.html">Administradores</a>
-            </li>
-            <li class="page-item active">
-              <a class="page-text" href="alunos.html">Alunos</a>
+              <a class="page-text" href="administradores.jsp">Administradores</a>
             </li>
             <li class="page-item can-hover">
+              <a class="page-text" href="alunos.jsp">Alunos</a>
+            </li>
+            <li class="page-item active">
               <a class="page-text" href="professores.html">Professores</a>
             </li>
           </ul>
@@ -66,19 +66,19 @@
               <div class="filter-name ms-4">
                 <input
                   type="text"
-                  placeholder="Buscar por matrícula..."
+                  placeholder="Buscar por disciplina..."
                 />
               </div>
               <div class="filter-name ms-4">
                 <input
                   type="text"
-                  placeholder="Buscar por turma..."
+                  placeholder="Buscar por professor..."
                 />
               </div>
             </div>
             <div class="linha-dois d-flex mt-3">
               <div class="filter-name">
-                <input type="text" placeholder="Buscar por nome..." />
+                <input type="text" placeholder="Buscar por usuário..." />
               </div>
               <div class="filter-name ms-4">
                 <input type="text" placeholder="Buscar por email..." />
@@ -96,7 +96,7 @@
 
               <div class="d-flex lado-direito">
                 <div class="add-button">
-                  <a href="alunos-adicionar.html">+ Adicionar</a>
+                  <a href="professores-adicionar.jsp">+ Adicionar</a>
                 </div>
               </div>
             </div>
@@ -106,9 +106,9 @@
             <table class="tabela-notas">
               <tr>
                 <th>Id</th>
-                <th>Matrícula</th>
-                <th>Turma</th>
-                <th>Nome</th>
+                <th>Disciplina</th>
+                <th>Professor</th>
+                <th>Usuário</th>
                 <th>Email</th>
                 <th>Senha</th>
               </tr>
@@ -117,22 +117,22 @@
                   <p>1</p>
                 </td>
                 <td>
-                  <p>123456789</p>
+                  <p>Português</p>
                 </td>
                 <td>
-                  <p>1ºJ</p>
+                  <p>Rahquel Korzh</p>
                 </td>
                 <td>
-                  <p>Gustavo Kenzo</p>
+                  <p>RahquelDesigner</p>
                 </td>
                 <td>
-                  <p>gustavo.ota@institutojef.org.br</p>
+                  <p>rahquel.emidio@institutojef.org.br</p>
                 </td>
                 <td>
                   <p>SenhaSecreta123</p>
                 </td>
                 <td>
-                  <a href="alunos-editar.html">
+                  <a href="professores-editar.jsp">
                     <img
                       class="table-icon"
                       src="../../assets/editar.svg"
