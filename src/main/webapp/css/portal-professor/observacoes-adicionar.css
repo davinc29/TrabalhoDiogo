@@ -146,11 +146,6 @@ ul{
     font-size: 20px;
 }
 
-.table-icon{
-    width: 20px;
-    margin-left: 10px;
-}
-
 .tabela-observacoes th{
     padding-bottom: 20px;
 }
@@ -169,4 +164,13 @@ ul{
 
 .tabela-observacoes .coluna-observacao{
     width: 50%;
+}
+
+.action-btn{
+    background-color: transparent;
+    border-style: none;
+}
+
+.table-icon{
+    width: 20px;
 }

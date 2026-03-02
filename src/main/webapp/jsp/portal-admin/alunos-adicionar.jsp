@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Capelus - Notas</title>
+    <title>Capelus - Alunos</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/portal-professor/notas-editar.css" />
-    <script src="../javascript/mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../assets/Capelus-icon.ico">
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/admin/alunos-adicionar.css" />
+    <script src="mobile-navbar.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
   <body>
     <!-- Layout Computer -->
@@ -20,16 +20,19 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a
+                class="page-text"
+                href="administradores.jsp"
+                >Administradores</a
+              >
             </li>
             <li class="page-item active">
-              <a class="page-text" href="notas.html">Notas</a>
+              <a class="page-text" href="alunos.jsp">Alunos</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.html">Observações</a>
-            </li>
-            <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="professores.jsp"
+                >Professores</a
+              >
             </li>
           </ul>
         </nav>
@@ -38,7 +41,7 @@
       <div class="w-100 m-5">
         <header class="d-flex w-100 justify-content-between">
           <div class="lh-1">
-            <p class="fs-5 fw-bold">Portal do Professor</p>
+            <p class="fs-5 fw-bold">Portal do Administrador</p>
             <p class="fs-5 text-primary">
               <span class="fw-bold">Quarta-Feira</span>, 04 Fev 2026
             </p>
@@ -46,32 +49,27 @@
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../assets/notificao-icon.svg"
+              src="../../assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
               class="icon m-3"
-              src="../assets/mensagens-icon.svg"
+              src="../../assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
+              <p class="fs-4 fw-bold text-secondary">ADM</p>
             </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Rahquel Emídio</p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Ryan Cursino</p>
           </div>
         </header>
         <main>
           <div class="aluno-card d-flex justify-content-between flex-column">
             <div class="d-flex justify-content-between">
               <div class="aluno-informacoes">
-                <h2 class="aluno-nome fs-3">Gustavo Kenzo</h2>
+                <h2 class="aluno-nome fs-3">Ryan Cursino</h2>
                 <div class="d-flex">
-                  <p class="aluno-matricula">
-                    <span class="fw-bold">Matrícula: </span>123456789
-                  </p>
-                  <p class="aluno-turma ms-3">
-                    <span class="fw-bold">Turma: </span>1ºJ
-                  </p>
+                  <p>Administrador</p>
                 </div>
               </div>
             </div>
@@ -80,57 +78,51 @@
             <div class="input-container">
               <form action="">
                 <div class="d-flex">
-                  <!-- <div class="campo d-flex flex-column">
-                    <label for="disciplina">Disciplina:</label>
-                    <input type="text" id="disciplina" disabled />
-                  </div> -->
                   <div class="campo d-flex flex-column">
-                    <label for="primeiro-semestre"
-                      >Nota do Primeiro Semestre:</label
-                    >
+                    <label for="primeiro-semestre">Nome:</label>
                     <input
-                      type="number"
-                      step="0.01"
-                      id="primeiro-semestre"
-                      min="0"
-                      max="10"
-                      placeholder="Ex: 6,70"
+                      type="text"
+                      id="turma-id"
+                      placeholder="Ex: Kleber Silva"
                       required
                     />
                   </div>
                   <div class="campo d-flex flex-column">
-                    <label for="segundo-semestre"
-                      >Nota do Segundo Semestre:</label
-                    >
+                    <label for="segundo-semestre">Email:</label>
                     <input
-                      type="number"
-                      step="0.01"
-                      id="segundo-semestre"
-                      min="0"
-                      max="10"
-                      placeholder="Ex: 8,59"
+                      type="text"
+                      id="turma-id"
+                      placeholder="Ex: kleber.silva@gmail.com"
+                      required
                     />
                   </div>
                   <div class="campo d-flex flex-column">
-                    <label for="media">Média Final:</label>
+                    <label for="media">Senha:</label>
                     <input
-                      type="number"
-                      step="0.01"
-                      id="media"
-                      min="0"
-                      max="10"
-                      disabled
+                      type="password"
+                      id="turma-id"
+                      placeholder="Ex: @Senha123"
+                      required
+                    />
+                  </div>
+                  <div class="campo d-flex flex-column">
+                    <label for="turma-id">Turma:</label>
+                    <input
+                      type="text"
+                      id="turma-id"
+                      placeholder="Ex: 1ºJ"
+                      required
                     />
                   </div>
                 </div>
 
                 <div class="opcoes d-flex">
                   <div class="save-container">
-                    <button class="save" type="submit">Salvar</button>
+                    <button class="save" type="submit">Criar</button>
                   </div>
 
                   <div class="return-button">
-                    <a href="notas-adicionar.html">Cancelar</a>
+                    <a href="alunos.jsp">Cancelar</a>
                   </div>
                 </div>
               </form>

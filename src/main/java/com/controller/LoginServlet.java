@@ -1,8 +1,11 @@
 package com.controller;
 
+import com.dao.BoletimDAO;
 import com.dao.LoginDAO;
+import com.dao.ObservacaoDAO;
 import com.dto.AlunoViewDTO;
 import com.dto.LoginDTO;
+import com.dto.ObservacaoViewDTO;
 import com.dto.ProfessorDTO;
 import com.exception.ExcecaoDeJSP;
 import com.model.Professor;
@@ -14,14 +17,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.net.http.HttpRequest;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/sistema-filter")
 public class LoginServlet extends HttpServlet {
 
-    private static final String AREA_RESTRITA_ALUNO = "/portal-aluno/index.jsp";
-    private static final String AREA_RESTRITA_PROFESSOR = "/portal-professor/index.jsp";
-    private static final String PAGINA_LOGIN = "jsp/professorLogin.jsp";
+    private static final String AREA_RESTRITA_ALUNO = "/jsp/portal-aluno/home.jsp";
+    private static final String AREA_RESTRITA_PROFESSOR = "/jsp/portal-professor/home.jsp";
+    private static final String PAGINA_LOGIN = "/index.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override
@@ -34,6 +39,7 @@ public class LoginServlet extends HttpServlet {
         String action = req.getParameter("action").trim();
         HttpSession session = req.getSession();
 
+        boolean erro = true;
         String destino = PAGINA_ERRO;
 
         try {
@@ -54,12 +60,20 @@ public class LoginServlet extends HttpServlet {
                             AlunoViewDTO aluno = encontrarAluno(credenciais);
                             session.setAttribute("usuario", aluno);
                             destino = AREA_RESTRITA_ALUNO;
+                            erro = false;
                         }
 
                         case 2 -> {
                             ProfessorDTO professor = encontrarProfessor(credenciais);
+                            List<ObservacaoViewDTO> observacoes = listarPorProfessor(professor);
+                            List<String> notasPendentes = notasPendentes(professor);
+
+                            req.setAttribute("observacoes", observacoes);
+                            req.setAttribute("notasPendentes", notasPendentes);
                             session.setAttribute("usuario", professor);
+
                             destino = AREA_RESTRITA_PROFESSOR;
+                            erro = false;
                         }
                     }
                 }
@@ -95,7 +109,11 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace(System.err);
         }
 
-        resp.sendRedirect(req.getContextPath() + destino);
+        if (erro) {
+            resp.sendRedirect(req.getContextPath() + destino);
+        } else {
+            req.getRequestDispatcher(destino).forward(req, resp);
+        }
     }
 
     // === LOGIN ===
@@ -114,6 +132,18 @@ public class LoginServlet extends HttpServlet {
     private AlunoViewDTO encontrarAluno(LoginDTO credenciais) throws SQLException {
         try (LoginDAO dao = new LoginDAO()) {
             return dao.encontrarAluno(credenciais);
+        }
+    }
+
+    public List<String> notasPendentes(ProfessorDTO professor) throws SQLException{
+        try (BoletimDAO dao = new BoletimDAO()) {
+            return dao.notasPendentes(professor.getId());
+        }
+    }
+
+    public List<ObservacaoViewDTO> listarPorProfessor(ProfessorDTO professor) throws SQLException{
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+            return dao.listarPorProfessor(professor.getId());
         }
     }
 

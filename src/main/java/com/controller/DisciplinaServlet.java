@@ -20,10 +20,10 @@ import java.util.UUID;
 @WebServlet("/disciplinas")
 public class DisciplinaServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL_ADMIN = "admin/disciplina.jsp";
-    private static final String PAGINA_PRINCIPAL_ALUNO = "portal-aluno/disciplina.jsp";
-    private static final String PAGINA_CADASTRO = "admin/cadastrar-disciplina.jsp";
-    private static final String PAGINA_EDICAO = "admin/editar-disciplina.jsp";
+    private static final String PAGINA_PRINCIPAL_ALUNO = "/jsp/portal-aluno/disciplinas.jsp";
+    private static final String PAGINA_PRINCIPAL_ADMIN = "/jsp/admin/disciplinas.jsp";
+    private static final String PAGINA_CADASTRO = "/jsp/admin/disciplina-cadastrar.jsp";
+    private static final String PAGINA_EDICAO = "/jsp/admin/disciplina-editar.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override

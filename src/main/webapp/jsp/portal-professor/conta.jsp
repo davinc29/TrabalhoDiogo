@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -8,10 +9,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/portal-professor/conta.css" />
-    <script src="../javascript/mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../assets/Capelus-icon.ico">
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/portal-professor/conta.css" />
+    <script src="../../javascript/mobile-navbar.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico">
   </head>
   <body>
     <!-- Layout Computer -->
@@ -20,7 +21,7 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item can-hover">
               <a class="page-text" href="notas/notas.html">Notas</a>
@@ -46,7 +47,7 @@
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../assets/notificao-icon.svg"
+              src="../../assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
@@ -80,11 +81,11 @@
 
             <div class="edit-container justify-content-between">
               <div class="edit-button">
-                <a href="../index.jsp">Sair</a>
+                <a href="../../index.jsp">Sair</a>
               </div>
 
               <div class="edit-button">
-                <a href="conta-edit.html">Editar</a>
+                <a href="conta-edit.jsp">Editar</a>
               </div>
             </div>
           </div>

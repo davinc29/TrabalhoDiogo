@@ -14,7 +14,7 @@ public class LoginDAO extends DAO {
 
     public LoginDAO() throws SQLException{
         super();
-        conn.setAutoCommit(true);
+        conn.setAutoCommit(false);
     }
 
     // Método para realizar o login, comparando os dados originais do banco com os inseridos pelo usuário
@@ -31,8 +31,6 @@ public class LoginDAO extends DAO {
                     """;
 
         String senhaHash;
-        ProfessorDTO professor;
-        UUID id;
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, credenciais.getEmail());
@@ -136,7 +134,7 @@ public class LoginDAO extends DAO {
                     a.matricula,
                     p.turma_ano
                 FROM
-                    aluno
+                    aluno a
                 JOIN
                     pre_matricula p
                     ON p.matricula = a.matricula

@@ -83,10 +83,11 @@ public class ObservacaoDAO extends DAO{
 
         String sql = """
                 SELECT
+                    a.nome as nome_aluno,
+                    p2.turma_ano as turma_ano,
                     d.nome as nome_disciplina,
                     p.nome as nome_professor,
-                    o.texto_observacao as texto_observacao,
-                    b.media as media,
+                    o.texto_observacao as observacao
                 FROM
                     observacao o
                 JOIN
@@ -98,6 +99,9 @@ public class ObservacaoDAO extends DAO{
                 JOIN
                     professor p
                     ON p.id = d.id_professor
+                JOIN
+                    pre_matricula p2
+                    ON p2.matricula = a.matricula
                 WHERE
                     a.id = ?
                 """;
@@ -110,11 +114,67 @@ public class ObservacaoDAO extends DAO{
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
+                String nomeAluno = rs.getString("nome_aluno");
+                String turmaAno = rs.getString("turma_ano");
                 String nomeProfessor = rs.getString("nome_professor");
                 String nomeDisciplina = rs.getString("nome_disciplina");
                 String observacao = rs.getString("observacao");
 
-                ObservacaoViewDTO observacaoView = new ObservacaoViewDTO(nomeProfessor, nomeDisciplina, observacao);
+                ObservacaoViewDTO observacaoView = new ObservacaoViewDTO(nomeAluno,turmaAno, nomeDisciplina, nomeProfessor, observacao);
+
+                observacoes.add(observacaoView);
+            }
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+        }
+
+        conn.commit();
+        return observacoes;
+    }
+
+    public List<ObservacaoViewDTO> listarPorProfessor(UUID idProfessor) throws SQLException{
+
+        String sql = """
+                SELECT
+                    a.nome as nome_aluno,
+                    p2.turma_ano as turma_ano,
+                    d.nome as nome_disciplina,
+                    p.nome as nome_professor,
+                    o.texto_observacao as observacao
+                FROM
+                    observacao o
+                JOIN
+                    aluno a
+                    ON a.id = o.id_aluno
+                JOIN
+                    disciplina d
+                    ON d.id = o.id_disciplina
+                JOIN
+                    professor p
+                    ON p.id = d.id_professor
+                JOIN
+                    pre_matricula p2
+                    ON p2.matricula = a.matricula
+                WHERE
+                    p.id = ?
+                """;
+
+        List<ObservacaoViewDTO> observacoes = new ArrayList<>();
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setObject(1,idProfessor);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String nomeAluno = rs.getString("nome_aluno");
+                String turmaAno = rs.getString("turma_ano");
+                String nomeProfessor = rs.getString("nome_professor");
+                String nomeDisciplina = rs.getString("nome_disciplina");
+                String observacao = rs.getString("observacao");
+
+                ObservacaoViewDTO observacaoView = new ObservacaoViewDTO(nomeAluno, turmaAno, nomeDisciplina, nomeProfessor, observacao);
 
                 observacoes.add(observacaoView);
             }

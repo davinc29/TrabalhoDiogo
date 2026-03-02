@@ -8,10 +8,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/portal-aluno/boletim.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/portal-aluno/boletim.css" />
     <script src="mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../assets/Capelus-icon.ico" />
+    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
   <body>
     <!-- Layout Computer -->
@@ -20,16 +20,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item active">
               <a class="page-text" href="boletim.html">Boletim</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.html">Observações</a>
+              <a class="page-text" href="observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -46,12 +46,12 @@
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../assets/notificao-icon.svg"
+              src="../../assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
               class="icon m-3"
-              src="../assets/mensagens-icon.svg"
+              src="../../assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">

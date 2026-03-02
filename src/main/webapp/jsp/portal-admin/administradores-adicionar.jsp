@@ -8,10 +8,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../../css/admin/administradores-editar.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/admin/administradores-adicionar.css" />
     <script src="mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../assets/Capelus-icon.ico" />
+    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
   <body>
     <!-- Layout Computer -->
@@ -20,15 +20,15 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item active">
-              <a class="page-text" href="administradores.html"
+              <a class="page-text" href="administradores.jsp"
                 >Administradores</a
               >
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="alunos.html">Alunos</a>
+              <a class="page-text" href="alunos.jsp">Alunos</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="professores.html"
+              <a class="page-text" href="professores.jsp"
                 >Professores</a
               >
             </li>
@@ -47,16 +47,16 @@
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../assets/notificao-icon.svg"
+              src="../../assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
               class="icon m-3"
-              src="../assets/mensagens-icon.svg"
+              src="../../assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
+              <p class="fs-4 fw-bold text-secondary">ADM</p>
             </div>
             <p class="m-3 mt-4 fs-5 fw-bold text-primary">Ryan Cursino</p>
           </div>
@@ -78,19 +78,6 @@
                 <div class="d-flex flex-column">
                   <div class="linha-cima d-flex">
                     <div class="campo d-flex flex-column">
-                      <label for="primeiro-semestre">Id:</label>
-                      <input type="text" id="turma-id" required disabled />
-                    </div>
-                    <div class="campo d-flex flex-column">
-                      <label for="primeiro-semestre">Contrato:</label>
-                      <input
-                        type="text"
-                        id="turma-id"
-                        required
-                        disabled
-                      />
-                    </div>
-                    <div class="campo d-flex flex-column">
                       <label for="turma-id">Administrador:</label>
                       <input
                         type="text"
@@ -99,8 +86,6 @@
                         required
                       />
                     </div>
-                  </div>
-                  <div class="linha-baixo d-flex mt-3">
                     <div class="campo d-flex flex-column">
                       <label for="primeiro-semestre">Usuário:</label>
                       <input
@@ -119,6 +104,8 @@
                         required
                       />
                     </div>
+                  </div>
+                  <div class="linha-baixo d-flex mt-3">
                     <div class="campo d-flex flex-column">
                       <label for="media">Senha:</label>
                       <input
@@ -133,11 +120,11 @@
 
                 <div class="opcoes d-flex">
                   <div class="save-container">
-                    <button class="save" type="submit">Salvar</button>
+                    <button class="save" type="submit">Criar</button>
                   </div>
 
                   <div class="return-button">
-                    <a href="administradores.html">Cancelar</a>
+                    <a href="administradores.jsp">Cancelar</a>
                   </div>
                 </div>
               </form>

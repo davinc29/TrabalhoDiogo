@@ -2,14 +2,34 @@ package com.dto;
 
 public class ObservacaoViewDTO {
 
+    private String nomeAluno;
+    private String turmaAno;
     private String nomeDisciplina;
     private String nomeProfessor;
     private String observacao;
 
-    public ObservacaoViewDTO(String nomeDisciplina, String nomeProfessor, String observacao) {
+    public ObservacaoViewDTO(String nomeAluno, String turmaAno, String nomeDisciplina, String nomeProfessor, String observacao) {
+        this.turmaAno = turmaAno;
+        this.nomeAluno = nomeAluno;
         this.nomeDisciplina = nomeDisciplina;
         this.nomeProfessor = nomeProfessor;
         this.observacao = observacao;
+    }
+
+    public String getNomeAluno() {
+        return nomeAluno;
+    }
+
+    public void setNomeAluno(String nomeAluno) {
+        this.nomeAluno = nomeAluno;
+    }
+
+    public String getTurmaAno() {
+        return turmaAno;
+    }
+
+    public void setTurmaAno(String turmaAno) {
+        this.turmaAno = turmaAno;
     }
 
     public String getNomeDisciplina() {
@@ -38,8 +58,10 @@ public class ObservacaoViewDTO {
 
     @Override
     public String toString() {
-        return "ObservacoesViewDTO{" +
-                "nomeDisciplina='" + nomeDisciplina + '\'' +
+        return "ObservacaoViewDTO{" +
+                "nomeAluno='" + nomeAluno + '\'' +
+                ", turmaAno='" + turmaAno + '\'' +
+                ", nomeDisciplina='" + nomeDisciplina + '\'' +
                 ", nomeProfessor='" + nomeProfessor + '\'' +
                 ", observacao='" + observacao + '\'' +
                 '}';

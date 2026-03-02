@@ -8,10 +8,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
     <link rel="stylesheet" href="../../css/admin/alunos-editar.css" />
     <script src="mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../assets/Capelus-icon.ico" />
+    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
   </head>
   <body>
     <!-- Layout Computer -->
@@ -22,15 +22,15 @@
             <li class="page-item can-hover">
               <a
                 class="page-text"
-                href="administradores.html"
+                href="administradores.jsp"
                 >Administradores</a
               >
             </li>
             <li class="page-item active">
-              <a class="page-text" href="alunos.html">Alunos</a>
+              <a class="page-text" href="alunos.jsp">Alunos</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="professores.html"
+              <a class="page-text" href="professores.jsp"
                 >Professores</a
               >
             </li>
@@ -49,16 +49,16 @@
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../assets/notificao-icon.svg"
+              src="../../assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
               class="icon m-3"
-              src="../assets/mensagens-icon.svg"
+              src="../../assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
+              <p class="fs-4 fw-bold text-secondary">ADM</p>
             </div>
             <p class="m-3 mt-4 fs-5 fw-bold text-primary">Ryan Cursino</p>
           </div>
@@ -134,7 +134,7 @@
                   </div>
 
                   <div class="return-button">
-                    <a href="alunos.html">Cancelar</a>
+                    <a href="alunos.jsp">Cancelar</a>
                   </div>
                 </div>
               </form>

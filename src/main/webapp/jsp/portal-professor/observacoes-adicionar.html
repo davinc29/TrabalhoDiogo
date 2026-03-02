@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -8,10 +9,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/portal-professor/observacoes-adicionar.css" />
-    <script src="../javascript/mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../assets/Capelus-icon.ico">
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/portal-professor/observacoes-adicionar.css" />
+    <script src="../../javascript/mobile-navbar.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico">
   </head>
   <body>
     <!-- Layout Computer -->
@@ -20,16 +21,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="home.jsp">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="notas.html">Notas</a>
+              <a class="page-text" href="notas.jsp">Notas</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="observacoes.html">Observações</a>
+              <a class="page-text" href="observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -46,12 +47,12 @@
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../assets/notificao-icon.svg"
+              src="../../assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
               class="icon m-3"
-              src="../assets/mensagens-icon.svg"
+              src="../../assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
@@ -72,10 +73,10 @@
               <button>Aplicar Filtro</button>
             </div>
             <div class="add-button ms-4">
-              <a href="observacoes-cadastro.html">+ Adicionar</a>
+              <a href="observacoes-cadastro.jsp">+ Adicionar</a>
             </div>
             <div class="return-button ms-4">
-              <a href="observacoes.html">< Voltar</a>
+              <a href="observacoes.jsp">< Voltar</a>
             </div>
           </div>
 
@@ -108,22 +109,44 @@
                     HA HA HAH AH AH AHHA HA HAH AH HA
                   </p>
                 </td>
-                <td>
-                  <a href="observacoes-editar.html">
-                    <img
+                <td class="action-box">
+                  <form
+                    action="${pageContext.request.contextPath}/area-restrita/planos"
+                    method="get"
+                  >
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="<%= plano.getId() %>"
+                    />
+                    <input type="hidden" name="action" value="update" />
+                    <button type="submit" class="action-btn">
+                      <img
                       class="table-icon"
-                      src="../assets/editar.svg"
+                      src="../../assets/editar.svg"
                       alt="Editar Icon"
                     />
-                  </a>
-                  <a href="#">
-                    <img
+                    </button>
+                  </form>
+                  <form
+                    action="${pageContext.request.contextPath}/area-restrita/planos"
+                    method="post"
+                    onsubmit="confirmarDelete(event)"
+                  >
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="<%= plano.getId() %>"
+                    />
+                    <input type="hidden" name="action" value="delete" />
+                    <button type="submit" class="action-btn">
+                      <img
                       class="table-icon"
-                      style="margin-left: 30px"
-                      src="../assets/apagar.svg"
+                      src="../../assets/apagar.svg"
                       alt="Deletar Icon"
                     />
-                  </a>
+                    </button>
+                  </form>
                 </td>
               </tr>
             </table>

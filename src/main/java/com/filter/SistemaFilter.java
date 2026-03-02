@@ -13,7 +13,7 @@ import java.io.IOException;
 
 // Servlet para filtrar o acesso a páginas JSP do portal-professor, uma vez que não estamos utilizando WEB-INF
 
-@WebFilter(filterName = "sistema-filter", urlPatterns = "/*")
+@WebFilter(filterName = "sistema-filter", urlPatterns = "/jsp/*")
 public class SistemaFilter extends HttpFilter {
 
     private static final String PAGINA_LOGIN = "/index.jsp";
