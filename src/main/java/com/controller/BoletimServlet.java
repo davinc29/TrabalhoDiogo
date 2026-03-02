@@ -2,10 +2,12 @@ package com.controller;
 
 import com.dao.AlunoDAO;
 import com.dao.BoletimDAO;
+import com.dao.DisciplinaDAO;
 import com.dto.AlunoViewDTO;
 import com.dto.BoletimViewDTO;
 import com.exception.ExcecaoDeJSP;
 import com.model.Boletim;
+import com.model.Disciplina;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,23 +18,21 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @WebServlet("/boletim")
 public class BoletimServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/notas.jsp";
+    private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/notas-adicionar.jsp";
     private static final String PAGINA_PRINCIPAL_ALUNO = "/jsp/portal-aluno/boletim.jsp";
-    private static final String PAGINA_CADASTRO = "/jsp/portal-professor/notas-cadastrar.jsp";
+    private static final String PAGINA_CADASTRO = "/jsp/portal-professor/notas-cadastro.jsp";
     private static final String PAGINA_EDICAO = "/jsp/portal-professor/notas-editar.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        String usuario = req.getParameter("usuario").trim();
-
-        action = (action == null ? "read" : action.trim());
+        String action = req.getParameter("action").trim();
 
         boolean erro = true;
         String destino = null;
@@ -42,19 +42,22 @@ public class BoletimServlet extends HttpServlet {
                 case "read" -> {
                     String idAluno = req.getParameter("id_aluno");
                     List<BoletimViewDTO> boletins = new ArrayList<>();
+                    AlunoViewDTO aluno = null;
 
                     if (!idAluno.isEmpty()) {
                         idAluno = idAluno.trim();
                         UUID idAlunoUuid = UUID.fromString(idAluno);
 
                         boletins = listarPorAluno(idAlunoUuid);
+                        aluno = listarAlunoPorId(req);
                     }
 
+                    req.setAttribute("aluno", aluno);
                     req.setAttribute("boletins", boletins);
 
-                    destino = (usuario.equals("professor") ? PAGINA_PRINCIPAL_PROFESSOR : PAGINA_PRINCIPAL_ALUNO);
+                    destino = PAGINA_PRINCIPAL_PROFESSOR;
+                    erro = false;
                 }
-
                 case "create" -> {
                     AlunoViewDTO aluno = listarAlunoPorId(req);
 
@@ -64,13 +67,16 @@ public class BoletimServlet extends HttpServlet {
                 }
 
                 case "update" -> {
+                    Map<String, Integer> mapNomeId = mapNomeId();
                     AlunoViewDTO aluno = listarAlunoPorId(req);
                     Boletim boletim = pesquisarPorId(req);
 
+                    req.setAttribute("mapNomeId", mapNomeId);
                     req.setAttribute("aluno", aluno);
                     req.setAttribute("boletim", boletim);
 
                     destino = PAGINA_EDICAO;
+
                 }
             }
 
@@ -99,18 +105,50 @@ public class BoletimServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action").trim();
+        String usuario = req.getParameter("usuario").trim();
 
+        boolean erro = true;
         String destino = PAGINA_ERRO;
 
         try {
             switch (action) {
-                case "create" -> cadastrar(req);
-                case "update" -> atualizar(req);
-                case "delete" -> deletar(req);
+                case "read" -> {
+                    String idAluno = req.getParameter("id_aluno");
+                    List<BoletimViewDTO> boletins = new ArrayList<>();
+                    AlunoViewDTO aluno = null;
+
+                    if (!idAluno.isEmpty()) {
+                        idAluno = idAluno.trim();
+                        UUID idAlunoUuid = UUID.fromString(idAluno);
+
+                        boletins = listarPorAluno(idAlunoUuid);
+                        aluno = listarAlunoPorId(req);
+                    }
+
+                    req.setAttribute("aluno", aluno);
+                    req.setAttribute("boletins", boletins);
+
+                    destino = (usuario.equals("professor") ? PAGINA_PRINCIPAL_PROFESSOR : PAGINA_PRINCIPAL_ALUNO);
+                    erro = false;
+                }
+                case "create" -> {
+                    cadastrar(req);
+                    destino = PAGINA_PRINCIPAL_PROFESSOR;
+                    erro = false;
+                }
+                case "update" -> {
+                    atualizar(req);
+                    String idAluno = req.getParameter("id_aluno");
+                    destino = "/boletim?action=read&usuario=professor&id_aluno="+idAluno;
+                    erro = false;
+                }
+                case "delete" -> {
+                    deletar(req);
+                    destino = PAGINA_PRINCIPAL_PROFESSOR;
+                    erro = false;
+                }
                 default -> throw new RuntimeException("valor inválido para o parâmetro 'action': " + action);
             }
-
-            destino = req.getServletPath();
 
         }
         // Se houver alguma exceção de JSP, aciona o método doGet
@@ -132,7 +170,11 @@ public class BoletimServlet extends HttpServlet {
             e.printStackTrace(System.err);
         }
 
-        resp.sendRedirect(req.getContextPath() + destino);
+        if (erro || !action.equals("read")) {
+            resp.sendRedirect(req.getContextPath() + destino);
+        } else {
+            req.getRequestDispatcher(destino).forward(req, resp);
+        }
     }
 
     public void cadastrar(HttpServletRequest req) throws SQLException, ClassNotFoundException, ExcecaoDeJSP{
@@ -148,9 +190,7 @@ public class BoletimServlet extends HttpServlet {
         temp = req.getParameter("nota2");
         Double nota2 = (temp != null && !temp.isBlank() ? Double.parseDouble(temp.trim()) : null);
 
-        Double media = (nota1 == null || nota2 == null ? null : (nota1+nota2)/2);
-
-        Boletim boletim = new Boletim(nota1, nota2, media, idAluno, idDisciplina);
+        Boletim boletim = new Boletim(nota1, nota2, idAluno, idDisciplina);
 
         try (BoletimDAO dao = new BoletimDAO()) {
             dao.cadastrar(boletim);
@@ -159,7 +199,7 @@ public class BoletimServlet extends HttpServlet {
 
     public void atualizar(HttpServletRequest req) throws SQLException, ClassNotFoundException, ExcecaoDeJSP{
         String temp = req.getParameter("id_boletim").trim();
-        UUID idBoletim = UUID.fromString(temp);
+        Integer idBoletim = Integer.parseInt(temp);
 
         temp = req.getParameter("id_aluno").trim();
         UUID idAluno = UUID.fromString(temp);
@@ -173,9 +213,7 @@ public class BoletimServlet extends HttpServlet {
         temp = req.getParameter("nota2");
         Double nota2 = (temp != null && !temp.isBlank() ? Double.parseDouble(temp.trim()) : null);
 
-        Double media = (nota1 == null || nota2 == null ? null : (nota1+nota2)/2);
-
-        Boletim boletimAlterado = new Boletim(idBoletim, nota1, nota2, media, idAluno, idDisciplina);
+        Boletim boletimAlterado = new Boletim(nota1, nota2, idAluno, idDisciplina);
 
         try (BoletimDAO dao = new BoletimDAO()) {
             Boletim boletimOriginal = dao.pesquisarPorId(idBoletim);
@@ -192,20 +230,20 @@ public class BoletimServlet extends HttpServlet {
     }
 
     public void deletar(HttpServletRequest req) throws SQLException, ClassNotFoundException{
-        String idBoletim = req.getParameter("id_boletim");
-        UUID idBoletimUuid = UUID.fromString(idBoletim.trim());
+        String temp = req.getParameter("id_boletim").trim();
+        Integer idBoletim = Integer.parseInt(temp);
 
         try (BoletimDAO dao = new BoletimDAO()) {
-            dao.deletar(idBoletimUuid);
+            dao.deletar(idBoletim);
         }
     }
 
     public Boletim pesquisarPorId(HttpServletRequest req) throws SQLException, ClassNotFoundException{
-        String idBoletim = req.getParameter("id_boletim");
-        UUID idBoletimUuid = UUID.fromString(idBoletim.trim());
+        String temp = req.getParameter("id_boletim").trim();
+        Integer idBoletim = Integer.parseInt(temp);
 
         try (BoletimDAO dao = new BoletimDAO()) {
-            return dao.pesquisarPorId(idBoletimUuid);
+            return dao.pesquisarPorId(idBoletim);
         }
     }
 
@@ -215,6 +253,12 @@ public class BoletimServlet extends HttpServlet {
 
         try (AlunoDAO dao = new AlunoDAO()) {
             return dao.listarAlunoPorId(idAlunoUuid);
+        }
+    }
+
+    public Map<String, Integer> mapNomeId() throws SQLException{
+        try (DisciplinaDAO dao = new DisciplinaDAO()) {
+            return dao.mapNomeId();
         }
     }
 }

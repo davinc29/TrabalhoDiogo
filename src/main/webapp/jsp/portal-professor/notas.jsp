@@ -1,4 +1,50 @@
+<%@ page import="com.dto.ProfessorDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.dto.AlunoViewDTO" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    // Pegando dados diretos do banco
+    ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
+    List<AlunoViewDTO> alunos = (List<AlunoViewDTO>) request.getAttribute("alunos");
+
+    List<AlunoViewDTO> alunos1 = new ArrayList<>();
+    List<AlunoViewDTO> alunos2 = new ArrayList<>();
+    int cont = 1;
+    for (AlunoViewDTO aluno : alunos) {
+        if (cont <= alunos.size()/2) {
+            alunos1.add(aluno);
+        } else {
+            alunos2.add(aluno);
+        }
+        cont++;
+    }
+
+    // Pegando o dia da semana
+    LocalDate hoje = LocalDate.now();
+    Locale brasil = new Locale("pt","BR");
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("EEEE", brasil);
+    String diaSemana = hoje.format(formatador);
+    diaSemana = diaSemana.substring(0, 1).toUpperCase() + diaSemana.substring(1);
+
+    // Pegando o dia de hoje
+    Integer diaNum = hoje.getDayOfMonth();
+
+    // Pegando o mês do ano
+    List<String> meses = List.of("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez");
+    String mes = meses.get(hoje.getMonthValue()-1);
+
+    // Pegando o ano
+    Integer ano = hoje.getYear();
+
+    // Data retornada
+    String data = String.format("%d %s %d", diaNum, mes, ano);
+
+
+%>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -9,10 +55,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/portal-professor/notas.css" />
-    <script src="../../javascript/mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/portal-professor/notas.css" />
+    <script src="${pageContext.request.contextPath}/javascript/mobile-navbar.js"></script>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico">
   </head>
   <body>
     <!-- Layout Computer -->
@@ -21,13 +67,13 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.jsp">Home</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-professor/home.jsp">Home</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="notas.html">Notas</a>
+              <a class="page-text" href="#">Notas</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.jsp">Observações</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/observacoes">Observações</a>
             </li>
             <li class="page-item can-hover">
               <a class="page-text" href="conta.jsp">Conta</a>
@@ -41,24 +87,21 @@
           <div class="lh-1">
             <p class="fs-5 fw-bold">Portal do Professor</p>
             <p class="fs-5 text-primary">
-              <span class="fw-bold">Quarta-Feira</span>, 04 Fev 2026
+              <span class="fw-bold"><%=diaSemana%></span>, <%=data%>
             </p>
           </div>
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../../assets/notificao-icon.svg"
+              src="${pageContext.request.contextPath}/assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
               class="icon m-3"
-              src="../../assets/mensagens-icon.svg"
+              src="${pageContext.request.contextPath}/assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
-            <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
-            </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Rahquel Emídio</p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%=professor.getNome()%></p>
           </div>
         </header>
         <main>
@@ -79,115 +122,55 @@
 
           <div class="cards">
             <div class="coluna-esquerda">
+                <%for (AlunoViewDTO aluno : alunos1) {%>
               <div class="aluno-card d-flex justify-content-between">
                 <div class="aluno-informacoes">
-                  <h2 class="aluno-nome fs-3">Gustavo Kenzo</h2>
+                  <h2 class="aluno-nome fs-3"><%=aluno.getNome()%></h2>
                   <p class="aluno-matricula">
-                    <span class="fw-bold">Matrícula: </span>123456789
+                    <span class="fw-bold">Matrícula: </span><%=aluno.getMatricula()%>
                   </p>
                   <p class="aluno-turma">
-                    <span class="fw-bold">Turma: </span>1ºJ
+                    <span class="fw-bold">Turma: </span><%=aluno.getTurma_ano()%>
                   </p>
                 </div>
                 <div class="aluno-adicionar">
                   <div class="botao-adicionar">
-                    <a href="notas-adicionar.jsp">+</a>
+                      <form action="${pageContext.request.contextPath}/boletim?action=read" method="post">
+                          <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
+                          <input type="hidden" name="usuario" value="professor">
+                          <input type="submit" value="+">
+                      </form>
                   </div>
                   <p class="text-primary">Adicionar Nota</p>
                 </div>
               </div>
-
-              <div class="aluno-card d-flex justify-content-between">
-                <div class="aluno-informacoes">
-                  <h2 class="aluno-nome fs-3">Gustavo Kenzo</h2>
-                  <p class="aluno-matricula">
-                    <span class="fw-bold">Matrícula: </span>123456789
-                  </p>
-                  <p class="aluno-turma">
-                    <span class="fw-bold">Turma: </span>1ºJ
-                  </p>
-                </div>
-                <div class="aluno-adicionar">
-                  <div class="botao-adicionar">
-                    <a href="notas-adicionar.jsp">+</a>
-                  </div>
-                  <p class="text-primary">Adicionar Nota</p>
-                </div>
-              </div>
-
-              <div class="aluno-card d-flex justify-content-between">
-                <div class="aluno-informacoes">
-                  <h2 class="aluno-nome fs-3">Gustavo Kenzo</h2>
-                  <p class="aluno-matricula">
-                    <span class="fw-bold">Matrícula: </span>123456789
-                  </p>
-                  <p class="aluno-turma">
-                    <span class="fw-bold">Turma: </span>1ºJ
-                  </p>
-                </div>
-                <div class="aluno-adicionar">
-                  <div class="botao-adicionar">
-                    <a href="notas-adicionar.jsp">+</a>
-                  </div>
-                  <p class="text-primary">Adicionar Nota</p>
-                </div>
-              </div>
+                <%}%>
             </div>
 
             <div class="coluna-direita">
-              <div class="aluno-card d-flex justify-content-between">
-                <div class="aluno-informacoes">
-                  <h2 class="aluno-nome fs-3">Gustavo Kenzo</h2>
-                  <p class="aluno-matricula">
-                    <span class="fw-bold">Matrícula: </span>123456789
-                  </p>
-                  <p class="aluno-turma">
-                    <span class="fw-bold">Turma: </span>1ºJ
-                  </p>
+                <%for (AlunoViewDTO aluno : alunos2) {%>
+                <div class="aluno-card d-flex justify-content-between">
+                    <div class="aluno-informacoes">
+                        <h2 class="aluno-nome fs-3"><%=aluno.getNome()%></h2>
+                        <p class="aluno-matricula">
+                            <span class="fw-bold">Matrícula: </span><%=aluno.getMatricula()%>
+                        </p>
+                        <p class="aluno-turma">
+                            <span class="fw-bold">Turma: </span><%=aluno.getTurma_ano()%>
+                        </p>
+                    </div>
+                    <div class="aluno-adicionar">
+                        <div class="botao-adicionar">
+                            <form action="${pageContext.request.contextPath}/boletim?action=read" method="post">
+                                <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
+                                <input type="hidden" name="usuario" value="professor">
+                                <input type="submit" value="+">
+                            </form>
+                        </div>
+                        <p class="text-primary">Adicionar Nota</p>
+                    </div>
                 </div>
-                <div class="aluno-adicionar">
-                  <div class="botao-adicionar">
-                    <a href="notas-adicionar.jsp">+</a>
-                  </div>
-                  <p class="text-primary">Adicionar Nota</p>
-                </div>
-              </div>
-
-              <div class="aluno-card d-flex justify-content-between">
-                <div class="aluno-informacoes">
-                  <h2 class="aluno-nome fs-3">Gustavo Kenzo</h2>
-                  <p class="aluno-matricula">
-                    <span class="fw-bold">Matrícula: </span>123456789
-                  </p>
-                  <p class="aluno-turma">
-                    <span class="fw-bold">Turma: </span>1ºJ
-                  </p>
-                </div>
-                <div class="aluno-adicionar">
-                  <div class="botao-adicionar">
-                    <a href="notas-adicionar.jsp">+</a>
-                  </div>
-                  <p class="text-primary">Adicionar Nota</p>
-                </div>
-              </div>
-
-              <div class="aluno-card d-flex justify-content-between">
-                <div class="aluno-informacoes">
-                  <h2 class="aluno-nome fs-3">Gustavo Kenzo</h2>
-                  <p class="aluno-matricula">
-                    <span class="fw-bold">Matrícula: </span>123456789
-                  </p>
-                  <p class="aluno-turma">
-                    <span class="fw-bold">Turma: </span>1ºJ
-                  </p>
-                </div>
-                <div class="aluno-adicionar">
-                  <div class="botao-adicionar">
-                    <a href="notas-adicionar.jsp">+</a>
-                  </div>
-                  <p class="text-primary">Adicionar Nota</p>
-                </div>
-              </div>
+                <%}%>
             </div>
           </div>
         </main>

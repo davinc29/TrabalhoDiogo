@@ -8,10 +8,8 @@ import com.utils.SenhaUtils;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.sql.Statement;
+import java.util.*;
 
 public class DisciplinaDAO extends DAO{
 
@@ -172,5 +170,28 @@ public class DisciplinaDAO extends DAO{
 
         conn.commit();
         return disciplina;
+    }
+
+    public Map<String, Integer> mapNomeId() throws SQLException{
+        String sql = """
+                SELECT
+                    id,
+                    nome
+                FROM
+                    disciplina
+                """;
+
+        Map<String, Integer> mapNomeId = new HashMap<>();
+
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while(rs.next()) {
+                String nome = rs.getString("nome");
+                Integer id = rs.getInt("id");
+
+                mapNomeId.put(nome, id);
+            }
+        }
+
+        return mapNomeId;
     }
 }
