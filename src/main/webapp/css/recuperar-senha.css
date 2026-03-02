@@ -1,0 +1,179 @@
+/* ===================================================
+   recuperar-senha.css
+   Usado em: solicitar.jsp, validar-codigo.jsp,
+             redefinir-senha.jsp, sucesso.jsp
+   =================================================== */
+
+/* ---------- BODY ---------- */
+body {
+    background-image: url(../../assets/login-waves.svg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---------- CARD CENTRAL ---------- */
+.card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 5px 5px 16px rgba(0, 0, 0, 0.12);
+    padding: 48px 48px 40px;
+    width: 100%;
+    max-width: 440px;
+}
+
+/* ---------- TÍTULO ---------- */
+.card h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 8px;
+}
+
+/* ---------- SUBTÍTULO / DESCRIÇÃO ---------- */
+.subtitulo {
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+/* ---------- MENSAGEM DE ERRO ---------- */
+.erro {
+    background-color: #fde8eb;
+    border-left: 4px solid #CC2a41;
+    color: #CC2a41;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    margin-bottom: 20px;
+}
+
+/* ---------- GRUPO DE CAMPO ---------- */
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.campo-grupo label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.campo-grupo input {
+    height: 48px;
+    border-radius: 10px;
+    border: 1.5px solid #ced4da;
+    padding: 0 14px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+    color: #212529;
+}
+
+.campo-grupo input:focus {
+    border-color: #CC2a41;
+    box-shadow: 0 0 0 3px rgba(204, 42, 65, 0.15);
+}
+
+/* ---------- INPUT DE CÓDIGO (6 dígitos) ---------- */
+.input-codigo {
+    font-size: 1.6rem !important;
+    letter-spacing: 0.4em;
+    text-align: center;
+    font-weight: 600;
+    color: #212529;
+}
+
+/* ---------- BOTÃO PRINCIPAL ---------- */
+.btn-primary {
+    display: block;
+    width: 100%;
+    height: 48px;
+    background-color: #CC2a41;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #b52439;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    background-color: #e0a0aa;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ---------- LINK DE VOLTAR ---------- */
+.link-voltar {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.link-voltar a {
+    color: #CC2a41;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: opacity 0.15s ease;
+}
+
+.link-voltar a:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+}
+
+/* ---------- TELA DE SUCESSO ---------- */
+.card-sucesso {
+    text-align: center;
+}
+
+.card-sucesso .icone-sucesso {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+}
+
+.card-sucesso h1 {
+    color: #198754;
+}
+
+.card-sucesso p {
+    color: #6c757d;
+    margin: 12px 0 28px;
+    line-height: 1.6;
+}
+
+/* ---------- RESPONSIVO (MOBILE) ---------- */
+@media (max-width: 576px) {
+    body {
+        background-image: none;
+        align-items: flex-start;
+        padding-top: 40px;
+    }
+
+    .card {
+        border-radius: 0;
+        box-shadow: none;
+        padding: 32px 24px;
+        min-height: 100vh;
+    }
+}
