@@ -58,7 +58,7 @@
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
+              <p class="fs-4 fw-bold text-secondary">ADM</p>
             </div>
             <p class="m-3 mt-4 fs-5 fw-bold text-primary">Ryan Cursino</p>
           </div>

@@ -20,23 +20,21 @@ public class BoletimDAO extends DAO{
     public void cadastrar(Boletim boletim) throws SQLException {
         Double nota1 = boletim.getNota1();
         Double nota2 = boletim.getNota2();
-        Double media = boletim.getMedia();
         UUID idAluno = boletim.getIdAluno();
         Integer idDisciplina = boletim.getIdDisciplina();
 
         String sql = """
                 INSERT INTO
-                    boletim (nota1, nota2, media, id_aluno, id_disciplina)
+                    boletim (nota1, nota2, id_aluno, id_disciplina)
                 VALUES
-                    (?,?,?,?,?)
+                    (?,?,?,?)
                 """;
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1,nota1);
             pstmt.setDouble(2,nota2);
-            pstmt.setDouble(3,media);
-            pstmt.setObject(5,idAluno);
-            pstmt.setInt(6,idDisciplina);
+            pstmt.setObject(3,idAluno);
+            pstmt.setInt(4,idDisciplina);
 
             pstmt.execute();
 
@@ -47,10 +45,14 @@ public class BoletimDAO extends DAO{
         }
     }
 
-    public Boletim pesquisarPorId(UUID id) throws SQLException{
+    public Boletim pesquisarPorId(Integer id) throws SQLException{
         String sql = """
                 SELECT
-                    * except (id)
+                    nota1,
+                    nota2,
+                    media,
+                    id_aluno,
+                    id_disciplina
                 FROM
                     boletim
                 WHERE
@@ -60,21 +62,18 @@ public class BoletimDAO extends DAO{
         Boletim boletim = null;
 
         try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setObject(1,id);
+            pstmt.setInt(1,id);
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String idBoletimString = String.valueOf(rs.getObject("id"));
-                UUID idBoletim = UUID.fromString(idBoletimString);
-
                 Double nota1 = rs.getDouble("nota1");
                 Double nota2 = rs.getDouble("nota2");
                 Double media = rs.getDouble("media");
                 UUID idAluno = rs.getObject("id_aluno", UUID.class);
                 Integer idDisciplina = rs.getInt("id_disciplina");
 
-                boletim = new Boletim(idBoletim, nota1, nota2, media, idAluno, idDisciplina);
+                boletim = new Boletim(id, nota1, nota2, media, idAluno, idDisciplina);
             }
         } catch (SQLException e) {
             conn.rollback();
@@ -89,12 +88,12 @@ public class BoletimDAO extends DAO{
 
         String sql = """
                 SELECT
-                    b.id as id_boletim
+                    b.id as id_boletim,
                     a.matricula as matricula,
                     d.nome as nome_disciplina,
                     b.nota1 as nota1,
                     b.nota2 as nota2,
-                    b.media as media,
+                    b.media as media
                 FROM
                     boletim b
                 JOIN
@@ -115,9 +114,7 @@ public class BoletimDAO extends DAO{
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String idBoletimString = String.valueOf(rs.getObject("id_boletim"));
-                UUID idBoletim = UUID.fromString(idBoletimString);
-
+                Integer idBoletim = rs.getInt("id_boletim");
                 Integer matricula = rs.getInt("matricula");
                 String nomeDisciplina = rs.getString("nome_disciplina");
                 Double nota1 = rs.getDouble("nota1");
@@ -148,7 +145,7 @@ public class BoletimDAO extends DAO{
     }
 
     public void atualizar(Boletim original, Boletim atualizado) throws SQLException{
-        UUID id = original.getId();
+        Integer id = original.getId();
         Double nota1 = atualizado.getNota1();
         Double nota2 = atualizado.getNota2();
         Double media = atualizado.getMedia();
@@ -163,10 +160,6 @@ public class BoletimDAO extends DAO{
         if (!Objects.equals(nota2, original.getNota2())) {
             sql.append("nota2 = ?, ");
             valores.add(nota2);
-        }
-        if (!Objects.equals(media, original.getMedia())) {
-            sql.append("media = ?, ");
-            valores.add(media);
         }
 
         if (valores.isEmpty()) {
@@ -191,7 +184,7 @@ public class BoletimDAO extends DAO{
         }
     }
 
-    public void deletar(UUID id) throws SQLException{
+    public void deletar(Integer id) throws SQLException{
         String sql = """
                 DELETE FROM
                     boletim
@@ -200,7 +193,7 @@ public class BoletimDAO extends DAO{
                 """;
 
         try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setObject(1,id);
+            pstmt.setInt(1,id);
 
             pstmt.executeUpdate();
 
@@ -209,5 +202,47 @@ public class BoletimDAO extends DAO{
             conn.rollback();
             throw e;
         }
+    }
+
+    public List<String> notasPendentes(UUID idProfessor) throws SQLException{
+        String sql = """
+                SELECT
+                    d.nome as nome_disciplina,
+                    p2.turma_ano as turma_ano
+                FROM
+                    disciplina d
+                JOIN
+                    professor p
+                    ON p.id = d.id_professor
+                JOIN
+                    boletim b
+                    ON b.id_disciplina = d.id
+                JOIN
+                    aluno a
+                    ON a.id = b.id_aluno
+                JOIN
+                    pre_matricula p2
+                    ON p2.matricula = a.matricula
+                WHERE
+                    p.id = ? AND
+                    (b.nota1 is null or b.nota2 is null)
+                """;
+
+        List<String> notasPendentes = new ArrayList<>();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setObject(1, idProfessor);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String nomeDisciplina = rs.getString("nome_disciplina");
+                    String turmaAno = rs.getString("turma_ano");
+
+                    notasPendentes.add(String.format("%s - Turma: %s", nomeDisciplina, turmaAno));
+                }
+            }
+        }
+
+        return notasPendentes;
     }
 }

@@ -109,22 +109,44 @@
                     HA HA HAH AH AH AHHA HA HAH AH HA
                   </p>
                 </td>
-                <td>
-                  <a href="observacoes-editar.jsp">
-                    <img
-                      class="table-icon"
-                      src="../../assets/editar.svg"
-                      alt="Editar Icon"
+                <td class="action-box">
+                  <form
+                    action="${pageContext.request.contextPath}/area-restrita/planos"
+                    method="get"
+                  >
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="<%= plano.getId() %>"
                     />
-                  </a>
-                  <a href="#">
-                    <img
+                    <input type="hidden" name="action" value="update" />
+                    <button type="submit" class="action-btn">
+                      <img
+                          class="table-icon"
+                          src="../../assets/editar.svg"
+                          alt="Editar Icon"
+                    />
+                    </button>
+                  </form>
+                  <form
+                    action="${pageContext.request.contextPath}/area-restrita/planos"
+                    method="post"
+                    onsubmit="confirmarDelete(event)"
+                  >
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="<%= plano.getId() %>"
+                    />
+                    <input type="hidden" name="action" value="delete" />
+                    <button type="submit" class="action-btn">
+                      <img
                       class="table-icon"
-                      style="margin-left: 30px"
                       src="../../assets/apagar.svg"
                       alt="Deletar Icon"
                     />
-                  </a>
+                    </button>
+                  </form>
                 </td>
               </tr>
             </table>
