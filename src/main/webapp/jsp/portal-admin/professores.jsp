@@ -9,7 +9,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/admin/professores.css" />
+    <link rel="stylesheet" href="../../css/portal-admin/professores.css" />
     <script src="mobile-navbar.js"></script>
     <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico">
   </head>
@@ -131,22 +131,44 @@
                 <td>
                   <p>SenhaSecreta123</p>
                 </td>
-                <td>
-                  <a href="professores-editar.jsp">
-                    <img
+                <td class="action-box">
+                  <form
+                    action="${pageContext.request.contextPath}/area-restrita/planos"
+                    method="get"
+                  >
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="<%= plano.getId() %>"
+                    />
+                    <input type="hidden" name="action" value="update" />
+                    <button type="submit" class="action-btn">
+                      <img
                       class="table-icon"
                       src="../../assets/editar.svg"
                       alt="Editar Icon"
                     />
-                  </a>
-                  <a href="#">
-                    <img
+                    </button>
+                  </form>
+                  <form
+                    action="${pageContext.request.contextPath}/area-restrita/planos"
+                    method="post"
+                    onsubmit="confirmarDelete(event)"
+                  >
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="<%= plano.getId() %>"
+                    />
+                    <input type="hidden" name="action" value="delete" />
+                    <button type="submit" class="action-btn">
+                      <img
                       class="table-icon"
-                      style="margin-left: 30px"
                       src="../../assets/apagar.svg"
                       alt="Deletar Icon"
                     />
-                  </a>
+                    </button>
+                  </form>
                 </td>
               </tr>
             </table>

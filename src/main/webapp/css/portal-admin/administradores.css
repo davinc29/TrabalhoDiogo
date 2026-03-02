@@ -152,11 +152,6 @@ ul{
     font-size: 20px;
 }
 
-.table-icon{
-    width: 20px;
-    margin-left: 10px;
-}
-
 .tabela-notas th{
     padding-bottom: 20px;
 }
@@ -166,4 +161,18 @@ ul{
     border-bottom-width: 1px;
     border-color: #aaaaaa;
     align-items: center;
+}
+
+.action-box{
+    display: flex;
+    justify-content: space-around;
+}
+
+.action-btn{
+    background-color: transparent;
+    border-style: none;
+}
+
+.table-icon{
+    width: 20px;
 }
