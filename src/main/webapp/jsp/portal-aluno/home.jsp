@@ -1,3 +1,57 @@
+<%@ page import="com.dto.AlunoViewDTO" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.dao.ObservacaoDAO" %>
+<%@ page import="com.dto.ObservacaoViewDTO" %>
+<%@ page import="com.dao.BoletimDAO" %>
+<%@ page import="com.dto.BoletimViewDTO" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    // Pegando dados diretos do banco
+    AlunoViewDTO aluno = (AlunoViewDTO) session.getAttribute("usuario");
+
+    //Nome 2L
+    String nomeInteiro = aluno.getNome();
+    String[] partesNome = nomeInteiro.split(" ");
+    char letra1nome = partesNome[0].charAt(0);
+    char letra2nome = partesNome[1].charAt(0);
+
+    String nome2L = "" + letra1nome + letra2nome;
+
+
+    //Pegando Observações do Aluno
+    ObservacaoDAO observacaoDAO = new ObservacaoDAO();
+    List<ObservacaoViewDTO> observacoes = observacaoDAO.listarPorAluno(aluno.getIdAluno());
+
+    BoletimDAO boletimDAO = new BoletimDAO();
+    List<BoletimViewDTO> boletim = boletimDAO.listarPorAluno(aluno.getIdAluno());
+
+    // Pegando o dia da semana
+    LocalDate hoje = LocalDate.now();
+    Locale brasil = new Locale("pt","BR");
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("EEEE", brasil);
+    String diaSemana = hoje.format(formatador);
+    diaSemana = diaSemana.substring(0, 1).toUpperCase() + diaSemana.substring(1);
+
+    // Pegando o dia de hoje
+    Integer diaNum = hoje.getDayOfMonth();
+
+    // Pegando o mês do ano
+    List<String> meses = List.of("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez");
+    String mes = meses.get(hoje.getMonthValue()-1);
+
+    // Pegando o ano
+    Integer ano = hoje.getYear();
+
+    // Data retornada
+    String data = String.format("%d %s %d", diaNum, mes, ano);
+
+
+%>
+
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -8,10 +62,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/portal-aluno/home.css" />
-    <script src="mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/portal-aluno/home.css" />
+    <script src="${pageContext.request.contextPath}/mobile-navbar.js"></script>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico" />
   </head>
   <body>
     <!-- Layout Computer -->
@@ -20,16 +74,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item active">
-              <a class="page-text" href="home.html">Home</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-aluno/home.html">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="boletim.jsp">Boletim</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-aluno/boletim.jsp">Boletim</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.jsp">Observações</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/observacoes.jsp">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.jsp">Conta</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -40,139 +94,160 @@
           <div class="lh-1">
             <p class="fs-5 fw-bold">Portal do Estudante</p>
             <p class="fs-5 text-primary">
-              <span class="fw-bold">Quarta-Feira</span>, 04 Fev 2026
+                <span class="fw-bold"><%=diaSemana%></span>, <%=data%>
             </p>
           </div>
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../../assets/notificao-icon.svg"
+              src="${pageContext.request.contextPath}/assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
               class="icon m-3"
-              src="../../assets/mensagens-icon.svg"
+              src="${pageContext.request.contextPath}/assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
+              <p class="fs-4 fw-bold text-secondary"><%=nome2L%></p>
             </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Gustavo Kenzo</p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%= aluno.getNome() %></p>
           </div>
         </header>
         <main>
           <div class="box-one d-flex justify-content-between mb-5">
             <div class="ms-5">
-              <h1 class="fs-1 fw-bold">Olá, Gustavo!</h1>
+              <h1 class="fs-1 fw-bold">Olá, <%= aluno.getNome() %></h1>
               <p class="fs-3">
                 Pronto para começar seu dia com alguns<br />feedbacks?
               </p>
             </div>
             <img
               class="teacher"
-              src="../assets/professor-figure.svg"
+              src="${pageContext.request.contextPath}/assets/Professor-figure.svg"
               alt="Professora figure"
             />
           </div>
 
           <div class="box-container d-flex justify-content-around">
-            <div class="box-two">
-              <h2 class="fs-4 fw-bold text-center">Observações Gerais</h2>
-              <div class="turma-container d-flex">
-                <div class="coluna-esquerda">
-                  <div class="turma-box">
-                    <h3 class="correction-text">John Jonas - Português</h3>
-                    <p class="correction-text">Amassou d++++++++++++</p>
+              <div class="box-two">
+                  <h2 class="fs-4 fw-bold text-center">Observações Gerais</h2>
+                  <div class="turma-container d-flex">
+                      <%
+                          if (observacoes != null && !observacoes.isEmpty()) {
+                              int limite = Math.min(observacoes.size(), 4);
+                      %>
+                      <!-- COLUNA ESQUERDA -->
+                      <div class="coluna-esquerda">
+                          <%
+                              for (int i = 0; i < limite; i++) {
+                                  if (i % 2 == 0) {
+                                      ObservacaoViewDTO obs = observacoes.get(i);
+                          %>
+                          <div class="turma-box">
+                              <h3 class="correction-text">
+                                  <%= obs.getNomeProfessor() %> - <%= obs.getNomeDisciplina() %>
+                              </h3>
+                              <p class="correction-text">
+                                  <%= obs.getObservacao() %>
+                              </p>
+                          </div>
+                          <%
+                                  }
+                              }
+                          %>
+                      </div>
+                      <!-- COLUNA DIREITA -->
+                      <div class="coluna-direita">
+                          <%
+                              for (int i = 0; i < limite; i++) {
+                                  if (i % 2 != 0) {
+                                      ObservacaoViewDTO obs = observacoes.get(i);
+                          %>
+                          <div class="turma-box">
+                              <h3 class="correction-text">
+                                  <%= obs.getNomeProfessor() %> - <%= obs.getNomeDisciplina() %>
+                              </h3>
+                              <p class="correction-text">
+                                  <%= obs.getObservacao() %>
+                              </p>
+                          </div>
+                          <%
+                                  }
+                              }
+                          %>
+                      </div>
+                      <%
+                      } else {
+                      %>
+                      <p class="text-center">Nenhuma observação encontrada.</p>
+                      <%
+                          }
+                      %>
                   </div>
-                  <div class="turma-box">
-                    <h3 class="correction-text">John Jonas - Português</h3>
-                    <p class="correction-text">Amassou d++++++++++++</p>
+                  <div class="d-flex justify-content-end me-4">
+                      <a
+                              href="${pageContext.request.contextPath}/observacoes.jsp"
+                              class="text-decoration-none"
+                              style="color: black"
+                      >
+                          Ver mais >
+                      </a>
                   </div>
-                </div>
-
-                <div class="coluna-direita">
-                  <div class="turma-box">
-                    <h3 class="correction-text">John Jonas - Português</h3>
-                    <p class="correction-text">Amassou d++++++++++++</p>
-                  </div>
-                  <div class="turma-box">
-                    <h3 class="correction-text">John Jonas - Português</h3>
-                    <p class="correction-text">Amassou d++++++++++++</p>
-                  </div>
-                </div>
               </div>
 
-              <div class="d-flex justify-content-end me-4">
-                <a
-                  href="observacoes.jsp"
-                  class="text-decoration-none"
-                  style="color: black"
-                  >Ver mais ></a
-                >
+              <div class="box-column w-50 ms-4">
+                  <div class="box-three">
+                      <h2 class="fs-4 fw-bold text-center">
+                          Boletim
+                      </h2>
+                      <div class="d-flex tabela-container">
+                          <table class="tabela-notas">
+                              <tr>
+                                  <th>Disciplina</th>
+                                  <th>Nota 1</th>
+                                  <th>Nota 2</th>
+                                  <th>Média</th>
+                                  <th>Situação</th>
+                              </tr>
+                              <%
+                                  if (boletim != null && !boletim.isEmpty()) {
+                                      int limite = Math.min(boletim.size(), 2);
+                                      for (int i = 0; i < limite; i++) {
+                                          BoletimViewDTO b = boletim.get(i);
+                              %>
+                              <tr>
+                                  <td><p><%= b.getNomeDisciplina() %></p></td>
+                                  <td><p><%= b.getNota1() %></p></td>
+                                  <td><p><%= b.getNota2() %></p></td>
+                                  <td><p><%= b.getMedia() %></p></td>
+                                  <td><p><%= b.getSituacao() %></p></td>
+                              </tr>
+                              <%
+                                  }
+                              } else {
+                              %>
+                              <tr>
+                                  <td colspan="5" class="text-center">
+                                      Nenhuma nota encontrada.
+                                  </td>
+                              </tr>
+                              <%
+                                  }
+                              %>
+                          </table>
+                      </div>
+                      <div class="d-flex justify-content-end me-4">
+                          <a
+                                  href="boletim.jsp"
+                                  class="text-decoration-none"
+                                  style="color: black"
+                          >
+                              Ver mais >
+                          </a>
+                      </div>
+                  </div>
               </div>
-            </div>
-
-            <div class="box-column w-50 ms-4">
-              <div class="box-three">
-                <h2 class="fs-4 fw-bold text-center">
-                  Boletim
-                </h2>
-                <div class="d-flex tabela-container">
-                  <table class="tabela-notas">
-                    <tr>
-                      <th>Disciplina</th>
-                      <th>Nota 1</th>
-                      <th>Nota 2</th>
-                      <th>Média</th>
-                      <th>Situação</th>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>Português</p>
-                      </td>
-                      <td>
-                        <p>4,6</p>
-                      </td>
-                      <td>
-                        <p>4,6</p>
-                      </td>
-                      <td>
-                        <p>4,6</p>
-                      </td>
-                      <td>
-                        <p>Reprovado</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p>Inglês</p>
-                      </td>
-                      <td>
-                        <p>6,7</p>
-                      </td>
-                      <td>
-                        <p>6,7</p>
-                      </td>
-                      <td>
-                        <p>6,7</p>
-                      </td>
-                      <td>
-                        <p>Reprovado</p>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-
-                <div class="d-flex justify-content-end me-4">
-                  <a
-                    href="boletim.jsp"
-                    class="text-decoration-none"
-                    style="color: black"
-                    >Ver mais ></a
-                  >
-                </div>
-              </div>
-            </div>
           </div>
         </main>
       </div>

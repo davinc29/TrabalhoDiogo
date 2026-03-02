@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String action = req.getParameter("action").trim();
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(true);
 
         boolean erro = true;
         String destino = PAGINA_ERRO;
