@@ -122,9 +122,9 @@
                     <input type="hidden" name="action" value="update" />
                     <button type="submit" class="action-btn">
                       <img
-                      class="table-icon"
-                      src="../../assets/editar.svg"
-                      alt="Editar Icon"
+                          class="table-icon"
+                          src="../../assets/editar.svg"
+                          alt="Editar Icon"
                     />
                     </button>
                   </form>

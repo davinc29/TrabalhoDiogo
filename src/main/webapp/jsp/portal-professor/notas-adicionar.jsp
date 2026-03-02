@@ -129,10 +129,10 @@
 
               <div class="d-flex lado-direito">
                 <div class="add-button ms-4">
-                  <a href="notas-cadastro.jsp">+ Adicionar</a>
+                  <a href="${pageContext.request.contextPath}/boletim?action=create&id_aluno=<%=aluno.getIdAluno()%>&id_professor=<%=professor.getId()%>">+ Adicionar</a>
                 </div>
                 <div class="return-button ms-4">
-                  <a href="notas.jsp">< Voltar</a>
+                  <a href="${pageContext.request.contextPath}/alunos-notas">< Voltar</a>
                 </div>
               </div>
             </div>
@@ -145,6 +145,7 @@
                 <th>Nome</th>
                 <th>Matrícula</th>
                 <th>Turma</th>
+                <th>Disciplina</th>
                 <th>Primeiro Semestre</th>
                 <th>Segundo Semestre</th>
                 <th>Média</th>
@@ -164,6 +165,9 @@
                         <p><%=aluno.getTurma_ano()%></p>
                     </td>
                     <td>
+                        <p><%=boletim.getNomeDisciplina()%></p>
+                    </td>
+                    <td>
                         <p><%=boletim.getNota1()%></p>
                     </td>
                     <td>
@@ -172,31 +176,30 @@
                     <td>
                         <p><%=boletim.getMedia()%></p>
                     </td>
-                    <td>
-                        <f href="notas-editar.jsp">
-                            <img
-                                class="table-icon"
-                                src="${pageContext.request.contextPath}/assets/editar.svg"
-                                alt="Editar Icon"
-                            />
-                        </f>
+                    <td class="action-box">
                         <form action="${pageContext.request.contextPath}/boletim" method="get">
                             <input type="hidden" name="action" value="update">
                             <input type="hidden" name="id_boletim" value=<%=boletim.getId()%>>
                             <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
-                            <button type="submit" id="editar"></button>
+                            <button type="submit" id="editar">
+                                <img
+                                    class="table-icon"
+                                    src="${pageContext.request.contextPath}/assets/editar.svg"
+                                    alt="Deletar Icon"
+                                />
+                            </button>
                         </form>
-                        <a href="#">
-                            <img
-                                class="table-icon"
-                                style="margin-left: 30px"
-                                src="${pageContext.request.contextPath}/assets/apagar.svg"
-                                alt="Deletar Icon"
-                            />
-                        </a>
                         <form action="${pageContext.request.contextPath}/boletim?action=delete" method="post" onsubmit="confirmarDelete(event)">
+                            <input type="hidden" name="usuario" value="professor">
                             <input type="hidden" name="id_boletim" value=<%=boletim.getId()%>>
-                            <button type="submit" id="delete"></button>
+                            <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
+                            <button type="submit" class="action-btn">
+                                <img
+                                    class="table-icon"
+                                    src="${pageContext.request.contextPath}/assets/apagar.svg"
+                                    alt="Deletar Icon"
+                                />
+                            </button>
                         </form>
                     </td>
                 </tr>

@@ -178,7 +178,7 @@
                   </div>
 
                   <div class="return-button">
-                    <a href="${pageContext.request.contextPath}/jsp/portal-professor/notas-adicionar.jsp">Cancelar</a>
+                    <a href="${pageContext.request.contextPath}/boletim?action=read&usuario=professor&id_aluno=<%=aluno.getIdAluno()%>">Cancelar</a>
                   </div>
                 </div>
               </form>
