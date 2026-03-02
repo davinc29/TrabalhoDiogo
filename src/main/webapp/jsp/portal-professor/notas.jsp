@@ -67,7 +67,7 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-professor/home.jsp">Home</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/home?usuario=professor">Home</a>
             </li>
             <li class="page-item active">
               <a class="page-text" href="#">Notas</a>
