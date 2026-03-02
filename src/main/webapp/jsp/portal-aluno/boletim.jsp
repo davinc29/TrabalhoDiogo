@@ -1,4 +1,16 @@
+<%@ page import="com.dto.AlunoViewDTO" %>
+<%@ page import="com.dto.BoletimViewDTO" %>
+<%@ page import="com.dao.BoletimDAO" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    AlunoViewDTO aluno = (AlunoViewDTO) session.getAttribute("usuario");
+
+    BoletimDAO boletimDAO = new BoletimDAO();
+    List<BoletimViewDTO> boletim = boletimDAO.listarPorAluno(aluno.getIdAluno());
+
+%>
 
 <!doctype html>
 <html lang="pt-br">
@@ -10,10 +22,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="stylesheet" href="../../css/portal-aluno/boletim.css" />
-    <script src="mobile-navbar.js"></script>
-    <link rel="icon" type="image/x-icon" href="../../assets/Capelus-icon.ico" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/portal-aluno/boletim.css" />
+    <script src="${pageContext.request.contextPath}/mobile-navbar.js"></script>
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico" />
   </head>
   <body>
     <!-- Layout Computer -->
@@ -42,24 +54,24 @@
           <div class="lh-1">
             <p class="fs-5 fw-bold">Portal do Professor</p>
             <p class="fs-5 text-primary">
-              <span class="fw-bold">Quarta-Feira</span>, 04 Fev 2026
+                <span class="fw-bold"><%=request.getAttribute("diaSemana")%></span>, <%=request.getAttribute("data")%>
             </p>
           </div>
           <div class="d-flex">
             <img
               class="icon m-3"
-              src="../../assets/notificao-icon.svg"
+              src="${pageContext.request.contextPath}/assets/notificao-icon.svg"
               alt="Notificações Icon"
             />
             <img
               class="icon m-3"
-              src="../../assets/mensagens-icon.svg"
+              src="${pageContext.request.contextPath}/assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
+              <p class="fs-4 fw-bold text-secondary"><%=request.getAttribute("nome2L")%></p>
             </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Gustavo Kenzo</p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%=request.getAttribute("nome")%></p>
           </div>
         </header>
         <main>
@@ -94,34 +106,52 @@
             </div>
           </div>
 
-          <div class="tabela-container">
-            <table class="tabela-notas">
-              <tr>
-                <th>Disciplina</th>
-                <th>Primeiro Semestre</th>
-                <th>Segundo Semestre</th>
-                <th>Média</th>
-                <th>Situação</th>
-              </tr>
-              <tr>
-                <td>
-                  <p>Português</p>
-                </td>
-                <td>
-                  <p>4,6</p>
-                </td>
-                <td>
-                  <p>4,6</p>
-                </td>
-                <td>
-                  <p>4,6</p>
-                </td>
-                <td>
-                  <p>Reprovado</p>
-                </td>
-              </tr>
-            </table>
-          </div>
+            <div class="tabela-container">
+                <table class="tabela-notas">
+                    <tr>
+                        <th>Disciplina</th>
+                        <th>Primeiro Semestre</th>
+                        <th>Segundo Semestre</th>
+                        <th>Média</th>
+                        <th>Situação</th>
+                    </tr>
+                    <%
+                        if (boletim != null && !boletim.isEmpty()) {
+
+                            for (int i = 0; i < boletim.size(); i++) {
+                                BoletimViewDTO b = boletim.get(i);
+                    %>
+                    <tr>
+                        <td>
+                            <p><%= b.getNomeDisciplina() %></p>
+                        </td>
+                        <td>
+                            <p><%= b.getNota1() %></p>
+                        </td>
+                        <td>
+                            <p><%= b.getNota2() %></p>
+                        </td>
+                        <td>
+                            <p><%= b.getMedia() %></p>
+                        </td>
+                        <td>
+                            <p><%= b.getSituacao() %></p>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    } else {
+                    %>
+                    <tr>
+                        <td colspan="5">
+                            <p>Nenhuma nota encontrada.</p>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    %>
+                </table>
+            </div>
         </main>
       </div>
     </section>

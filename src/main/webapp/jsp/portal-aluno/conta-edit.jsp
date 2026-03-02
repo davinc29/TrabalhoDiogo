@@ -44,7 +44,7 @@
           <div class="lh-1">
             <p class="fs-5 fw-bold">Portal do Estudante</p>
             <p class="fs-5 text-primary">
-              <span class="fw-bold">Quarta-Feira</span>, 04 Fev 2026
+              <span class="fw-bold"><%=request.getAttribute("diaSemana")%></span>, <%=request.getAttribute("data")%>
             </p>
           </div>
           <div class="d-flex">
@@ -59,18 +59,18 @@
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
+              <p class="fs-4 fw-bold text-secondary"><%=request.getAttribute("nome2L")%></p>
             </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary">Gustavo Kenzo</p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%=request.getAttribute("nome")%></p>
           </div>
         </header>
         <main>
           <div class="account-card">
             <div class="informacoes-topo">
-              <h2>Gustavo Kenzo Shirahata Ota</h2>
+              <h2><%=request.getAttribute("nome")%></h2>
               <div class="matricula-turma d-flex justify-content-between">
-                <p><span class="fw-bold">Matrícula: </span>1234567890</p>
-                <p><span class="fw-bold">Turma: </span>1ºJ</p>
+                <p><span class="fw-bold">Matrícula: </span><%=request.getAttribute("matricula")%></p>
+                <p><span class="fw-bold">Turma: </span><%=request.getAttribute("turma")%></p>
               </div>
             </div>
 

@@ -13,13 +13,22 @@
     // Pegando dados diretos do banco
     AlunoViewDTO aluno = (AlunoViewDTO) session.getAttribute("usuario");
 
+    String matricula = String.valueOf(aluno.getMatricula());
+    request.setAttribute("matricula", matricula);
+
+    String turma = aluno.getTurma_ano();
+    request.setAttribute("turma", turma);
+
     //Nome 2L
-    String nomeInteiro = aluno.getNome();
-    String[] partesNome = nomeInteiro.split(" ");
+    String nome = aluno.getNome();
+    String[] partesNome = nome.split(" ");
     char letra1nome = partesNome[0].charAt(0);
     char letra2nome = partesNome[1].charAt(0);
 
     String nome2L = "" + letra1nome + letra2nome;
+
+    request.setAttribute("nome2L", nome2L);
+    request.setAttribute("nome", nome);
 
 
     //Pegando Observações do Aluno
@@ -48,6 +57,9 @@
 
     // Data retornada
     String data = String.format("%d %s %d", diaNum, mes, ano);
+
+    request.setAttribute("data", data);
+    request.setAttribute("diaSemana", diaSemana);
 
 
 %>
@@ -109,15 +121,15 @@
               alt="Mensagens Icon"
             />
             <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary"><%=nome2L%></p>
+              <p class="fs-4 fw-bold text-secondary"><%=request.getAttribute("nome2L")%></p>
             </div>
-            <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%= aluno.getNome() %></p>
+            <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%=request.getAttribute("nome")%></p>
           </div>
         </header>
         <main>
           <div class="box-one d-flex justify-content-between mb-5">
             <div class="ms-5">
-              <h1 class="fs-1 fw-bold">Olá, <%= aluno.getNome() %></h1>
+              <h1 class="fs-1 fw-bold">Olá, <%=request.getAttribute("nome")%></h1>
               <p class="fs-3">
                 Pronto para começar seu dia com alguns<br />feedbacks?
               </p>
