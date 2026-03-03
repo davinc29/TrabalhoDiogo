@@ -12,6 +12,14 @@
     List<String> notasPendentes = (List<String>) request.getAttribute("notasPendentes");
     List<ObservacaoViewDTO> observacoes = (List<ObservacaoViewDTO>) request.getAttribute("observacoes");
 
+    //Nome 2L
+    String nomeInteiro = professor.getNome();
+    String[] partesNome = nomeInteiro.split(" ");
+    char letra1nome = partesNome[0].charAt(0);
+    char letra2nome = partesNome[1].charAt(0);
+
+    String nome2L = "" + letra1nome + letra2nome;
+
     // Pegando o dia da semana
     LocalDate hoje = LocalDate.now();
     Locale brasil = new Locale("pt","BR");
@@ -56,16 +64,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item active">
-              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-professor/home.jsp">Home</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/">Home</a>
             </li>
             <li class="page-item can-hover">
               <a class="page-text" href="${pageContext.request.contextPath}/alunos-notas">Notas</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="${pageContext.request.contextPath}/observacoes?usuario=professor">Observações</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/observacoes">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.jsp">Conta</a>
+              <a class="page-text" href="${pageContext.request.contextPath}">Conta</a>
             </li>
           </ul>
         </nav>
@@ -90,6 +98,9 @@
               src="${pageContext.request.contextPath}/assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
+              <div class="bg-primary box-name m-3">
+                  <p class="fs-4 fw-bold text-secondary"><%=nome2L%></p>
+              </div>
             <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%=professor.getNome()%></p>
           </div>
         </header>

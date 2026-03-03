@@ -59,7 +59,7 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.jsp">Home</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/home?usuario=professor">Home</a>
             </li>
             <li class="page-item active">
               <a class="page-text" href="notas.jsp">Notas</a>
@@ -178,7 +178,7 @@
                   </div>
 
                   <div class="return-button">
-                    <a href="${pageContext.request.contextPath}/jsp/portal-professor/notas-adicionar.jsp">Cancelar</a>
+                    <a href="${pageContext.request.contextPath}/boletim?action=read&usuario=professor&id_aluno=<%=aluno.getIdAluno()%>">Cancelar</a>
                   </div>
                 </div>
               </form>

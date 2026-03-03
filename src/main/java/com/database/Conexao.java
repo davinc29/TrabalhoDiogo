@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class Conexao {
-
     private static final Dotenv dotenv = Dotenv.load();
     private static final String URL = dotenv.get("DB_HOST");
     private static final String USER = dotenv.get("DB_USER");

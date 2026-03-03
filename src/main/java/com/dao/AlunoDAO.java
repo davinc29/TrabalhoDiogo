@@ -112,6 +112,36 @@ public class AlunoDAO extends DAO {
         }
     }
 
+    public boolean atualizarNomeAluno(UUID idAluno, String novoNome) throws SQLException {
+        String sql = """
+                UPDATE
+                    aluno
+                SET
+                    nome = ?
+                WHERE
+                    id = ?
+                """;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, novoNome);
+            pstmt.setObject(2, idAluno);
+
+            int validar = pstmt.executeUpdate();
+
+            if (validar > 0) {
+                conn.commit();
+                return true;
+            } else {
+                conn.rollback();
+                return false;
+            }
+
+        } catch (SQLException e) {
+            conn.rollback();
+            return false;
+        }
+    }
+
     //Atualizar senha do aluno
     public boolean atualizarSenhaAluno(UUID idAluno, String novaSenha) throws SQLException {
         String sql = """

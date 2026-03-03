@@ -66,4 +66,20 @@ public class ExcecaoDeJSP extends Exception {
         String msg = "O valor informado para %s é muito longo".formatted(campo);
         return new ExcecaoDeJSP(msg);
     }
+
+    public static ExcecaoDeJSP emailNaoCadastrado() {
+        return new ExcecaoDeJSP("E-mail não encontrado. Verifique e tente novamente.");
+    }
+
+    public static ExcecaoDeJSP codigoOtpInvalido() {
+        return new ExcecaoDeJSP("Código inválido ou expirado. Solicite um novo código.");
+    }
+
+    public static ExcecaoDeJSP senhasNaoCoincidem() {
+        return new ExcecaoDeJSP("As senhas não coincidem. Verifique e tente novamente.");
+    }
+
+    public static ExcecaoDeJSP acessoInvalidoAoFluxoOtp() {
+        return new ExcecaoDeJSP("Sessão expirada ou acesso inválido. Reinicie o processo.");
+    }
 }

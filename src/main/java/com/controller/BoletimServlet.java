@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +60,10 @@ public class BoletimServlet extends HttpServlet {
                     erro = false;
                 }
                 case "create" -> {
+                    Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(req);
                     AlunoViewDTO aluno = listarAlunoPorId(req);
 
+                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
                     req.setAttribute("aluno", aluno);
 
                     destino = PAGINA_CADASTRO;
@@ -133,19 +136,18 @@ public class BoletimServlet extends HttpServlet {
                 }
                 case "create" -> {
                     cadastrar(req);
-                    destino = PAGINA_PRINCIPAL_PROFESSOR;
-                    erro = false;
+                    String idAluno = req.getParameter("id_aluno");
+                    destino = "/boletim?action=read&usuario=professor&id_aluno="+idAluno;
                 }
                 case "update" -> {
                     atualizar(req);
                     String idAluno = req.getParameter("id_aluno");
                     destino = "/boletim?action=read&usuario=professor&id_aluno="+idAluno;
-                    erro = false;
                 }
                 case "delete" -> {
                     deletar(req);
-                    destino = PAGINA_PRINCIPAL_PROFESSOR;
-                    erro = false;
+                    String idAluno = req.getParameter("id_aluno");
+                    destino = "/boletim?action=read&usuario=professor&id_aluno="+idAluno;
                 }
                 default -> throw new RuntimeException("valor inválido para o parâmetro 'action': " + action);
             }
@@ -259,6 +261,16 @@ public class BoletimServlet extends HttpServlet {
     public Map<String, Integer> mapNomeId() throws SQLException{
         try (DisciplinaDAO dao = new DisciplinaDAO()) {
             return dao.mapNomeId();
+        }
+    }
+
+    public Map<String, Integer> mapNomeIdProfessor(HttpServletRequest req) throws SQLException{
+        String temp = req.getParameter("id_professor").trim();
+        UUID idProfessor = UUID.fromString(temp);
+
+        try (DisciplinaDAO dao = new DisciplinaDAO()) {
+            return dao.mapNomeIdProfessor(idProfessor);
+
         }
     }
 }

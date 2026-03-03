@@ -3,6 +3,7 @@ package com.controller;
 import com.dao.AlunoDAO;
 import com.dao.ObservacaoDAO;
 import com.dto.AlunoViewDTO;
+import com.dto.BoletimViewDTO;
 import com.dto.ObservacaoViewDTO;
 import com.exception.ExcecaoDeJSP;
 import com.model.Observacao;
@@ -21,9 +22,9 @@ import java.util.UUID;
 @WebServlet("/observacoes")
 public class ObservacaoServlet extends HttpServlet {
 
-    private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/observacoes.jsp";
+    private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/observacoes-adicionar.jsp";
     private static final String PAGINA_PRINCIPAL_ALUNO = "/jsp/portal-aluno/observacoes.jsp";
-    private static final String PAGINA_CADASTRO = "/jsp/portal-professor/observacoes-cadastro.jsp";
+    private static final String PAGINA_CADASTRO = "/jsp/portal-professor/observacoes-adicionar.jsp";
     private static final String PAGINA_EDICAO = "/jsp/portal-professor/observacoes-editar.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
@@ -99,18 +100,49 @@ public class ObservacaoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action").trim();
+        String usuario = req.getParameter("usuario").trim();
 
+        boolean erro = true;
         String destino = PAGINA_ERRO;
 
         try {
             switch (action) {
-                case "create" -> cadastrar(req);
-                case "update" -> atualizar(req);
-                case "delete" -> deletar(req);
+                case "read" -> {
+                    String idAluno = req.getParameter("id_aluno");
+                    List<ObservacaoViewDTO> observacoes = new ArrayList<>();
+                    AlunoViewDTO aluno = null;
+
+                    if (!idAluno.isEmpty()) {
+                        idAluno = idAluno.trim();
+                        UUID idAlunoUuid = UUID.fromString(idAluno);
+
+                        observacoes = listarPorAluno(idAlunoUuid);
+                        aluno = listarAlunoPorId(req);
+                    }
+
+                    req.setAttribute("aluno", aluno);
+                    req.setAttribute("observacoes", observacoes);
+
+                    destino = (usuario.equals("professor") ? PAGINA_PRINCIPAL_PROFESSOR : PAGINA_PRINCIPAL_ALUNO);
+                    erro = false;
+                }
+                case "create" -> {
+                    cadastrar(req);
+                    String idAluno = req.getParameter("id_aluno");
+                    destino = "/observacao?action=read&usuario=professor&id_aluno="+idAluno;
+                }
+                case "update" -> {
+                    atualizar(req);
+                    String idAluno = req.getParameter("id_aluno");
+                    destino = "/observacao?action=read&usuario=professor&id_aluno="+idAluno;
+                }
+                case "delete" -> {
+                    deletar(req);
+                    String idAluno = req.getParameter("id_aluno");
+                    destino = "/observacao?action=read&usuario=professor&id_aluno="+idAluno;
+                }
                 default -> throw new RuntimeException("valor inválido para o parâmetro 'action': " + action);
             }
-
-            destino = req.getServletPath();
 
         }
         // Se houver alguma exceção de JSP, aciona o método doGet
@@ -132,7 +164,11 @@ public class ObservacaoServlet extends HttpServlet {
             e.printStackTrace(System.err);
         }
 
-        resp.sendRedirect(req.getContextPath() + destino);
+        if (erro || !action.equals("read")) {
+            resp.sendRedirect(req.getContextPath() + destino);
+        } else {
+            req.getRequestDispatcher(destino).forward(req, resp);
+        }
     }
 
     public void cadastrar(HttpServletRequest req) throws SQLException, ClassNotFoundException, ExcecaoDeJSP{

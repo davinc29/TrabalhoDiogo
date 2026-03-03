@@ -27,7 +27,7 @@ public class BoletimDAO extends DAO{
                 INSERT INTO
                     boletim (nota1, nota2, id_aluno, id_disciplina)
                 VALUES
-                    (?,?,?,?,?)
+                    (?,?,?,?)
                 """;
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {

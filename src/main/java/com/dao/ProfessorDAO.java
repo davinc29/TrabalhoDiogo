@@ -6,10 +6,7 @@ import com.model.Professor;
 import com.utils.SenhaUtils;
 
 import javax.xml.transform.Result;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 public class ProfessorDAO extends DAO{
@@ -200,5 +197,24 @@ public class ProfessorDAO extends DAO{
         }
 
         return mapNomeId;
+    }
+
+    public void atualizarSenhaProfessor(String email, String senhaHash)
+            throws SQLException {
+        String sql = "UPDATE professor SET senha = ? WHERE email = ?";
+
+        ProfessorDTO professor = null;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try {
+                pstmt.setString(1, senhaHash);
+                pstmt.setString(2, email);
+                pstmt.executeUpdate();
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
     }
 }

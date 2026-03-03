@@ -3,6 +3,7 @@ package com.dao;
 import com.dto.AdminDTO;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class AdminDAO extends DAO {
 
@@ -44,6 +45,28 @@ public class AdminDAO extends DAO {
         }
 
     }
+
+    public boolean logarAdmin(AdminDTO admin) throws Exception {
+        String sql = "SELECT * FROM admin WHERE email = ? AND senha = ?";
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, admin.getEmail());
+            pstmt.setString(2, admin.getSenha());
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return true; // Login bem-sucedido
+            } else {
+                return false; // Login falhou
+            }
+        } catch (Exception e) {
+            throw e; // Exeção lançada
+        }
+
+    }
+
 
 
 }

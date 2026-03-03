@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String action = req.getParameter("action").trim();
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(true);
 
         boolean erro = true;
         String destino = PAGINA_ERRO;
@@ -59,6 +59,7 @@ public class LoginServlet extends HttpServlet {
                         case 1 -> {
                             AlunoViewDTO aluno = encontrarAluno(credenciais);
                             session.setAttribute("usuario", aluno);
+                            session.setAttribute("senha", senha);
                             destino = AREA_RESTRITA_ALUNO;
                             erro = false;
                         }
@@ -71,6 +72,7 @@ public class LoginServlet extends HttpServlet {
                             req.setAttribute("observacoes", observacoes);
                             req.setAttribute("notasPendentes", notasPendentes);
                             session.setAttribute("usuario", professor);
+                            session.setAttribute("senha", senha);
 
                             destino = AREA_RESTRITA_PROFESSOR;
                             erro = false;

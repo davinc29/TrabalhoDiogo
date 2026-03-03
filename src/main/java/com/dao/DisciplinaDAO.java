@@ -194,4 +194,35 @@ public class DisciplinaDAO extends DAO{
 
         return mapNomeId;
     }
+
+    public Map<String, Integer> mapNomeIdProfessor(UUID idProfessor) throws SQLException{
+        String sql = """
+                SELECT
+                    d.id,
+                    d.nome
+                FROM
+                    disciplina d
+                JOIN
+                    professor p
+                    ON p.id = d.id_professor
+                WHERE
+                    p.id = ?
+                """;
+
+        Map<String, Integer> mapNomeId = new HashMap<>();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setObject(1, idProfessor);
+
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                String nome = rs.getString("nome");
+                Integer id = rs.getInt("id");
+
+                mapNomeId.put(nome, id);
+            }
+        }
+
+        return mapNomeId;
+    }
 }

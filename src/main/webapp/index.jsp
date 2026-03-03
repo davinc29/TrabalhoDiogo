@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -45,9 +46,12 @@
               <div class="cadastro-box d-flex justify-content-center">
                 <p>
                   Não tem conta?
-                  <a href="${pageContext.request.contextPath}/cadastro-aluno" class="text-decoration-none text-primary fw-bold"
-                    >Cadastrar-se</a
-                  >
+                  <a href="${pageContext.request.contextPath}/cadastro.html" class="text-decoration-none text-primary fw-bold"
+                    >Cadastrar-se</a>
+                    <br>
+                    <a href="${pageContext.request.contextPath}/recuperar-senha?action=solicitar">
+                        Esqueci minha senha
+                    </a>
                 </p>
               </div>
             </div>
