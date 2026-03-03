@@ -46,7 +46,7 @@ public class ObservacaoDAO extends DAO{
     public Observacao pesquisarPorId(Integer id) throws SQLException{
         String sql = """
                 SELECT
-                    * except (id)
+                    *
                 FROM
                     observacao
                 WHERE
@@ -68,7 +68,7 @@ public class ObservacaoDAO extends DAO{
 
                 Integer idDisciplina = rs.getInt("id_disciplina");
 
-                observacao = new Observacao(textoObservacao, idAluno, idDisciplina);
+                observacao = new Observacao(id, textoObservacao, idAluno, idDisciplina);
             }
         } catch (SQLException e) {
             conn.rollback();
@@ -83,6 +83,7 @@ public class ObservacaoDAO extends DAO{
 
         String sql = """
                 SELECT
+                    o.id as id,
                     a.nome as nome_aluno,
                     p2.turma_ano as turma_ano,
                     d.nome as nome_disciplina,
@@ -114,13 +115,14 @@ public class ObservacaoDAO extends DAO{
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
+                Integer id = rs.getInt("id");
                 String nomeAluno = rs.getString("nome_aluno");
                 String turmaAno = rs.getString("turma_ano");
                 String nomeProfessor = rs.getString("nome_professor");
                 String nomeDisciplina = rs.getString("nome_disciplina");
                 String observacao = rs.getString("observacao");
 
-                ObservacaoViewDTO observacaoView = new ObservacaoViewDTO(nomeAluno,turmaAno, nomeDisciplina, nomeProfessor, observacao);
+                ObservacaoViewDTO observacaoView = new ObservacaoViewDTO(id, nomeAluno,turmaAno, nomeDisciplina, nomeProfessor, observacao);
 
                 observacoes.add(observacaoView);
             }
@@ -137,6 +139,7 @@ public class ObservacaoDAO extends DAO{
 
         String sql = """
                 SELECT
+                    o.id as id,
                     a.nome as nome_aluno,
                     p2.turma_ano as turma_ano,
                     d.nome as nome_disciplina,
@@ -168,13 +171,14 @@ public class ObservacaoDAO extends DAO{
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
+                Integer id = rs.getInt("id");
                 String nomeAluno = rs.getString("nome_aluno");
                 String turmaAno = rs.getString("turma_ano");
                 String nomeProfessor = rs.getString("nome_professor");
                 String nomeDisciplina = rs.getString("nome_disciplina");
                 String observacao = rs.getString("observacao");
 
-                ObservacaoViewDTO observacaoView = new ObservacaoViewDTO(nomeAluno, turmaAno, nomeDisciplina, nomeProfessor, observacao);
+                ObservacaoViewDTO observacaoView = new ObservacaoViewDTO(id, nomeAluno, turmaAno, nomeDisciplina, nomeProfessor, observacao);
 
                 observacoes.add(observacaoView);
             }

@@ -2,18 +2,28 @@ package com.dto;
 
 public class ObservacaoViewDTO {
 
+    private Integer id;
     private String nomeAluno;
     private String turmaAno;
     private String nomeDisciplina;
     private String nomeProfessor;
     private String observacao;
 
-    public ObservacaoViewDTO(String nomeAluno, String turmaAno, String nomeDisciplina, String nomeProfessor, String observacao) {
+    public ObservacaoViewDTO(Integer id, String nomeAluno, String turmaAno, String nomeDisciplina, String nomeProfessor, String observacao) {
+        this.id = id;
         this.turmaAno = turmaAno;
         this.nomeAluno = nomeAluno;
         this.nomeDisciplina = nomeDisciplina;
         this.nomeProfessor = nomeProfessor;
         this.observacao = observacao;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNomeAluno() {
@@ -59,6 +69,7 @@ public class ObservacaoViewDTO {
     @Override
     public String toString() {
         return "ObservacaoViewDTO{" +
+                "id='" + id + '\'' +
                 "nomeAluno='" + nomeAluno + '\'' +
                 ", turmaAno='" + turmaAno + '\'' +
                 ", nomeDisciplina='" + nomeDisciplina + '\'' +

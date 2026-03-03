@@ -59,10 +59,10 @@
               <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-professor/home.jsp">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="${pageContext.request.contextPath}/alunos-notas">Notas</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/alunos-professor?action=notas">Notas</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="${pageContext.request.contextPath}/observacoes?usuario=professor">Observações</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/alunos-professor?action=observacoes">Observações</a>
             </li>
             <li class="page-item can-hover">
               <a class="page-text" href="conta.jsp">Conta</a>
