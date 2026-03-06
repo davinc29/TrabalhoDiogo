@@ -40,6 +40,10 @@
     // Data retornada
     String data = String.format("%d %s %d", diaNum, mes, ano);
 
+    session.setAttribute("nome2L", nome2L);
+    session.setAttribute("data", data);
+    session.setAttribute("diaSemana", diaSemana);
+
 
 %>
 <!doctype html>
@@ -64,13 +68,13 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item active">
-              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-professor/">Home</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-professor/alunos-professor">Notas</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/alunos-professor?action=notas">Notas</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="${pageContext.request.contextPath}/observacoes">Observações</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/alunos-professor?action=observacoes">Observações</a>
             </li>
             <li class="page-item can-hover">
               <a class="page-text" href="${pageContext.request.contextPath}">Conta</a>
@@ -161,7 +165,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end me-4">
-                  <a href="observacoes.jsp" class="text-decoration-none" style="color: black">Ver mais ></a>
+                  <a href="${pageContext.request.contextPath}/alunos-professor?action=observacoes" class="text-decoration-none" style="color: black">Ver mais ></a>
                 </div>
             </div>
 
@@ -188,7 +192,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end me-4">
-                  <a href="notas.jsp" class="text-decoration-none" style="color: black">Ver mais ></a>
+                  <a href="${pageContext.request.contextPath}/alunos-professor?action=notas" class="text-decoration-none" style="color: black">Ver mais ></a>
                 </div>
 
               </div>

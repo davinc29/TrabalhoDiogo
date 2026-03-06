@@ -5,14 +5,17 @@ import com.dao.BoletimDAO;
 import com.dao.DisciplinaDAO;
 import com.dto.AlunoViewDTO;
 import com.dto.BoletimViewDTO;
+import com.dto.ProfessorDTO;
 import com.exception.ExcecaoDeJSP;
 import com.model.Boletim;
 import com.model.Disciplina;
+import com.model.Professor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -26,19 +29,23 @@ import java.util.UUID;
 public class BoletimServlet extends HttpServlet {
 
     private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/notas-adicionar.jsp";
-    private static final String PAGINA_PRINCIPAL_ALUNO = "/jsp/portal-aluno/boletim.jsp";
     private static final String PAGINA_CADASTRO = "/jsp/portal-professor/notas-cadastro.jsp";
     private static final String PAGINA_EDICAO = "/jsp/portal-professor/notas-editar.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
+
         String action = req.getParameter("action").trim();
 
         boolean erro = true;
         String destino = null;
 
         try {
+            Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(professor.getId());
+
             switch (action) {
                 case "read" -> {
                     String idAluno = req.getParameter("id_aluno");
@@ -53,6 +60,7 @@ public class BoletimServlet extends HttpServlet {
                         aluno = listarAlunoPorId(req);
                     }
 
+                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
                     req.setAttribute("aluno", aluno);
                     req.setAttribute("boletins", boletins);
 
@@ -60,7 +68,6 @@ public class BoletimServlet extends HttpServlet {
                     erro = false;
                 }
                 case "create" -> {
-                    Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(req);
                     AlunoViewDTO aluno = listarAlunoPorId(req);
 
                     req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
@@ -70,11 +77,10 @@ public class BoletimServlet extends HttpServlet {
                 }
 
                 case "update" -> {
-                    Map<String, Integer> mapNomeId = mapNomeId();
                     AlunoViewDTO aluno = listarAlunoPorId(req);
                     Boletim boletim = pesquisarPorId(req);
 
-                    req.setAttribute("mapNomeId", mapNomeId);
+                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
                     req.setAttribute("aluno", aluno);
                     req.setAttribute("boletim", boletim);
 
@@ -107,17 +113,20 @@ public class BoletimServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
         String action = req.getParameter("action").trim();
-        String usuario = req.getParameter("usuario").trim();
 
         boolean erro = true;
         String destino = PAGINA_ERRO;
 
         try {
+
             switch (action) {
                 case "read" -> {
+                    ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
                     String idAluno = req.getParameter("id_aluno");
                     List<BoletimViewDTO> boletins = new ArrayList<>();
+                    Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(professor.getId());
                     AlunoViewDTO aluno = null;
 
                     if (!idAluno.isEmpty()) {
@@ -128,26 +137,27 @@ public class BoletimServlet extends HttpServlet {
                         aluno = listarAlunoPorId(req);
                     }
 
+                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
                     req.setAttribute("aluno", aluno);
                     req.setAttribute("boletins", boletins);
 
-                    destino = (usuario.equals("professor") ? PAGINA_PRINCIPAL_PROFESSOR : PAGINA_PRINCIPAL_ALUNO);
+                    destino = PAGINA_PRINCIPAL_PROFESSOR;
                     erro = false;
                 }
                 case "create" -> {
                     cadastrar(req);
                     String idAluno = req.getParameter("id_aluno");
-                    destino = "/boletim?action=read&usuario=professor&id_aluno="+idAluno;
+                    destino = "/boletim?action=read&id_aluno="+idAluno;
                 }
                 case "update" -> {
                     atualizar(req);
                     String idAluno = req.getParameter("id_aluno");
-                    destino = "/boletim?action=read&usuario=professor&id_aluno="+idAluno;
+                    destino = "/boletim?action=read&id_aluno="+idAluno;
                 }
                 case "delete" -> {
                     deletar(req);
                     String idAluno = req.getParameter("id_aluno");
-                    destino = "/boletim?action=read&usuario=professor&id_aluno="+idAluno;
+                    destino = "/boletim?action=read&id_aluno="+idAluno;
                 }
                 default -> throw new RuntimeException("valor inválido para o parâmetro 'action': " + action);
             }
@@ -258,16 +268,7 @@ public class BoletimServlet extends HttpServlet {
         }
     }
 
-    public Map<String, Integer> mapNomeId() throws SQLException{
-        try (DisciplinaDAO dao = new DisciplinaDAO()) {
-            return dao.mapNomeId();
-        }
-    }
-
-    public Map<String, Integer> mapNomeIdProfessor(HttpServletRequest req) throws SQLException{
-        String temp = req.getParameter("id_professor").trim();
-        UUID idProfessor = UUID.fromString(temp);
-
+    public Map<String, Integer> mapNomeIdProfessor(UUID idProfessor) throws SQLException{
         try (DisciplinaDAO dao = new DisciplinaDAO()) {
             return dao.mapNomeIdProfessor(idProfessor);
 

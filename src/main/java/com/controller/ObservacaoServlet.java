@@ -1,10 +1,12 @@
 package com.controller;
 
 import com.dao.AlunoDAO;
+import com.dao.DisciplinaDAO;
 import com.dao.ObservacaoDAO;
 import com.dto.AlunoViewDTO;
 import com.dto.BoletimViewDTO;
 import com.dto.ObservacaoViewDTO;
+import com.dto.ProfessorDTO;
 import com.exception.ExcecaoDeJSP;
 import com.model.Observacao;
 import jakarta.servlet.ServletException;
@@ -12,53 +14,63 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @WebServlet("/observacoes")
 public class ObservacaoServlet extends HttpServlet {
 
     private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/observacoes-adicionar.jsp";
-    private static final String PAGINA_PRINCIPAL_ALUNO = "/jsp/portal-aluno/observacoes.jsp";
-    private static final String PAGINA_CADASTRO = "/jsp/portal-professor/observacoes-adicionar.jsp";
+    private static final String PAGINA_CADASTRO = "/jsp/portal-professor/observacoes-cadastro.jsp";
     private static final String PAGINA_EDICAO = "/jsp/portal-professor/observacoes-editar.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        String usuario = req.getParameter("usuario").trim();
+        HttpSession session = req.getSession(false);
+        ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
 
+        String action = req.getParameter("action");
         action = (action == null ? "read" : action.trim());
 
         boolean erro = true;
         String destino = null;
 
         try {
+            Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(professor.getId());
+
             switch (action) {
                 case "read" -> {
                     String idAluno = req.getParameter("id_aluno");
                     List<ObservacaoViewDTO> observacoes = new ArrayList<>();
+                    AlunoViewDTO aluno = null;
 
                     if (!idAluno.isEmpty()) {
                         idAluno = idAluno.trim();
                         UUID idAlunoUuid = UUID.fromString(idAluno);
 
                         observacoes = listarPorAluno(idAlunoUuid);
+                        aluno = listarAlunoPorId(req);
                     }
 
+                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
+                    req.setAttribute("aluno", aluno);
                     req.setAttribute("observacoes", observacoes);
 
-                    destino = (usuario.equals("professor") ? PAGINA_PRINCIPAL_PROFESSOR : PAGINA_PRINCIPAL_ALUNO);
+                    destino = PAGINA_PRINCIPAL_PROFESSOR;
+                    erro = false;
                 }
 
                 case "create" -> {
                     AlunoViewDTO aluno = listarAlunoPorId(req);
 
+                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
                     req.setAttribute("aluno", aluno);
 
                     destino = PAGINA_CADASTRO;
@@ -68,6 +80,7 @@ public class ObservacaoServlet extends HttpServlet {
                     AlunoViewDTO aluno = listarAlunoPorId(req);
                     Observacao observacao = pesquisarPorId(req);
 
+                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
                     req.setAttribute("aluno", aluno);
                     req.setAttribute("observacao", observacao);
 
@@ -99,8 +112,8 @@ public class ObservacaoServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
         String action = req.getParameter("action").trim();
-        String usuario = req.getParameter("usuario").trim();
 
         boolean erro = true;
         String destino = PAGINA_ERRO;
@@ -108,8 +121,10 @@ public class ObservacaoServlet extends HttpServlet {
         try {
             switch (action) {
                 case "read" -> {
+                    ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
                     String idAluno = req.getParameter("id_aluno");
                     List<ObservacaoViewDTO> observacoes = new ArrayList<>();
+                    Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(professor.getId());
                     AlunoViewDTO aluno = null;
 
                     if (!idAluno.isEmpty()) {
@@ -120,26 +135,27 @@ public class ObservacaoServlet extends HttpServlet {
                         aluno = listarAlunoPorId(req);
                     }
 
+                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
                     req.setAttribute("aluno", aluno);
                     req.setAttribute("observacoes", observacoes);
 
-                    destino = (usuario.equals("professor") ? PAGINA_PRINCIPAL_PROFESSOR : PAGINA_PRINCIPAL_ALUNO);
+                    destino = PAGINA_PRINCIPAL_PROFESSOR;
                     erro = false;
                 }
                 case "create" -> {
                     cadastrar(req);
                     String idAluno = req.getParameter("id_aluno");
-                    destino = "/observacao?action=read&usuario=professor&id_aluno="+idAluno;
+                    destino = "/observacoes?action=read&id_aluno="+idAluno;
                 }
                 case "update" -> {
                     atualizar(req);
                     String idAluno = req.getParameter("id_aluno");
-                    destino = "/observacao?action=read&usuario=professor&id_aluno="+idAluno;
+                    destino = "/observacoes?action=read&id_aluno="+idAluno;
                 }
                 case "delete" -> {
                     deletar(req);
                     String idAluno = req.getParameter("id_aluno");
-                    destino = "/observacao?action=read&usuario=professor&id_aluno="+idAluno;
+                    destino = "/observacoes?action=read&id_aluno="+idAluno;
                 }
                 default -> throw new RuntimeException("valor inválido para o parâmetro 'action': " + action);
             }
@@ -241,6 +257,13 @@ public class ObservacaoServlet extends HttpServlet {
 
         try (AlunoDAO dao = new AlunoDAO()) {
             return dao.listarAlunoPorId(idAlunoUuid);
+        }
+    }
+
+    public Map<String, Integer> mapNomeIdProfessor(UUID idProfessor) throws SQLException{
+        try (DisciplinaDAO dao = new DisciplinaDAO()) {
+            return dao.mapNomeIdProfessor(idProfessor);
+
         }
     }
 }

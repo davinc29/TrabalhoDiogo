@@ -7,34 +7,19 @@
 <%@ page import="com.dto.AlunoViewDTO" %>
 <%@ page import="com.dto.ObservacaoViewDTO" %>
 <%@ page import="com.model.Observacao" %>
+<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     // Pegando dados diretos do banco
     ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
     AlunoViewDTO aluno = (AlunoViewDTO) request.getAttribute("aluno");
     List<ObservacaoViewDTO> observacoes = (List<ObservacaoViewDTO>) request.getAttribute("observacoes");
+    Map<String, Integer> mapNomeIdProfessor = (Map<String, Integer>) request.getAttribute("mapNomeIdProfessor");
 
-    // Pegando o dia da semana
-    LocalDate hoje = LocalDate.now();
-    Locale brasil = new Locale("pt","BR");
-    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("EEEE", brasil);
-    String diaSemana = hoje.format(formatador);
-    diaSemana = diaSemana.substring(0, 1).toUpperCase() + diaSemana.substring(1);
-
-    // Pegando o dia de hoje
-    Integer diaNum = hoje.getDayOfMonth();
-
-    // Pegando o mês do ano
-    List<String> meses = List.of("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez");
-    String mes = meses.get(hoje.getMonthValue()-1);
-
-    // Pegando o ano
-    Integer ano = hoje.getYear();
-
-    // Data retornada
-    String data = String.format("%d %s %d", diaNum, mes, ano);
-
-
+    // Pegando dia da semana e data
+    String data = (String) session.getAttribute("data");
+    String diaSemana = (String) session.getAttribute("diaSemana");
+    String nome2L = (String) session.getAttribute("nome2L");
 %>
 <!doctype html>
 <html lang="pt-br">
@@ -62,11 +47,11 @@
                 <li class="page-item can-hover">
                     <a class="page-text" href="${pageContext.request.contextPath}/home?usuario=professor">Home</a>
                 </li>
-                <li class="page-item active">
-                    <a class="page-text" href="notas.jsp">Notas</a>
-                </li>
                 <li class="page-item can-hover">
-                    <a class="page-text" href="observacoes.jsp">Observações</a>
+                    <a class="page-text" href="${pageContext.request.contextPath}/alunos-professor?action=notas">Notas</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-text" href="#">Observações</a>
                 </li>
                 <li class="page-item can-hover">
                     <a class="page-text" href="conta.jsp">Conta</a>
@@ -96,6 +81,9 @@
                 />
                 <div class="bg-primary box-name m-3">
                     <p class="fs-4 fw-bold text-secondary">RE</p>
+                </div>
+                <div class="bg-primary box-name m-3">
+                    <p class="fs-4 fw-bold text-secondary"><%=nome2L%></p>
                 </div>
                 <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%=professor.getNome()%></p>
             </div>
@@ -131,10 +119,10 @@
 
                     <div class="d-flex lado-direito">
                         <div class="add-button ms-4">
-                            <a href="${pageContext.request.contextPath}/observacao?action=create&id_aluno=<%=aluno.getIdAluno()%>&id_professor=<%=professor.getId()%>">+ Adicionar</a>
+                            <a href="${pageContext.request.contextPath}/observacoes?action=create&id_aluno=<%=aluno.getIdAluno()%>&id_professor=<%=professor.getId()%>">+ Adicionar</a>
                         </div>
                         <div class="return-button ms-4">
-                            <a href="${pageContext.request.contextPath}/alunos-notas">< Voltar</a>
+                            <a href="${pageContext.request.contextPath}/alunos-professor?action=obervacoes">< Voltar</a>
                         </div>
                     </div>
                 </div>
@@ -170,9 +158,10 @@
                         <td>
                             <p><%=observacao.getObservacao()%></p>
                         </td>
+                        <%if (mapNomeIdProfessor.get(observacao.getNomeDisciplina()) != null) {%>
                         <td class="action-box">
                             <form action="${pageContext.request.contextPath}/observacoes?action=update" method="get">
-                                <input type="hidden" name="id_boletim" value=<%=observacao.getId()%>>
+                                <input type="hidden" name="id_observacao" value=<%=observacao.getId()%>>
                                 <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
                                 <button type="submit" id="editar">
                                     <img
@@ -184,7 +173,7 @@
                             </form>
                             <form action="${pageContext.request.contextPath}/observacoes?action=delete" method="post" onsubmit="confirmarDelete(event)">
                                 <input type="hidden" name="usuario" value="professor">
-                                <input type="hidden" name="id_boletim" value=<%=observacao.getId()%>>
+                                <input type="hidden" name="id_observacao" value=<%=observacao.getId()%>>
                                 <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
                                 <button type="submit" class="action-btn">
                                     <img
@@ -195,6 +184,7 @@
                                 </button>
                             </form>
                         </td>
+                        <%}%>
                     </tr>
                     <%}%>
                 </table>

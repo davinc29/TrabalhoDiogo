@@ -197,6 +197,11 @@ public class AlunoDAO extends DAO {
 
                 AlunoViewDTO aluno = new AlunoViewDTO(idAluno, nome, matricula, email, turmaAno);
                 alunos.add(aluno);
+
+
+
+
+
             }
 
             conn.commit();

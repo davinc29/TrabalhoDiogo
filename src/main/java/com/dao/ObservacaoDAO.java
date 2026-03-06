@@ -241,7 +241,7 @@ public class ObservacaoDAO extends DAO{
     public void deletar(Integer id) throws SQLException{
         String sql = """
                 DELETE FROM
-                    boletim
+                    observacao
                 WHERE
                     id = ?
                 """;

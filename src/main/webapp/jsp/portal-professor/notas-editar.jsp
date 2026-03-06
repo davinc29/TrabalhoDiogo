@@ -13,28 +13,11 @@
     ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
     AlunoViewDTO aluno = (AlunoViewDTO) request.getAttribute("aluno");
     Boletim boletim = (Boletim) request.getAttribute("boletim");
-    Map<String, Integer> mapNomeId = (Map<String, Integer>) request.getAttribute("mapNomeId");
 
-    // Pegando o dia da semana
-    LocalDate hoje = LocalDate.now();
-    Locale brasil = new Locale("pt","BR");
-    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("EEEE", brasil);
-    String diaSemana = hoje.format(formatador);
-    diaSemana = diaSemana.substring(0, 1).toUpperCase() + diaSemana.substring(1);
-
-    // Pegando o dia de hoje
-    Integer diaNum = hoje.getDayOfMonth();
-
-    // Pegando o mês do ano
-    List<String> meses = List.of("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez");
-    String mes = meses.get(hoje.getMonthValue()-1);
-
-    // Pegando o ano
-    Integer ano = hoje.getYear();
-
-    // Data retornada
-    String data = String.format("%d %s %d", diaNum, mes, ano);
-
+    // Pegando dia da semana e data
+    String data = (String) session.getAttribute("data");
+    String diaSemana = (String) session.getAttribute("diaSemana");
+    String nome2L = (String) session.getAttribute("nome2L");
 
 %>
 <!doctype html>
@@ -62,10 +45,10 @@
               <a class="page-text" href="${pageContext.request.contextPath}/home?usuario=professor">Home</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="notas.jsp">Notas</a>
+              <a class="page-text" href="#">Notas</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.jsp">Observações</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/alunos-professor?action=observacoes">Observações</a>
             </li>
             <li class="page-item can-hover">
               <a class="page-text" href="conta.jsp">Conta</a>
@@ -93,9 +76,9 @@
               src="${pageContext.request.contextPath}/assets/mensagens-icon.svg"
               alt="Mensagens Icon"
             />
-            <div class="bg-primary box-name m-3">
-              <p class="fs-4 fw-bold text-secondary">RE</p>
-            </div>
+              <div class="bg-primary box-name m-3">
+                  <p class="fs-4 fw-bold text-secondary"><%=nome2L%></p>
+              </div>
             <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%=professor.getNome()%></p>
           </div>
         </header>
@@ -118,7 +101,6 @@
             <hr />
             <div class="input-container">
               <form action="${pageContext.request.contextPath}/boletim?action=update" method="post">
-                  <input type="hidden" name="usuario" value="professor">
                   <input type="hidden" name="id_boletim" value=<%=boletim.getId()%>>
                   <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
                   <input type="hidden" name="id_disciplina" value=<%=boletim.getIdDisciplina()%>>
@@ -178,7 +160,7 @@
                   </div>
 
                   <div class="return-button">
-                    <a href="${pageContext.request.contextPath}/boletim?action=read&usuario=professor&id_aluno=<%=aluno.getIdAluno()%>">Cancelar</a>
+                    <a href="${pageContext.request.contextPath}/boletim?action=read&id_aluno=<%=aluno.getIdAluno()%>">Cancelar</a>
                   </div>
                 </div>
               </form>
