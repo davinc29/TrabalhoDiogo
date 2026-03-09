@@ -168,7 +168,7 @@
                             <input type="hidden" name="action" value="update">
                             <input type="hidden" name="id_boletim" value=<%=boletim.getId()%>>
                             <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
-                            <button type="submit" id="action-btn">
+                            <button type="submit" class="action-btn">
                                 <img
                                     class="table-icon"
                                     src="${pageContext.request.contextPath}/assets/editar.svg"

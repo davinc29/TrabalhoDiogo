@@ -49,7 +49,7 @@
                   <a href="${pageContext.request.contextPath}/cadastro.jsp" class="text-decoration-none text-primary fw-bold"
                     >Cadastrar-se</a>
                     <br>
-                    <a href="${pageContext.request.contextPath}/recuperar-senha?action=solicitar">
+                    <a href="${pageContext.request.contextPath}/recuperar-senha?action=solicitar" class="text-decoration-none fw-bold">
                         Esqueci minha senha
                     </a>
                 </p>
@@ -59,14 +59,11 @@
         </form>
       </div>
 
-      <div class="text-container container-md">
+      <div class="text-container">
         <h2 class="fs-1 fw-bold">
           Bem-Vindo ao <br />
           Capelus
         </h2>
-        <div class="image">
-          <img src="assets/login-image.svg" alt="Homem lendo um livro" />
-        </div>
       </div>
     </section>
 
@@ -75,7 +72,7 @@
       class="d-flex flex-column align-items-center vh-100 w-100 d-lg-none text-primary justify-content-center"
     >
       <div class="title-box">
-        <h1 class="fw-bold title">Bem-Vindo <br />ao Unicode</h1>
+        <h1 class="fw-bold title">Bem-Vindo <br />ao Capelus</h1>
       </div>
 
       <div class="d-flex flex-column w-75">
@@ -91,5 +88,9 @@
         </button>
       </div>
     </section>
+
+    <div class="image">
+      <img src="assets/login-image.svg" alt="Homem lendo um livro" />
+    </div>
   </body>
 </html>

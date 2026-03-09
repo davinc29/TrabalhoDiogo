@@ -164,7 +164,7 @@
                                 <input type="hidden" name="action" value="update">
                                 <input type="hidden" name="id_observacao" value=<%=observacao.getId()%>>
                                 <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
-                                <button type="submit" id="editar">
+                                <button type="submit" class="action-btn">
                                     <img
                                             class="table-icon"
                                             src="${pageContext.request.contextPath}/assets/editar.svg"
