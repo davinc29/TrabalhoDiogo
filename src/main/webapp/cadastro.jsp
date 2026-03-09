@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/login.css" />
     <link rel="icon" type="image/x-icon" href="assets/Capelus-icon.ico">
+      <script defer src="${pageContext.request.contextPath}/javascript/passwordRequirements.js"></script>
     <title>Cadastro</title>
   </head>
   <body>
@@ -45,8 +46,8 @@
                   </div>
 
                   <div class="mb-3 d-flex flex-column">
-                      <label for="password" class="form-label">Senha</label>
-                      <input type="password" class="form-control" id="password" name="senha" required />
+                      <label for="senha" class="form-label">Senha</label>
+                      <input type="password" class="form-control" id="senha" class="validar-senha" name="senha" required />
                   </div>
 
                   <div class="button-text-box d-flex flex-column text-center">

@@ -13,6 +13,7 @@
     <title>Capelus - Editar Professor</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <script defer src="${pageContext.request.contextPath}/javascript/passwordRequirements.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/portal-admin/professores-editar.css" />
 </head>
 <body>
@@ -75,12 +76,12 @@
 
                                 <div class="campo d-flex flex-column">
                                     <label for="senha">Senha:</label>
-                                    <input type="password" id="senha" name="senha" />
+                                    <input type="password" id="senha" class="validar-senha" name="senha" />
                                 </div>
                             </div>
                         </div>
 
-                        <div class="opcoes d-flex">
+                        <div class="opcoes d-flex" style="margin-top: 60px">
                             <div class="save-container">
                                 <button class="save" type="submit">Salvar</button>
                             </div>

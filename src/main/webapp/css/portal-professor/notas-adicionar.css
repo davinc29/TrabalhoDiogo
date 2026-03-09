@@ -167,3 +167,8 @@ ul{
     border-color: #aaaaaa;
     align-items: center;
 }
+
+.action-btn{
+    background-color: transparent;
+    border: none;
+}

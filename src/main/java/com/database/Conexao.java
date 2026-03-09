@@ -8,7 +8,10 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class Conexao {
     private static final Dotenv dotenv = Dotenv.load();
-    private static final String URL = dotenv.get("DB_HOST");
+    private static final String URL = "jdbc:postgresql://"
+            + dotenv.get("DB_HOST") + ":"
+            + dotenv.get("DB_PORT") + "/"
+            + dotenv.get("DB_NAME") + "?sslmode=require";
     private static final String USER = dotenv.get("DB_USER");
     private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 

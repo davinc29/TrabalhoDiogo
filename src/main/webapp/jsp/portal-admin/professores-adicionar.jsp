@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/portal-admin/professores-adicionar.css" />
     <script src="${pageContext.request.contextPath}/mobile-navbar.js"></script>
+    <script defer src="${pageContext.request.contextPath}/javascript/passwordRequirements.js"></script>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico" />
 </head>
 <body>
@@ -79,12 +80,12 @@
 
                                 <div class="campo d-flex flex-column">
                                     <label for="senha">Senha:</label>
-                                    <input type="password" id="senha" name="senha" placeholder="Ex: @Senha123" required />
+                                    <input type="password" id="senha" name="senha" class="validar-senha" placeholder="Ex: @Senha123" required />
                                 </div>
                             </div>
                         </div>
 
-                        <div class="opcoes d-flex">
+                        <div class="opcoes d-flex" style="margin-top: 60px">
                             <div class="save-container">
                                 <button class="save" type="submit">Criar</button>
                             </div>

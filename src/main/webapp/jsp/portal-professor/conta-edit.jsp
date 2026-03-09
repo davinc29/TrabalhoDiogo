@@ -19,6 +19,7 @@
     />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/portal-professor/conta-edit.css" />
+    <script src="${pageContext.request.contextPath}/javascript/passwordRequirements.js" defer></script>
     <script src="mobile-navbar.js"></script>
     <script src="${pageContext.request.contextPath}/javascript/passwordValidation.js" defer></script>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico" />
@@ -80,7 +81,7 @@
                 </div>
 
                 <form onsubmit="validarSenha(event)" id="atualizarSenha" action="${pageContext.request.contextPath}/professores?action=update&usuario=professor" method="post">
-                    <div class="campos">
+                    <div class="campos" style="margin-top: 40px">
                         <div class="email d-flex flex-column mb-4">
                             <label for="email-id">E-mail atual:</label>
                             <input type="text" id="email-id" value="<%=professor.getEmail()%>" disabled />
@@ -92,11 +93,11 @@
                         </div>
                         <div class="senha d-flex flex-column">
                             <label for="senha-id">Nova senha:</label>
-                            <input type="password" id="novaSenha" class="senha-id" name="nova_senha" required />
+                            <input type="password" id="novaSenha" class="senha-id validar-senha" name="nova_senha" required />
                         </div>
                         <div class="senha d-flex flex-column">
                             <label for="senha-id">Confirmar senha:</label>
-                            <input type="password" id="confirmarSenha" class="senha-id" required />
+                            <input type="password" id="confirmarSenha" class="senha-id" name="confirmar_senha" required />
 
                             <p id="erroSenha" style="color: red"></p>
                         </div>

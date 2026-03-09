@@ -54,7 +54,7 @@
       <div class="w-100 m-5">
         <header class="d-flex w-100 justify-content-between">
           <div class="lh-1">
-            <p class="fs-5 fw-bold">Portal do Professor</p>
+            <p class="fs-5 fw-bold">Portal do Estudante</p>
             <p class="fs-5 text-primary">
                 <span class="fw-bold"><%=session.getAttribute("diaSemana")%></span>, <%=session.getAttribute("data")%>
             </p>
