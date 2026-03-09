@@ -150,7 +150,7 @@
                             <form action="${pageContext.request.contextPath}/boletim?action=read" method="post">
                                 <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
                                 <input type="hidden" name="usuario" value="professor">
-                                <input type="submit" value="+">
+                                <input type="submit" value="+" class="add-btn">
                             </form>
                         </div>
                         <p class="text-primary">Adicionar Nota</p>

@@ -19,7 +19,6 @@
     />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/portal-professor/conta-edit.css" />
-    <script src="${pageContext.request.contextPath}/javascript/passwordRequirements.js" defer></script>
     <script src="mobile-navbar.js"></script>
     <script src="${pageContext.request.contextPath}/javascript/passwordValidation.js" defer></script>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico" />
@@ -97,7 +96,7 @@
                         </div>
                         <div class="senha d-flex flex-column">
                             <label for="senha-id">Confirmar senha:</label>
-                            <input type="password" id="confirmarSenha" class="senha-id" name="confirmar_senha" required />
+                            <input type="password" id="confirmarSenha" class="senha-id" required />
 
                             <p id="erroSenha" style="color: red"></p>
                         </div>
