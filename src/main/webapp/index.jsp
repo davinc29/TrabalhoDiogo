@@ -9,9 +9,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="icon" type="image/x-icon" href="assets/Capelus-icon.ico">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css" />
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico">
   </head>
   <body>
     <!-- d-lg-none = esconde para computador -->
@@ -90,7 +90,7 @@
     </section>
 
     <div class="image">
-      <img src="assets/login-image.svg" alt="Homem lendo um livro" />
+      <img src="${pageContext.request.contextPath}assets/login-image.svg" alt="Homem lendo um livro" />
     </div>
   </body>
 </html>

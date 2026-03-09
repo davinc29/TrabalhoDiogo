@@ -101,7 +101,7 @@
 
                 <hr />
                 <div class="input-container">
-                    <form action="${pageContext.request.contextPath}/boletim?action=update" method="post">
+                    <form action="${pageContext.request.contextPath}/observacoes?action=update" method="post">
                         <input type="hidden" name="id_observacao" value=<%=observacao.getId()%>>
                         <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
                         <input type="hidden" name="id_disciplina" value=<%=observacao.getIdDisciplina()%>>
@@ -111,15 +111,13 @@
                                 >Observação:</label
                                 >
                                 <textarea
-                                        name="observacao"
-                                        value=<%=observacao.getTextoObservacao()%>
-                                                type="number"
+                                        name="texto_observacao"
                                         id="observacao"
                                         rows="10"
                                         cols="50"
                                         placeholder="Escreva sua observação aqui..."
                                         required
-                                ></textarea>
+                                ><%=observacao.getTextoObservacao()%></textarea>
                             </div>
                         </div>
 

@@ -115,14 +115,14 @@
                                 <label for="observacao"
                                 >Observação:</label
                                 >
-                                <input
+                                <textarea
                                         name="texto_observacao"
                                         id="observacao"
                                         rows="10"
                                         cols="50"
                                         placeholder="Escreva sua observação aqui..."
                                         required
-                                />
+                                ></textarea>
                             </div>
                         </div>
 

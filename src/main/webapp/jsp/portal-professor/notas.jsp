@@ -91,20 +91,23 @@
           </div>
         </header>
         <main>
-          <div class="filter-box d-flex">
-            <div class="filter-name">
-              <input type="text" placeholder="Buscar por nome..." />
-            </div>
-            <div class="filter-name ms-4">
-              <input type="text" placeholder="Buscar por matrícula..." />
-            </div>
-            <div class="filter-name ms-4">
-              <input type="text" placeholder="Buscar por turma..." />
-            </div>
-            <div class="filter-button ms-4">
-                <button>Aplicar Filtro</button>
-            </div>
-          </div>
+            <form action="${pageContext.request.contextPath}/alunos-professor">
+                <input type="hidden" name="action" value="notas">
+              <div class="filter-box d-flex">
+                <div class="filter-name">
+                  <input name="nome" type="text" placeholder="Buscar por nome..." />
+                </div>
+                <div class="filter-name ms-4">
+                  <input name="matricula" type="text" placeholder="Buscar por matrícula..." />
+                </div>
+                <div class="filter-name ms-4">
+                  <input name="turmaAno" type="text" placeholder="Buscar por turma..." />
+                </div>
+                <div class="filter-button ms-4">
+                    <button type="submit">Aplicar Filtro</button>
+                </div>
+              </div>
+            </form>
 
           <div class="cards">
             <div class="coluna-esquerda">
@@ -150,7 +153,7 @@
                             <form action="${pageContext.request.contextPath}/boletim?action=read" method="post">
                                 <input type="hidden" name="id_aluno" value=<%=aluno.getIdAluno()%>>
                                 <input type="hidden" name="usuario" value="professor">
-                                <input type="submit" value="+">
+                                <input type="submit" value="+" class="add-btn">
                             </form>
                         </div>
                         <p class="text-primary">Adicionar Nota</p>

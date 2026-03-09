@@ -31,8 +31,18 @@ public class BoletimDAO extends DAO{
                 """;
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDouble(1,nota1);
-            pstmt.setDouble(2,nota2);
+            if (nota1 == null) {
+                pstmt.setObject(1,null);
+            } else {
+                pstmt.setDouble(1,nota1);
+            }
+
+            if (nota2 == null) {
+                pstmt.setObject(2,null);
+            } else {
+                pstmt.setDouble(1,nota2);
+            }
+
             pstmt.setObject(3,idAluno);
             pstmt.setInt(4,idDisciplina);
 
