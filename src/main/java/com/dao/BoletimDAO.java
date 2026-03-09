@@ -2,14 +2,12 @@ package com.dao;
 
 import com.dto.BoletimViewDTO;
 import com.model.Boletim;
+import com.utils.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class BoletimDAO extends DAO{
 
@@ -94,7 +92,7 @@ public class BoletimDAO extends DAO{
         return boletim;
     }
 
-    public List<BoletimViewDTO> listarPorAluno(UUID idAluno, Integer idBoletimFiltro, Double nota1Filtro, Double nota2Filtro, Double mediaFiltro) throws SQLException{
+    public List<BoletimViewDTO> listarPorAluno(UUID idAluno, Integer idBoletimFiltro, Double nota1Filtro, Double nota2Filtro, Double mediaFiltro, String nomeDisciplinaFiltro) throws SQLException{
 
         StringBuilder sql = new StringBuilder("""
                 SELECT
@@ -142,6 +140,12 @@ public class BoletimDAO extends DAO{
                     AND b.media = ?
                     """);
             valores.add(mediaFiltro);
+        }
+        if (nomeDisciplinaFiltro != null) {
+            sql.append("""
+                    AND upper(d.nome) LIKE ?
+                    """);
+            valores.add(StringUtils.formatarLike(nomeDisciplinaFiltro.toUpperCase()));
         }
 
         try(PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {

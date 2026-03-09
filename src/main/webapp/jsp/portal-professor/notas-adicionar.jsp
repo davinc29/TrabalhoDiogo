@@ -112,6 +112,9 @@
                 <div class="filter-name" style="width: 46%;">
                   <input type="text" name="media" placeholder="Buscar por média..." />
                 </div>
+                <div class="filter-name" style="width: 46%;">
+                    <input type="text" name="nome_disciplina" placeholder="Buscar por nome da disciplina..." />
+                </div>
                 <div class="filter-button ms-4">
                   <button type="submit">Aplicar Filtro</button>
                 </div>

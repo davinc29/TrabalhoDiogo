@@ -3,6 +3,7 @@ package com.dao;
 import com.dto.AlunoCadastrarDTO;
 import com.dto.AlunoViewDTO;
 import com.utils.SenhaUtils;
+import com.utils.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -214,18 +215,16 @@ public class AlunoDAO extends DAO {
                     aluno a
                 JOIN
                     pre_matricula p
-                    ON p.matricula = a.matricula
-                WHERE
-                    1=1
+                    ON p.matricula = a.matricula WHERE 1=1
                 """);
 
         List<Object> valores = new ArrayList<>();
 
         if (nomeFiltro != null) {
             sql.append("""
-                       AND a.nome = ?
+                       AND upper(a.nome) LIKE ?
                     """);
-            valores.add(nomeFiltro);
+            valores.add(StringUtils.formatarLike(nomeFiltro.toUpperCase()));
         }
         if (matriculaFiltro != null) {
             sql.append("""
@@ -235,9 +234,9 @@ public class AlunoDAO extends DAO {
         }
         if (turmaAnoFiltro != null) {
             sql.append("""
-                    AND p.turma_ano = ?
+                    AND p.turma_ano LIKE ?
                     """);
-            valores.add(turmaAnoFiltro);
+            valores.add(StringUtils.formatarLike(turmaAnoFiltro.toUpperCase()));
         }
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {

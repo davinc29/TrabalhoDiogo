@@ -90,33 +90,35 @@
         </header>
         <main>
             <div class="filter-box d-flex flex-column">
-                <div class="linha-cima d-flex">
-                    <div class="filter-name">
-                        <input type="text" placeholder="Buscar por id..." />
-                    </div>
-                    <div class="filter-name ms-4">
-                        <input
-                                type="text"
-                                placeholder="Buscar por nota do primeiro semestre..."
-                        />
-                    </div>
-                    <div class="filter-name ms-4">
-                        <input
-                                type="text"
-                                placeholder="Buscar por nota do segundo semestre..."
-                        />
-                    </div>
-                </div>
-                <div class="linha-baixo d-flex mt-3 justify-content-between">
-                    <div class="d-flex lado-esquerdo">
-                        <div class="filter-name" style="width: 46%;">
-                            <input type="text" placeholder="Buscar por média..." />
+                <form action="${pageContext.request.contextPath}/observacoes">
+                    <input type="hidden" name="action" value="read">
+                    <input type="hidden" name="id_aluno" value="<%=aluno.getIdAluno()%>">
+                    <div class="linha-cima d-flex">
+                        <div class="filter-name">
+                            <input name="id_observacao" type="text" placeholder="Buscar por id..." />
                         </div>
-                        <div class="filter-button ms-4">
-                            <button>Aplicar Filtro</button>
+                        <div class="filter-name ms-4">
+                            <input
+                                    type="text" name="nome_disciplina"
+                                    placeholder="Buscar por nome da disciplina..."
+                            />
+                        </div>
+                        <div class="filter-name ms-4">
+                            <input
+                                    type="text" name="nome_professor"
+                                    placeholder="Buscar por nome do professor..."
+                            />
                         </div>
                     </div>
-
+                    <div class="linha-baixo d-flex mt-3 justify-content-between">
+                        <div class="d-flex lado-esquerdo">
+                            <div class="filter-name" style="width: 46%;">
+                                <input type="text" name="texto_observacao" placeholder="Buscar por texto da observação..." />
+                            </div>
+                            <div class="filter-button ms-4">
+                                <button type="submit">Aplicar Filtro</button>
+                            </div>
+                        </div>
                     <div class="d-flex lado-direito">
                         <div class="add-button ms-4">
                             <a href="${pageContext.request.contextPath}/observacoes?action=create&id_aluno=<%=aluno.getIdAluno()%>&id_professor=<%=professor.getId()%>">+ Adicionar</a>
@@ -126,6 +128,7 @@
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
 
             <div class="tabela-container">

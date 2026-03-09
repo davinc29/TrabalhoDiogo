@@ -55,7 +55,7 @@ public class ObservacaoServlet extends HttpServlet {
                         idAluno = idAluno.trim();
                         UUID idAlunoUuid = UUID.fromString(idAluno);
 
-                        observacoes = listarPorAluno(idAlunoUuid);
+                        observacoes = listarPorAluno(idAlunoUuid, req);
                         aluno = listarAlunoPorId(req);
                     }
 
@@ -131,7 +131,7 @@ public class ObservacaoServlet extends HttpServlet {
                         idAluno = idAluno.trim();
                         UUID idAlunoUuid = UUID.fromString(idAluno);
 
-                        observacoes = listarPorAluno(idAlunoUuid);
+                        observacoes = listarPorAluno(idAlunoUuid, req);
                         aluno = listarAlunoPorId(req);
                     }
 
@@ -226,10 +226,21 @@ public class ObservacaoServlet extends HttpServlet {
         }
     }
 
-    public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno) throws SQLException, ClassNotFoundException{
-        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+    public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno, HttpServletRequest req) throws SQLException, ClassNotFoundException{
+        String temp = req.getParameter("id_observacao");
+        Integer idObservacao = (temp == null || temp.isBlank() ? null : Integer.parseInt(temp.trim()));
 
-            return dao.listarPorAluno(idAluno);
+        temp = req.getParameter("nome_disciplina");
+        String nomeDisciplina = (temp == null || temp.isBlank() ? null : temp.trim());
+
+        temp = req.getParameter("nome_professor");
+        String nomeProfessor = (temp == null || temp.isBlank() ? null : temp.trim());
+
+        temp = req.getParameter("texto_observacao");
+        String textoObservacao = (temp == null || temp.isBlank() ? null : temp.trim());
+
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+            return dao.listarPorAluno(idAluno, idObservacao, nomeDisciplina, nomeProfessor, textoObservacao);
         }
     }
 

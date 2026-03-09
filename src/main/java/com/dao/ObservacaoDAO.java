@@ -2,6 +2,7 @@ package com.dao;
 
 import com.dto.ObservacaoViewDTO;
 import com.model.Observacao;
+import com.utils.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -79,9 +80,9 @@ public class ObservacaoDAO extends DAO{
         return observacao;
     }
 
-    public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno) throws SQLException{
+    public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno, Integer idObservacaoFiltro, String nomeDisciplinaFiltro, String nomeProfessorFiltro, String textoObservacaiFiltro) throws SQLException{
 
-        String sql = """
+        StringBuilder sql = new StringBuilder("""
                 SELECT
                     o.id as id,
                     a.nome as nome_aluno,
@@ -105,12 +106,41 @@ public class ObservacaoDAO extends DAO{
                     ON p2.matricula = a.matricula
                 WHERE
                     a.id = ?
-                """;
+                """);
 
         List<ObservacaoViewDTO> observacoes = new ArrayList<>();
+        List<Object> valores = new ArrayList<>();
 
-        try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        if (idObservacaoFiltro != null) {
+            sql.append("""
+                    AND b.id = ?
+                    """);
+            valores.add(idObservacaoFiltro);
+        }
+        if (nomeDisciplinaFiltro != null) {
+            sql.append("""
+                    AND d.nome LIKE ?
+                    """);
+            valores.add(StringUtils.formatarLike(nomeDisciplinaFiltro));
+        }
+        if (nomeProfessorFiltro != null) {
+            sql.append("""
+                    AND p.nome LIKE ?
+                    """);
+            valores.add(StringUtils.formatarLike(nomeProfessorFiltro));
+        }
+        if (textoObservacaiFiltro != null) {
+            sql.append("""
+                    AND o.texto_observacao LIKE ?
+                    """);
+            valores.add(StringUtils.formatarLike(textoObservacaiFiltro));
+        }
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
             pstmt.setObject(1,idAluno);
+            for (int i = 0; i < valores.size(); i++){
+                pstmt.setObject(i+2, valores.get(i));
+            }
 
             ResultSet rs = pstmt.executeQuery();
 
