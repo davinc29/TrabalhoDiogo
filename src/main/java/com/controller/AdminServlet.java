@@ -373,18 +373,22 @@ public class AdminServlet extends HttpServlet {
         return ROTA_DISCIPLINAS;
     }
 
-    public List<AlunoViewDTO> listaAlunos(HttpServletRequest req) throws SQLException{
-        String temp = req.getParameter("nome");
-        String nome = (temp.isBlank() ? null : temp.trim());
-
-        temp = req.getParameter("matricula");
-        String matricula = (temp.isBlank() ? null : temp.trim());
-
-        temp = req.getParameter("turmaAno");
-        String turmaAno = (temp.isBlank() ? null : temp.trim());
+    public List<AlunoViewDTO> listaAlunos(HttpServletRequest req) throws SQLException {
+        String nome = tratarParametro(req.getParameter("nome"));
+        String matricula = tratarParametro(req.getParameter("matricula"));
+        String turmaAno = tratarParametro(req.getParameter("turmaAno"));
 
         try (AlunoDAO dao = new AlunoDAO()) {
             return dao.listarAlunos(nome, matricula, turmaAno);
         }
+    }
+
+    private String tratarParametro(String valor) {
+        return (valor == null || valor.isBlank()) ? null : valor.trim();
+    }
+
+    private String tratarNome(String nome) {
+        nome = tratarParametro(nome);
+        return nome == null ? null : WordUtils.capitalize(nome);
     }
 }

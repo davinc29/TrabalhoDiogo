@@ -90,7 +90,7 @@
     </section>
 
     <div class="image">
-      <img src="${pageContext.request.contextPath}assets/login-image.svg" alt="Homem lendo um livro" />
+      <img src="${pageContext.request.contextPath}/assets/login-image.svg" alt="Homem lendo um livro" />
     </div>
   </body>
 </html>
