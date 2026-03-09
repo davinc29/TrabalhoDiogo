@@ -29,7 +29,7 @@ public class AlunoProfessorServlet extends HttpServlet {
         boolean erro = true;
 
         try {
-            List<AlunoViewDTO> alunos = listaAlunos();
+            List<AlunoViewDTO> alunos = listaAlunos(req);
 
             req.setAttribute("alunos", alunos);
             erro = false;
@@ -52,9 +52,18 @@ public class AlunoProfessorServlet extends HttpServlet {
         }
     }
 
-    public List<AlunoViewDTO> listaAlunos() throws SQLException{
+    public List<AlunoViewDTO> listaAlunos(HttpServletRequest req) throws SQLException{
+        String temp = req.getParameter("nome");
+        String nome = (temp == null || temp.isBlank() ? null : temp.trim());
+
+        temp = req.getParameter("matricula");
+        String matricula = (temp == null || temp.isBlank() ? null : temp.trim());
+
+        temp = req.getParameter("turmaAno");
+        String turmaAno = (temp == null || temp.isBlank() ? null : temp.trim());
+
         try (AlunoDAO dao = new AlunoDAO()) {
-            return dao.listarAlunos();
+            return dao.listarAlunos(nome, matricula, turmaAno);
         }
      }
 }

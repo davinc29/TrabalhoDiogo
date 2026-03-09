@@ -7,10 +7,7 @@ import com.utils.SenhaUtils;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class AlunoDAO extends DAO {
 
@@ -205,8 +202,8 @@ public class AlunoDAO extends DAO {
     }
 
     //Listar Todos os Alunos
-    public List<AlunoViewDTO> listarAlunos() throws SQLException {
-        String sql = """
+    public List<AlunoViewDTO> listarAlunos(String nomeFiltro, String matriculaFiltro, String turmaAnoFiltro) throws SQLException {
+        StringBuilder sql = new StringBuilder("""
                 SELECT
                     a.id as id,
                     a.nome as nome,
@@ -218,9 +215,34 @@ public class AlunoDAO extends DAO {
                 JOIN
                     pre_matricula p
                     ON p.matricula = a.matricula
-                """;
+                """);
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        List<Object> valores = new ArrayList<>();
+
+        if (nomeFiltro != null) {
+            sql.append("""
+                    WHERE
+                        a.nome = ?
+                    """);
+            valores.add(nomeFiltro);
+        }
+        if (matriculaFiltro != null) {
+            sql.append("""
+                    AND a.matricula = ?
+                    """);
+            valores.add(matriculaFiltro);
+        }
+        if (turmaAnoFiltro != null) {
+            sql.append("""
+                    AND p.turma_ano = ?
+                    """);
+            valores.add(turmaAnoFiltro);
+        }
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+            for (int i = 0; i < valores.size(); i++){
+                pstmt.setObject(i+1, valores.get(i));
+            }
 
             ResultSet rs = pstmt.executeQuery();
 

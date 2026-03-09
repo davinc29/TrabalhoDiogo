@@ -52,10 +52,8 @@ public class AdminServlet extends HttpServlet {
         try {
             switch (action) {
                 case "read", "readAlunos" -> {
-                    try (AlunoDAO alunoDAO = new AlunoDAO()) {
-                        List<AlunoViewDTO> alunos = alunoDAO.listarAlunos();
-                        req.setAttribute("alunos", alunos);
-                    }
+                    List<AlunoViewDTO> alunos = listaAlunos(req);
+                    req.setAttribute("alunos", alunos);
                     destino = ALUNOS;
                 }
 
@@ -373,5 +371,20 @@ public class AdminServlet extends HttpServlet {
         }
 
         return ROTA_DISCIPLINAS;
+    }
+
+    public List<AlunoViewDTO> listaAlunos(HttpServletRequest req) throws SQLException{
+        String temp = req.getParameter("nome");
+        String nome = (temp.isBlank() ? null : temp.trim());
+
+        temp = req.getParameter("matricula");
+        String matricula = (temp.isBlank() ? null : temp.trim());
+
+        temp = req.getParameter("turmaAno");
+        String turmaAno = (temp.isBlank() ? null : temp.trim());
+
+        try (AlunoDAO dao = new AlunoDAO()) {
+            return dao.listarAlunos(nome, matricula, turmaAno);
+        }
     }
 }
