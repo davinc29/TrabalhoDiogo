@@ -77,42 +77,39 @@
         </header>
 
         <main>
-            <div class="filter-box d-flex flex-column">
-                <div class="linha-um d-flex">
-                    <div class="filter-name">
-                        <input type="text" name="id" placeholder="Buscar por id..." />
-                    </div>
-                    <div class="filter-name ms-4">
-                        <input type="text" name="matricula" placeholder="Buscar por matrícula..." />
-                    </div>
-                    <div class="filter-name ms-4">
-                        <input type="text" name="nome" placeholder="Buscar por nome..." />
-                    </div>
-                </div>
+            <form action="${pageContext.request.contextPath}/admin" method="get">
+                <input type="hidden" name="action" value="readAlunos" />
 
-                <div class="linha-dois d-flex mt-3">
-                    <div class="filter-name">
-                        <input type="text" name="email" placeholder="Buscar por email..." />
-                    </div>
-                    <div class="filter-name ms-4">
-                        <input type="text" name="turma" placeholder="Buscar por turma..." />
-                    </div>
-                </div>
+                <div class="filter-box d-flex flex-column">
+                    <div class="linha-um d-flex">
+                        <div class="filter-name">
+                            <input type="text" name="matricula" placeholder="Buscar por matrícula..." />
+                        </div>
 
-                <div class="linha-tres d-flex mt-3 justify-content-between">
-                    <div class="d-flex lado-esquerdo">
-                        <div class="filter-button">
-                            <button type="button">Aplicar Filtro</button>
+                        <div class="filter-name ms-4">
+                            <input type="text" name="nome" placeholder="Buscar por nome..." />
+                        </div>
+
+                        <div class="filter-name ms-4">
+                            <input type="text" name="email" placeholder="Buscar por email..." />
                         </div>
                     </div>
 
-                    <div class="d-flex lado-direito">
-                        <div class="add-button">
-                            <a href="${pageContext.request.contextPath}/admin?action=addAluno">+ Adicionar</a>
+                    <div class="linha-tres d-flex mt-3 justify-content-between">
+                        <div class="d-flex lado-esquerdo">
+                            <div class="filter-button">
+                                <button type="submit">Aplicar Filtro</button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex lado-direito">
+                            <div class="add-button">
+                                <a href="${pageContext.request.contextPath}/admin?action=addAluno">+ Adicionar</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <div class="tabela-container">
                 <table class="tabela-notas">

@@ -83,41 +83,51 @@
 
         <main>
             <form action="${pageContext.request.contextPath}/admin" method="get">
-                <input type="hidden" name="action" value="readProfessores" />
+
+                <input type="hidden" name="action" value="readProfessores"/>
 
                 <div class="filter-box d-flex flex-column">
-                    <div class="linha-um d-flex">
-                        <div class="filter-name">
-                            <input type="text" name="id" value="<%=idFiltro%>" placeholder="Buscar por id..." />
-                        </div>
-                        <div class="filter-name ms-4">
-                            <input type="text" name="username" value="<%=usernameFiltro%>" placeholder="Buscar por username..." />
-                        </div>
-                        <div class="filter-name ms-4">
-                            <input type="text" name="nome" value="<%=nomeFiltro%>" placeholder="Buscar por nome..." />
-                        </div>
-                    </div>
 
-                    <div class="linha-dois d-flex mt-3">
+                    <div class="linha-um d-flex">
+
                         <div class="filter-name">
-                            <input type="text" name="email" value="<%=emailFiltro%>" placeholder="Buscar por email..." />
+                            <input type="text" name="nome" placeholder="Buscar por nome..." />
                         </div>
+
+                        <div class="filter-name ms-4">
+                            <input type="text" name="username" placeholder="Buscar por username..." />
+                        </div>
+
+                        <div class="filter-name ms-4">
+                            <input type="text" name="email" placeholder="Buscar por email..." />
+                        </div>
+
                     </div>
 
                     <div class="linha-tres d-flex mt-3 justify-content-between">
+
                         <div class="d-flex lado-esquerdo">
+
                             <div class="filter-button">
                                 <button type="submit">Aplicar Filtro</button>
                             </div>
+
                         </div>
 
                         <div class="d-flex lado-direito">
+
                             <div class="add-button">
-                                <a href="${pageContext.request.contextPath}/admin?action=addProfessor">+ Adicionar</a>
+                                <a href="${pageContext.request.contextPath}/admin?action=addProfessor">
+                                    + Adicionar
+                                </a>
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </form>
 
             <div class="tabela-container">

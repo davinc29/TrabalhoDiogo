@@ -83,19 +83,13 @@
                 <div class="filter-box d-flex flex-column">
                     <div class="linha-um d-flex">
                         <div class="filter-name">
-                            <input type="text" name="id" placeholder="Buscar por id..." />
+                            <input type="text" name="nome" placeholder="Buscar por nome da disciplina..." />
                         </div>
                         <div class="filter-name ms-4">
-                            <input type="text" name="nome" placeholder="Buscar por nome..." />
+                            <input type="text" name="id" placeholder="Buscar por id da disciplina..." />
                         </div>
                         <div class="filter-name ms-4">
-                            <input type="text" name="professor" placeholder="Buscar por professor..." />
-                        </div>
-                    </div>
-
-                    <div class="linha-dois d-flex mt-3">
-                        <div class="filter-name">
-                            <input type="text" name="emailProfessor" placeholder="Buscar por email do professor..." />
+                            <input type="text" name="nomeProfessor" placeholder="Buscar por nome do professor..." />
                         </div>
                     </div>
 

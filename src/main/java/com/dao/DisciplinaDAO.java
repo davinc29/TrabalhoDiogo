@@ -2,22 +2,25 @@ package com.dao;
 
 import com.dto.DisciplinaViewDTO;
 import com.model.Disciplina;
-import com.model.Professor;
-import com.utils.SenhaUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
-public class DisciplinaDAO extends DAO{
+public class DisciplinaDAO extends DAO {
 
     public DisciplinaDAO() throws SQLException {
         super();
     }
 
-    public void cadastrar(Disciplina disciplina) throws SQLException{
+    public void cadastrar(Disciplina disciplina) throws SQLException {
         String nome = disciplina.getNome();
         UUID idProfessor = disciplina.getIdProfessor();
 
@@ -28,15 +31,13 @@ public class DisciplinaDAO extends DAO{
                     (?,?)
                 """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1,nome);
-            pstmt.setObject(2,idProfessor);
-
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nome);
+            pstmt.setObject(2, idProfessor);
             pstmt.execute();
-
             conn.commit();
+
         } catch (SQLException e) {
-            System.out.println("Erro no cadastro do disciplina!");
             conn.rollback();
             throw e;
         }
@@ -47,31 +48,58 @@ public class DisciplinaDAO extends DAO{
         String nome = atualizado.getNome();
         UUID idProfessor = atualizado.getIdProfessor();
 
-        StringBuilder sql = new StringBuilder("UPDATE disciplina SET");
-        List<Object> valores = new ArrayList<>();
-
-        if (!Objects.equals(nome, original.getNome())) {
-            sql.append(" nome = ?, ");
-            valores.add(nome);
-        }
-        if (!Objects.equals(idProfessor, original.getIdProfessor())) {
-            sql.append(" id_professor = ?, ");
-            valores.add(idProfessor);
-        }
-
-        if (valores.isEmpty()) {
+        if (Objects.equals(nome, original.getNome()) && Objects.equals(idProfessor, original.getIdProfessor())) {
             return;
         }
 
-        sql.setLength(sql.length() - 2);
-        sql.append(" WHERE id = ?");
-        valores.add(idDisciplina);
+        if (!Objects.equals(nome, original.getNome()) && !Objects.equals(idProfessor, original.getIdProfessor())) {
+            String sql = """
+                    UPDATE disciplina
+                    SET nome = ?, id_professor = ?
+                    WHERE id = ?
+                    """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
-            for (int i = 0; i < valores.size(); i++) {
-                pstmt.setObject(i + 1, valores.get(i));
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, nome);
+                pstmt.setObject(2, idProfessor);
+                pstmt.setInt(3, idDisciplina);
+                pstmt.executeUpdate();
+                conn.commit();
+                return;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
             }
+        }
 
+        if (!Objects.equals(nome, original.getNome())) {
+            String sql = """
+                    UPDATE disciplina
+                    SET nome = ?
+                    WHERE id = ?
+                    """;
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, nome);
+                pstmt.setInt(2, idDisciplina);
+                pstmt.executeUpdate();
+                conn.commit();
+                return;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+
+        String sql = """
+                UPDATE disciplina
+                SET id_professor = ?
+                WHERE id = ?
+                """;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setObject(1, idProfessor);
+            pstmt.setInt(2, idDisciplina);
             pstmt.executeUpdate();
             conn.commit();
         } catch (SQLException e) {
@@ -82,45 +110,44 @@ public class DisciplinaDAO extends DAO{
 
     public List<DisciplinaViewDTO> listar() throws SQLException {
         String sql = """
-            SELECT
-                d.id as id,
-                d.nome as nome_disciplina,
-                p.nome as nome_professor,
-                p.email as email_professor
-            FROM
-                disciplina d
-            JOIN
-                professor p
-                ON p.id = d.id_professor
-            ORDER BY
-                d.id
-            """;
+                SELECT
+                    d.id as id,
+                    d.nome as nome_disciplina,
+                    p.nome as nome_professor,
+                    p.email as email_professor
+                FROM
+                    disciplina d
+                JOIN
+                    professor p
+                    ON p.id = d.id_professor
+                ORDER BY
+                    d.id
+                """;
 
         List<DisciplinaViewDTO> disciplinas = new ArrayList<>();
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
-            while(rs.next()) {
+            while (rs.next()) {
                 Integer id = rs.getInt("id");
                 String nomeDisciplina = rs.getString("nome_disciplina");
                 String nomeProfessor = rs.getString("nome_professor");
                 String emailProfessor = rs.getString("email_professor");
 
-                DisciplinaViewDTO disciplina = new DisciplinaViewDTO(id, nomeDisciplina, nomeProfessor, emailProfessor);
-                disciplinas.add(disciplina);
+                disciplinas.add(new DisciplinaViewDTO(id, nomeDisciplina, nomeProfessor, emailProfessor));
             }
 
             conn.commit();
+            return disciplinas;
+
         } catch (SQLException e) {
             conn.rollback();
             throw e;
         }
-
-        return disciplinas;
     }
 
-    public void deletar(Integer id) throws SQLException{
+    public void deletar(Integer id) throws SQLException {
         String sql = """
                 DELETE FROM
                     disciplina
@@ -130,17 +157,16 @@ public class DisciplinaDAO extends DAO{
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
-
             pstmt.executeUpdate();
-
             conn.commit();
+
         } catch (SQLException e) {
             conn.rollback();
             throw e;
         }
     }
 
-    public void deletarPorIdProfessor(UUID id_prof) throws SQLException{
+    public void deletarPorIdProfessor(UUID id_prof) throws SQLException {
         String sql = """
                 DELETE FROM
                     disciplina
@@ -150,17 +176,16 @@ public class DisciplinaDAO extends DAO{
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setObject(1, id_prof);
-
             pstmt.executeUpdate();
-
             conn.commit();
+
         } catch (SQLException e) {
             conn.rollback();
             throw e;
         }
     }
 
-    public Disciplina pesquisarPorId(Integer id) throws SQLException{
+    public Disciplina pesquisarPorId(Integer id) throws SQLException {
         String sql = """
                 SELECT
                     id,
@@ -174,8 +199,8 @@ public class DisciplinaDAO extends DAO{
 
         Disciplina disciplina = null;
 
-        try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1,id);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
 
             ResultSet rs = pstmt.executeQuery();
 
@@ -185,18 +210,18 @@ public class DisciplinaDAO extends DAO{
                 UUID idProfessor = rs.getObject("id_professor", UUID.class);
 
                 disciplina = new Disciplina(idDisciplina, nome, idProfessor);
-                return disciplina;
             }
+
+            conn.commit();
+            return disciplina;
+
         } catch (SQLException e) {
             conn.rollback();
             throw e;
         }
-
-        conn.commit();
-        return disciplina;
     }
 
-    public Map<String, Integer> mapNomeId() throws SQLException{
+    public Map<String, Integer> mapNomeId() throws SQLException {
         String sql = """
                 SELECT
                     id,
@@ -207,19 +232,20 @@ public class DisciplinaDAO extends DAO{
 
         Map<String, Integer> mapNomeId = new HashMap<>();
 
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-            while(rs.next()) {
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
                 String nome = rs.getString("nome");
                 Integer id = rs.getInt("id");
-
                 mapNomeId.put(nome, id);
             }
-        }
 
-        return mapNomeId;
+            return mapNomeId;
+        }
     }
 
-    public Map<String, Integer> mapNomeIdProfessor(UUID idProfessor) throws SQLException{
+    public Map<String, Integer> mapNomeIdProfessor(UUID idProfessor) throws SQLException {
         String sql = """
                 SELECT
                     d.id,
@@ -239,14 +265,68 @@ public class DisciplinaDAO extends DAO{
             pstmt.setObject(1, idProfessor);
 
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next()) {
+
+            while (rs.next()) {
                 String nome = rs.getString("nome");
                 Integer id = rs.getInt("id");
-
                 mapNomeId.put(nome, id);
             }
-        }
 
-        return mapNomeId;
+            return mapNomeId;
+        }
+    }
+
+    public List<DisciplinaViewDTO> listarDisciplinas(String nomeDisciplina, Integer idDisciplina, String nomeProfessor) throws SQLException {
+        String sql = """
+                SELECT
+                    d.id as id,
+                    d.nome as nome_disciplina,
+                    p.nome as nome_professor,
+                    p.email as email_professor
+                FROM
+                    disciplina d
+                JOIN
+                    professor p
+                    ON p.id = d.id_professor
+                WHERE
+                    (? IS NULL OR LOWER(d.nome) LIKE LOWER(?))
+                AND
+                    (? IS NULL OR d.id = ?)
+                AND
+                    (? IS NULL OR LOWER(p.nome) LIKE LOWER(?))
+                ORDER BY
+                    d.id
+                """;
+
+        List<DisciplinaViewDTO> disciplinas = new ArrayList<>();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setObject(1, nomeDisciplina);
+            pstmt.setString(2, nomeDisciplina == null ? null : "%" + nomeDisciplina + "%");
+
+            pstmt.setObject(3, idDisciplina);
+            pstmt.setObject(4, idDisciplina);
+
+            pstmt.setObject(5, nomeProfessor);
+            pstmt.setString(6, nomeProfessor == null ? null : "%" + nomeProfessor + "%");
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                String nomeDisc = rs.getString("nome_disciplina");
+                String nomeProf = rs.getString("nome_professor");
+                String emailProf = rs.getString("email_professor");
+
+                disciplinas.add(new DisciplinaViewDTO(id, nomeDisc, nomeProf, emailProf));
+            }
+
+            conn.commit();
+            return disciplinas;
+
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+        }
     }
 }
