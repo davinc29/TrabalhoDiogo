@@ -234,25 +234,15 @@ public class BoletimServlet extends HttpServlet {
         }
     }
 
-    public List<BoletimViewDTO> listarPorAluno(UUID idAluno, HttpServletRequest req) throws SQLException, ClassNotFoundException{
-        String temp = req.getParameter("id_boletim");
-        Integer idBoletim = (temp == null || temp.isBlank() ? null : Integer.parseInt(temp.trim()));
-
-        temp = req.getParameter("nota1");
-        Double nota1 = (temp == null || temp.isBlank() ? null : Double.parseDouble(temp.trim()));
-
-        temp = req.getParameter("nota2");
-        Double nota2 = (temp == null || temp.isBlank() ? null : Double.parseDouble(temp.trim()));
-
-        temp = req.getParameter("media");
-        Double media = (temp == null || temp.isBlank() ? null : Double.parseDouble(temp.trim()));
-
-        temp = req.getParameter("nome_disciplina");
+    public List<BoletimViewDTO> listarPorAluno(UUID idAluno, HttpServletRequest req) throws SQLException, ClassNotFoundException {
+        String temp = req.getParameter("nome_disciplina");
         String nomeDisciplina = (temp == null || temp.isBlank() ? null : temp.trim());
 
-        try (BoletimDAO dao = new BoletimDAO()) {
+        temp = req.getParameter("situacao");
+        String situacao = (temp == null || temp.isBlank() ? null : temp.trim());
 
-            return dao.listarPorAluno(idAluno, idBoletim, nota1, nota2, media, nomeDisciplina);
+        try (BoletimDAO dao = new BoletimDAO()) {
+            return dao.listarPorAluno(idAluno, nomeDisciplina, situacao);
         }
     }
 

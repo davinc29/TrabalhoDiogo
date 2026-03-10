@@ -196,24 +196,24 @@ public class AlunoDAO extends DAO {
 
     public List<AlunoViewDTO> listarAlunos(String nomeFiltro, Integer matriculaFiltro, String emailFiltro) throws SQLException {
         String sql = """
-                SELECT
-                    a.id as id,
-                    a.nome as nome,
-                    a.matricula as matricula,
-                    a.email as email,
-                    p.turma_ano as turma_ano
-                FROM
-                    aluno a
-                JOIN
-                    pre_matricula p
-                    ON p.matricula = a.matricula
-                WHERE
-                    (? IS NULL OR upper(a.nome) LIKE ?)
-                AND
-                    (? IS NULL OR a.matricula = ?)
-                AND
-                    (? IS NULL OR upper(a.email) LIKE ?)
-                """;
+        SELECT
+            a.id as id,
+            a.nome as nome,
+            a.matricula as matricula,
+            a.email as email,
+            p.turma_ano as turma_ano
+        FROM
+            aluno a
+        JOIN
+            pre_matricula p
+            ON p.matricula = a.matricula
+        WHERE
+            (CAST(? AS TEXT) IS NULL OR upper(a.nome) LIKE ?)
+        AND
+            (CAST(? AS INTEGER) IS NULL OR a.matricula = ?)
+        AND
+            (CAST(? AS TEXT) IS NULL OR upper(a.email) LIKE ?)
+        """;
 
         List<AlunoViewDTO> alunos = new ArrayList<>();
 

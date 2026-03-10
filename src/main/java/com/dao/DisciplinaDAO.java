@@ -278,25 +278,25 @@ public class DisciplinaDAO extends DAO {
 
     public List<DisciplinaViewDTO> listarDisciplinas(String nomeDisciplina, Integer idDisciplina, String nomeProfessor) throws SQLException {
         String sql = """
-                SELECT
-                    d.id as id,
-                    d.nome as nome_disciplina,
-                    p.nome as nome_professor,
-                    p.email as email_professor
-                FROM
-                    disciplina d
-                JOIN
-                    professor p
-                    ON p.id = d.id_professor
-                WHERE
-                    (? IS NULL OR LOWER(d.nome) LIKE LOWER(?))
-                AND
-                    (? IS NULL OR d.id = ?)
-                AND
-                    (? IS NULL OR LOWER(p.nome) LIKE LOWER(?))
-                ORDER BY
-                    d.id
-                """;
+            SELECT
+                d.id as id,
+                d.nome as nome_disciplina,
+                p.nome as nome_professor,
+                p.email as email_professor
+            FROM
+                disciplina d
+            JOIN
+                professor p
+                ON p.id = d.id_professor
+            WHERE
+                (CAST(? AS TEXT) IS NULL OR LOWER(d.nome) LIKE LOWER(?))
+            AND
+                (CAST(? AS INTEGER) IS NULL OR d.id = ?)
+            AND
+                (CAST(? AS TEXT) IS NULL OR LOWER(p.nome) LIKE LOWER(?))
+            ORDER BY
+                d.id
+            """;
 
         List<DisciplinaViewDTO> disciplinas = new ArrayList<>();
 

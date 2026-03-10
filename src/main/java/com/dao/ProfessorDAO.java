@@ -406,22 +406,22 @@ public class ProfessorDAO extends DAO {
 
     public List<ProfessorDTO> listarProfessores(String nome, String username, String email) throws SQLException {
         String sql = """
-                SELECT
-                    id,
-                    nome,
-                    username,
-                    email
-                FROM
-                    professor
-                WHERE
-                    (? IS NULL OR LOWER(nome) LIKE LOWER(?))
-                AND
-                    (? IS NULL OR LOWER(username) LIKE LOWER(?))
-                AND
-                    (? IS NULL OR LOWER(email) LIKE LOWER(?))
-                ORDER BY
-                    nome
-                """;
+            SELECT
+                id,
+                nome,
+                username,
+                email
+            FROM
+                professor
+            WHERE
+                (CAST(? AS TEXT) IS NULL OR LOWER(nome) LIKE LOWER(?))
+            AND
+                (CAST(? AS TEXT) IS NULL OR LOWER(username) LIKE LOWER(?))
+            AND
+                (CAST(? AS TEXT) IS NULL OR LOWER(email) LIKE LOWER(?))
+            ORDER BY
+                nome
+            """;
 
         List<ProfessorDTO> professores = new ArrayList<>();
 

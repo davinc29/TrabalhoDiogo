@@ -226,21 +226,15 @@ public class ObservacaoServlet extends HttpServlet {
         }
     }
 
-    public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno, HttpServletRequest req) throws SQLException, ClassNotFoundException{
-        String temp = req.getParameter("id_observacao");
-        Integer idObservacao = (temp == null || temp.isBlank() ? null : Integer.parseInt(temp.trim()));
-
-        temp = req.getParameter("nome_disciplina");
+    public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno, HttpServletRequest req) throws SQLException, ClassNotFoundException {
+        String temp = req.getParameter("nome_disciplina");
         String nomeDisciplina = (temp == null || temp.isBlank() ? null : temp.trim());
 
         temp = req.getParameter("nome_professor");
         String nomeProfessor = (temp == null || temp.isBlank() ? null : temp.trim());
 
-        temp = req.getParameter("texto_observacao");
-        String textoObservacao = (temp == null || temp.isBlank() ? null : temp.trim());
-
         try (ObservacaoDAO dao = new ObservacaoDAO()) {
-            return dao.listarPorAluno(idAluno, idObservacao, nomeDisciplina, nomeProfessor, textoObservacao);
+            return dao.listarPorAluno(idAluno, nomeDisciplina, nomeProfessor);
         }
     }
 

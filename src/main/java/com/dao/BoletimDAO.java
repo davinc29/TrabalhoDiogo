@@ -2,7 +2,6 @@ package com.dao;
 
 import com.dto.BoletimViewDTO;
 import com.model.Boletim;
-import com.utils.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -117,6 +116,8 @@ public class BoletimDAO extends DAO {
                     ON d.id = b.id_disciplina
                 WHERE
                     a.id = ?
+                ORDER BY
+                    d.nome
                 """;
 
         PreparedStatement pstmt = null;
@@ -137,7 +138,6 @@ public class BoletimDAO extends DAO {
                 Double media = rs.getBigDecimal("media") != null ? rs.getBigDecimal("media").doubleValue() : null;
 
                 String situacao;
-
                 if (media == null) {
                     situacao = null;
                 } else if (media >= 7) {
@@ -165,7 +165,7 @@ public class BoletimDAO extends DAO {
         return boletins;
     }
 
-    public List<BoletimViewDTO> listarPorAluno(UUID idAluno, Integer idBoletimFiltro, Double nota1Filtro, Double nota2Filtro, Double mediaFiltro, String nomeDisciplinaFiltro) throws SQLException {
+    public List<BoletimViewDTO> listarPorAluno(UUID idAluno, String nomeDisciplinaFiltro, String situacaoFiltro) throws SQLException {
         String sql = """
                 SELECT
                     b.id as id_boletim,
@@ -185,15 +185,15 @@ public class BoletimDAO extends DAO {
                 WHERE
                     a.id = ?
                 AND
-                    (CAST(? AS INTEGER) IS NULL OR b.id = CAST(? AS INTEGER))
+                    (? IS NULL OR LOWER(d.nome) LIKE LOWER(?))
                 AND
-                    (CAST(? AS DOUBLE PRECISION) IS NULL OR b.nota1 = CAST(? AS DOUBLE PRECISION))
-                AND
-                    (CAST(? AS DOUBLE PRECISION) IS NULL OR b.nota2 = CAST(? AS DOUBLE PRECISION))
-                AND
-                    (CAST(? AS DOUBLE PRECISION) IS NULL OR b.media = CAST(? AS DOUBLE PRECISION))
-                AND
-                    (CAST(? AS TEXT) IS NULL OR UPPER(d.nome) LIKE UPPER(CAST(? AS TEXT)))
+                    (
+                        ? IS NULL
+                        OR (? = 'Aprovado' AND b.media >= 7)
+                        OR (? = 'Reprovado' AND b.media < 7)
+                    )
+                ORDER BY
+                    d.nome
                 """;
 
         PreparedStatement pstmt = null;
@@ -202,24 +202,18 @@ public class BoletimDAO extends DAO {
 
         try {
             pstmt = conn.prepareStatement(sql);
+
+            String disciplina = (nomeDisciplinaFiltro == null || nomeDisciplinaFiltro.isBlank()) ? null : nomeDisciplinaFiltro.trim();
+            String situacao = (situacaoFiltro == null || situacaoFiltro.isBlank()) ? null : situacaoFiltro.trim();
+
             pstmt.setObject(1, idAluno);
 
-            pstmt.setObject(2, idBoletimFiltro);
-            pstmt.setObject(3, idBoletimFiltro);
+            pstmt.setString(2, disciplina);
+            pstmt.setString(3, disciplina == null ? null : "%" + disciplina + "%");
 
-            pstmt.setObject(4, nota1Filtro);
-            pstmt.setObject(5, nota1Filtro);
-
-            pstmt.setObject(6, nota2Filtro);
-            pstmt.setObject(7, nota2Filtro);
-
-            pstmt.setObject(8, mediaFiltro);
-            pstmt.setObject(9, mediaFiltro);
-
-            pstmt.setString(10, nomeDisciplinaFiltro);
-            pstmt.setString(11, nomeDisciplinaFiltro == null || nomeDisciplinaFiltro.isBlank()
-                    ? null
-                    : StringUtils.formatarLike(nomeDisciplinaFiltro.toUpperCase()));
+            pstmt.setString(4, situacao);
+            pstmt.setString(5, situacao);
+            pstmt.setString(6, situacao);
 
             rs = pstmt.executeQuery();
 
@@ -231,14 +225,13 @@ public class BoletimDAO extends DAO {
                 Double nota2 = rs.getBigDecimal("nota2") != null ? rs.getBigDecimal("nota2").doubleValue() : null;
                 Double media = rs.getBigDecimal("media") != null ? rs.getBigDecimal("media").doubleValue() : null;
 
-                String situacao;
-
+                String situacaoResultado;
                 if (media == null) {
-                    situacao = null;
+                    situacaoResultado = null;
                 } else if (media >= 7) {
-                    situacao = "Aprovado";
+                    situacaoResultado = "Aprovado";
                 } else {
-                    situacao = "Reprovado";
+                    situacaoResultado = "Reprovado";
                 }
 
                 boletins.add(new BoletimViewDTO(
@@ -248,7 +241,7 @@ public class BoletimDAO extends DAO {
                         nota1,
                         nota2,
                         media,
-                        situacao
+                        situacaoResultado
                 ));
             }
         } finally {
