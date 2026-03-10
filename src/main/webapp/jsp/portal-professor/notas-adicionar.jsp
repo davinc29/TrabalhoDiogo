@@ -158,7 +158,7 @@
                     <td>
                         <p><%=aluno.getTurma_ano()%></p>
                     </td>
-                    <td>
+                    <td class="disciplina-column">
                         <p><%=boletim.getNomeDisciplina()%></p>
                     </td>
                     <td>

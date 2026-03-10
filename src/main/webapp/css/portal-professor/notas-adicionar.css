@@ -172,3 +172,7 @@ ul{
     background-color: transparent;
     border: none;
 }
+
+.disciplina-column{
+    width: 10%;
+}

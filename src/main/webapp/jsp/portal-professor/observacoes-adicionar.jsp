@@ -149,7 +149,7 @@
                         <td>
                             <p><%=aluno.getTurma_ano()%></p>
                         </td>
-                        <td>
+                        <td class="disciplina-column">
                             <p><%=observacao.getNomeDisciplina()%></p>
                         </td>
                         <td>
