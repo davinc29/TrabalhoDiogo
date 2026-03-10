@@ -31,7 +31,11 @@ public class BoletimDAO extends DAO {
                     (?,?,?,?)
                 """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
             if (nota1 == null) {
                 pstmt.setObject(1, null);
             } else {
@@ -46,13 +50,10 @@ public class BoletimDAO extends DAO {
 
             pstmt.setObject(3, idAluno);
             pstmt.setInt(4, idDisciplina);
-
-            pstmt.execute();
-            conn.commit();
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+            pstmt.executeUpdate();
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
     }
 
@@ -70,30 +71,31 @@ public class BoletimDAO extends DAO {
                     id = ?
                 """;
 
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         Boletim boletim = null;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
 
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Double nota1 = rs.getDouble("nota1");
-                Double nota2 = rs.getDouble("nota2");
-                Double media = rs.getDouble("media");
+            if (rs.next()) {
+                Double nota1 = rs.getBigDecimal("nota1") != null ? rs.getBigDecimal("nota1").doubleValue() : null;
+                Double nota2 = rs.getBigDecimal("nota2") != null ? rs.getBigDecimal("nota2").doubleValue() : null;
+                Double media = rs.getBigDecimal("media") != null ? rs.getBigDecimal("media").doubleValue() : null;
                 UUID idAluno = rs.getObject("id_aluno", UUID.class);
                 Integer idDisciplina = rs.getInt("id_disciplina");
 
                 boletim = new Boletim(id, nota1, nota2, media, idAluno, idDisciplina);
             }
-
-            conn.commit();
-            return boletim;
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
+
+        return boletim;
     }
 
     public List<BoletimViewDTO> listarPorAluno(UUID idAluno) throws SQLException {
@@ -117,24 +119,26 @@ public class BoletimDAO extends DAO {
                     a.id = ?
                 """;
 
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         List<BoletimViewDTO> boletins = new ArrayList<>();
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setObject(1, idAluno);
-
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Integer idBoletim = rs.getInt("id_boletim");
                 Integer matricula = rs.getInt("matricula");
                 String nomeDisciplina = rs.getString("nome_disciplina");
-                Double nota1 = rs.getDouble("nota1");
-                Double nota2 = rs.getDouble("nota2");
-                Double media = rs.getDouble("media");
+                Double nota1 = rs.getBigDecimal("nota1") != null ? rs.getBigDecimal("nota1").doubleValue() : null;
+                Double nota2 = rs.getBigDecimal("nota2") != null ? rs.getBigDecimal("nota2").doubleValue() : null;
+                Double media = rs.getBigDecimal("media") != null ? rs.getBigDecimal("media").doubleValue() : null;
 
                 String situacao;
 
-                if (rs.wasNull()) {
+                if (media == null) {
                     situacao = null;
                 } else if (media >= 7) {
                     situacao = "Aprovado";
@@ -152,18 +156,16 @@ public class BoletimDAO extends DAO {
                         situacao
                 ));
             }
-
-            conn.commit();
-            return boletins;
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
+
+        return boletins;
     }
 
     public List<BoletimViewDTO> listarPorAluno(UUID idAluno, Integer idBoletimFiltro, Double nota1Filtro, Double nota2Filtro, Double mediaFiltro, String nomeDisciplinaFiltro) throws SQLException {
-
         String sql = """
                 SELECT
                     b.id as id_boletim,
@@ -191,12 +193,15 @@ public class BoletimDAO extends DAO {
                 AND
                     (CAST(? AS DOUBLE PRECISION) IS NULL OR b.media = CAST(? AS DOUBLE PRECISION))
                 AND
-                    (CAST(? AS TEXT) IS NULL OR upper(d.nome) LIKE upper(CAST(? AS TEXT)))
+                    (CAST(? AS TEXT) IS NULL OR UPPER(d.nome) LIKE UPPER(CAST(? AS TEXT)))
                 """;
 
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         List<BoletimViewDTO> boletins = new ArrayList<>();
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setObject(1, idAluno);
 
             pstmt.setObject(2, idBoletimFiltro);
@@ -212,21 +217,23 @@ public class BoletimDAO extends DAO {
             pstmt.setObject(9, mediaFiltro);
 
             pstmt.setString(10, nomeDisciplinaFiltro);
-            pstmt.setString(11, nomeDisciplinaFiltro == null ? null : StringUtils.formatarLike(nomeDisciplinaFiltro.toUpperCase()));
+            pstmt.setString(11, nomeDisciplinaFiltro == null || nomeDisciplinaFiltro.isBlank()
+                    ? null
+                    : StringUtils.formatarLike(nomeDisciplinaFiltro.toUpperCase()));
 
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Integer idBoletim = rs.getInt("id_boletim");
                 Integer matricula = rs.getInt("matricula");
                 String nomeDisciplina = rs.getString("nome_disciplina");
-                Double nota1 = rs.getDouble("nota1");
-                Double nota2 = rs.getDouble("nota2");
-                Double media = rs.getDouble("media");
+                Double nota1 = rs.getBigDecimal("nota1") != null ? rs.getBigDecimal("nota1").doubleValue() : null;
+                Double nota2 = rs.getBigDecimal("nota2") != null ? rs.getBigDecimal("nota2").doubleValue() : null;
+                Double media = rs.getBigDecimal("media") != null ? rs.getBigDecimal("media").doubleValue() : null;
 
                 String situacao;
 
-                if (rs.wasNull()) {
+                if (media == null) {
                     situacao = null;
                 } else if (media >= 7) {
                     situacao = "Aprovado";
@@ -244,14 +251,13 @@ public class BoletimDAO extends DAO {
                         situacao
                 ));
             }
-
-            conn.commit();
-            return boletins;
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
+
+        return boletins;
     }
 
     public void atualizar(Boletim original, Boletim atualizado) throws SQLException {
@@ -270,18 +276,19 @@ public class BoletimDAO extends DAO {
                     WHERE id = ?
                     """;
 
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = null;
+
+            try {
+                pstmt = conn.prepareStatement(sql);
                 pstmt.setObject(1, nota1);
                 pstmt.setObject(2, nota2);
                 pstmt.setInt(3, id);
                 pstmt.executeUpdate();
-                conn.commit();
-                return;
-
-            } catch (SQLException e) {
-                conn.rollback();
-                throw e;
+            } finally {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
             }
+            return;
         }
 
         if (!Objects.equals(nota1, original.getNota1())) {
@@ -291,17 +298,18 @@ public class BoletimDAO extends DAO {
                     WHERE id = ?
                     """;
 
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = null;
+
+            try {
+                pstmt = conn.prepareStatement(sql);
                 pstmt.setObject(1, nota1);
                 pstmt.setInt(2, id);
                 pstmt.executeUpdate();
-                conn.commit();
-                return;
-
-            } catch (SQLException e) {
-                conn.rollback();
-                throw e;
+            } finally {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
             }
+            return;
         }
 
         String sql = """
@@ -310,15 +318,16 @@ public class BoletimDAO extends DAO {
                 WHERE id = ?
                 """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setObject(1, nota2);
             pstmt.setInt(2, id);
             pstmt.executeUpdate();
-            conn.commit();
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
     }
 
@@ -330,14 +339,15 @@ public class BoletimDAO extends DAO {
                     id = ?
                 """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
-            conn.commit();
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
     }
 
@@ -366,25 +376,26 @@ public class BoletimDAO extends DAO {
                     (b.nota1 is null or b.nota2 is null)
                 """;
 
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         List<String> notasPendentes = new ArrayList<>();
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setObject(1, idProfessor);
-
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 String nomeDisciplina = rs.getString("nome_disciplina");
                 String turmaAno = rs.getString("turma_ano");
-
                 notasPendentes.add(String.format("%s - Turma: %s", nomeDisciplina, turmaAno));
             }
-
-            return notasPendentes;
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
+
+        return notasPendentes;
     }
 }

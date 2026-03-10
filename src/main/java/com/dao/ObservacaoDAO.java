@@ -25,17 +25,17 @@ public class ObservacaoDAO extends DAO {
                     (?, ?, ?)
                 """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, observacao.getTextoObservacao());
             pstmt.setObject(2, observacao.getIdAluno());
             pstmt.setInt(3, observacao.getIdDisciplina());
-
             pstmt.executeUpdate();
-            conn.commit();
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
     }
 
@@ -62,18 +62,18 @@ public class ObservacaoDAO extends DAO {
                     id = ?
                 """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, texto);
             pstmt.setObject(2, idAluno);
             pstmt.setInt(3, idDisciplina);
             pstmt.setInt(4, id);
-
             pstmt.executeUpdate();
-            conn.commit();
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
     }
 
@@ -85,14 +85,15 @@ public class ObservacaoDAO extends DAO {
                     id = ?
                 """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, idObservacao);
             pstmt.executeUpdate();
-            conn.commit();
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
     }
 
@@ -109,12 +110,14 @@ public class ObservacaoDAO extends DAO {
                     id = ?
                 """;
 
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         Observacao observacao = null;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, idObservacao);
-
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -124,14 +127,13 @@ public class ObservacaoDAO extends DAO {
 
                 observacao = new Observacao(id, texto, idAluno, idDisciplina);
             }
-
-            conn.commit();
-            return observacao;
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
+
+        return observacao;
     }
 
     public List<ObservacaoViewDTO> listarPorProfessor(UUID idProfessor) throws SQLException {
@@ -161,12 +163,14 @@ public class ObservacaoDAO extends DAO {
                     p.id = ?
                 """;
 
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         List<ObservacaoViewDTO> observacoes = new ArrayList<>();
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setObject(1, idProfessor);
-
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -176,25 +180,22 @@ public class ObservacaoDAO extends DAO {
                 String nomeProfessor = rs.getString("nome_professor");
                 String observacao = rs.getString("observacao");
 
-                observacoes.add(
-                        new ObservacaoViewDTO(
-                                id,
-                                nomeAluno,
-                                turmaAno,
-                                nomeDisciplina,
-                                nomeProfessor,
-                                observacao
-                        )
-                );
+                observacoes.add(new ObservacaoViewDTO(
+                        id,
+                        nomeAluno,
+                        turmaAno,
+                        nomeDisciplina,
+                        nomeProfessor,
+                        observacao
+                ));
             }
-
-            conn.commit();
-            return observacoes;
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
+
+        return observacoes;
     }
 
     public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno) throws SQLException {
@@ -224,12 +225,14 @@ public class ObservacaoDAO extends DAO {
                     o.id_aluno = ?
                 """;
 
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         List<ObservacaoViewDTO> observacoes = new ArrayList<>();
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setObject(1, idAluno);
-
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -239,25 +242,22 @@ public class ObservacaoDAO extends DAO {
                 String nomeProfessor = rs.getString("nome_professor");
                 String observacao = rs.getString("observacao");
 
-                observacoes.add(
-                        new ObservacaoViewDTO(
-                                id,
-                                nomeAluno,
-                                turmaAno,
-                                nomeDisciplina,
-                                nomeProfessor,
-                                observacao
-                        )
-                );
+                observacoes.add(new ObservacaoViewDTO(
+                        id,
+                        nomeAluno,
+                        turmaAno,
+                        nomeDisciplina,
+                        nomeProfessor,
+                        observacao
+                ));
             }
-
-            conn.commit();
-            return observacoes;
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
+
+        return observacoes;
     }
 
     public List<ObservacaoViewDTO> listarPorAluno(UUID idAluno, Integer idObservacao, String nomeDisciplina, String nomeProfessor, String textoObservacao) throws SQLException {
@@ -286,33 +286,36 @@ public class ObservacaoDAO extends DAO {
                 WHERE
                     o.id_aluno = ?
                 AND
-                    (CAST(? AS INTEGER) IS NULL OR o.id = CAST(? AS INTEGER))
+                    (? IS NULL OR o.id = ?)
                 AND
-                    (CAST(? AS TEXT) IS NULL OR LOWER(d.nome) LIKE LOWER(CAST(? AS TEXT)))
+                    (? IS NULL OR LOWER(d.nome) LIKE LOWER(?))
                 AND
-                    (CAST(? AS TEXT) IS NULL OR LOWER(p.nome) LIKE LOWER(CAST(? AS TEXT)))
+                    (? IS NULL OR LOWER(p.nome) LIKE LOWER(?))
                 AND
-                    (CAST(? AS TEXT) IS NULL OR LOWER(o.texto_observacao) LIKE LOWER(CAST(? AS TEXT)))
+                    (? IS NULL OR LOWER(o.texto_observacao) LIKE LOWER(?))
                 """;
 
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         List<ObservacaoViewDTO> observacoes = new ArrayList<>();
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            pstmt = conn.prepareStatement(sql);
             pstmt.setObject(1, idAluno);
 
             pstmt.setObject(2, idObservacao);
             pstmt.setObject(3, idObservacao);
 
-            pstmt.setString(4, nomeDisciplina);
-            pstmt.setString(5, nomeDisciplina == null ? null : "%" + nomeDisciplina + "%");
+            pstmt.setString(4, nomeDisciplina == null || nomeDisciplina.isBlank() ? null : nomeDisciplina);
+            pstmt.setString(5, nomeDisciplina == null || nomeDisciplina.isBlank() ? null : "%" + nomeDisciplina + "%");
 
-            pstmt.setString(6, nomeProfessor);
-            pstmt.setString(7, nomeProfessor == null ? null : "%" + nomeProfessor + "%");
+            pstmt.setString(6, nomeProfessor == null || nomeProfessor.isBlank() ? null : nomeProfessor);
+            pstmt.setString(7, nomeProfessor == null || nomeProfessor.isBlank() ? null : "%" + nomeProfessor + "%");
 
-            pstmt.setString(8, textoObservacao);
-            pstmt.setString(9, textoObservacao == null ? null : "%" + textoObservacao + "%");
+            pstmt.setString(8, textoObservacao == null || textoObservacao.isBlank() ? null : textoObservacao);
+            pstmt.setString(9, textoObservacao == null || textoObservacao.isBlank() ? null : "%" + textoObservacao + "%");
 
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -322,24 +325,21 @@ public class ObservacaoDAO extends DAO {
                 String professor = rs.getString("nome_professor");
                 String observacao = rs.getString("observacao");
 
-                observacoes.add(
-                        new ObservacaoViewDTO(
-                                id,
-                                nomeAluno,
-                                turmaAno,
-                                disciplina,
-                                professor,
-                                observacao
-                        )
-                );
+                observacoes.add(new ObservacaoViewDTO(
+                        id,
+                        nomeAluno,
+                        turmaAno,
+                        disciplina,
+                        professor,
+                        observacao
+                ));
             }
-
-            conn.commit();
-            return observacoes;
-
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
+
+        return observacoes;
     }
 }
