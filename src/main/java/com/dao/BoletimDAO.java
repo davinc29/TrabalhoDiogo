@@ -2,6 +2,7 @@ package com.dao;
 
 import com.dto.BoletimViewDTO;
 import com.model.Boletim;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -202,6 +203,8 @@ public class BoletimDAO extends DAO {
 
         try {
             pstmt = conn.prepareStatement(sql);
+
+            situacaoFiltro = WordUtils.capitalizeFully(situacaoFiltro);
 
             String disciplina = (nomeDisciplinaFiltro == null || nomeDisciplinaFiltro.isBlank()) ? null : nomeDisciplinaFiltro.trim();
             String situacao = (situacaoFiltro == null || situacaoFiltro.isBlank()) ? null : situacaoFiltro.trim();

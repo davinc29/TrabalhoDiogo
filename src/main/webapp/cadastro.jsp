@@ -47,7 +47,7 @@
 
                   <div class="mb-3 d-flex flex-column">
                       <label for="senha" class="form-label">Senha</label>
-                      <input type="password" class="form-control" id="senha" class="validar-senha" name="senha" required />
+                      <input type="password" class="form-control validar-senha" id="senha" name="senha" required />
                   </div>
 
                   <div class="button-text-box d-flex flex-column text-center">

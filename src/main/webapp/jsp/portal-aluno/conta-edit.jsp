@@ -1,3 +1,6 @@
+<%--suppress HtmlUnknownTarget --%>
+<%--suppress XmlDefaultAttributeValue --%>
+<%--suppress HtmlUnknownTarget --%>
 <%@ page import="com.dto.AlunoViewDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -78,29 +81,35 @@
 
               <form onsubmit="validarSenha(event)" id="atualizarSenha" action="${pageContext.request.contextPath}/aluno?action=update" method="post">
                   <div class="campos">
+
                       <div class="email d-flex flex-column mb-4" style="margin-top: 40px">
                           <label for="email-id">E-mail atual:</label>
                           <input type="text" id="email-id" value="<%=aluno.getEmail()%>" disabled />
                           <input type="hidden" name="email" value="<%=aluno.getEmail()%>">
                       </div>
+
                       <div class="senha d-flex flex-column mb-4">
-                          <label for="senha-id">Senha atual:</label>
+                          <label for="senhaAtual">Senha atual:</label>
                           <input type="password" id="senhaAtual" class="senha-id" name="senha_atual" required/>
                       </div>
-                      <div class="senha d-flex flex-column">
-                          <label for="senha-id">Nova senha:</label>
-                          <input type="password" id="novaSenha" class="senha-id" name="nova_senha" required />
-                      </div>
-                      <div class="senha d-flex flex-column" style="margin-top: 20px; margin-bottom: 10px">
-                          <label for="senha-id">Confirmar senha:</label>
-                          <input type="password" id="confirmarSenha" class="senha-id" required />
 
-                          <p id="erroSenha" style="color: red"></p>
+                      <div class="senha d-flex flex-column">
+                          <label for="novaSenha">Nova senha:</label>
+                          <input type="password" id="novaSenha" class="senha-id validar-senha" name="nova_senha" required />
                       </div>
+
+                      <div class="senha d-flex flex-column" style="margin-top: 20px; margin-bottom: 10px">
+                          <label for="confirmarSenha">Confirmar senha:</label>
+                          <input type="password" id="confirmarSenha" class="senha-id" name="confirmar_senha" required />
+
+                          <p id="erroSenha" style="color:red"></p>
+                      </div>
+
                   </div>
 
                   <div class="edit-container">
                       <button type="submit" class="edit-button">Salvar</button>
+
                       <div class="edit-button">
                           <a href="${pageContext.request.contextPath}/jsp/portal-aluno/conta.jsp">Cancelar</a>
                       </div>

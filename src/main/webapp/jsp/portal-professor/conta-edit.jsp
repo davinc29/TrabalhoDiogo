@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/portal-professor/conta-edit.css" />
     <script src="mobile-navbar.js"></script>
     <script src="${pageContext.request.contextPath}/javascript/passwordValidation.js" defer></script>
+    <script src="${pageContext.request.contextPath}/javascript/passwordRequirements.js" defer></script>
     <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico" />
 </head>
 <body>
@@ -86,19 +87,21 @@
                             <input type="text" id="email-id" value="<%=professor.getEmail()%>" disabled />
                             <input type="hidden" name="email" value="<%=professor.getEmail()%>">
                         </div>
+
                         <div class="senha d-flex flex-column mb-4">
-                            <label for="senha-id">Senha atual:</label>
-                            <input type="password" id="senhaAtual" class="senha-id" name="senha_atual" required/>
+                            <label for="senhaAtual">Senha atual:</label>
+                            <input type="password" id="senhaAtual" class="senha-id" name="senha_atual" required />
                         </div>
+
                         <div class="senha d-flex flex-column">
-                            <label for="senha-id">Nova senha:</label>
+                            <label for="novaSenha">Nova senha:</label>
                             <input type="password" id="novaSenha" class="senha-id validar-senha" name="nova_senha" required />
                         </div>
-                        <div class="senha d-flex flex-column">
-                            <label for="senha-id">Confirmar senha:</label>
-                            <input type="password" id="confirmarSenha" class="senha-id" required />
 
-                            <p id="erroSenha" style="color: red"></p>
+                        <div class="senha d-flex flex-column">
+                            <label for="confirmarSenha">Confirmar senha:</label>
+                            <input type="password" id="confirmarSenha" class="senha-id" name="confirmar_senha" required />
+                            <p id="erroSenha" style="color:red"></p>
                         </div>
                     </div>
 

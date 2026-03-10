@@ -7,6 +7,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-admin/alunos.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-admin/disciplinas.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-aluno/boletim.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-aluno" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-aluno/conta-edit.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-aluno" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-aluno/conta.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-aluno" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-aluno/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-aluno" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-professor/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/jsp/portal-professor" />
