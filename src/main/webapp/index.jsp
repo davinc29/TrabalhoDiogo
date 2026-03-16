@@ -62,10 +62,10 @@
 
     <!-- Layout Mobile -->
     <section
-      class="d-flex flex-column align-items-center vh-100 w-100 d-lg-none text-primary justify-content-center"
+      class="d-flex flex-column align-items-center vh-100 w-100 d-lg-none text-primary justify-content-center mobile"
     >
       <div class="title-box">
-        <h1 class="fw-bold title">Bem-Vindo <br />ao Capelus</h1>
+        <img class="logo" src="assets/capelus-logo.svg">
       </div>
 
       <div class="d-flex flex-column w-75">

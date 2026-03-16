@@ -26,6 +26,14 @@ body {
     text-align: center;
 }
 
+.logo{
+    width: 250px;
+}
+
+.subtitle{
+    margin-top: 30px;
+}
+
 a:hover {
     color: #A32234 !important;
 }
@@ -42,5 +50,17 @@ button:hover{
 
     .button-text-box{
         width: 100%;
+    }
+
+    .login-container{
+        width: 100%;
+        margin-top: 50px;
+        background-color: rgba(255, 255, 255, 0.3);
+        padding: 0;
+        border-radius: 30px;
+    }
+
+    .mobile{
+        margin-top: 150px;
     }
 }
