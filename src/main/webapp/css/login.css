@@ -30,6 +30,10 @@ a:hover {
     color: #A32234 !important;
 }
 
+button:hover{
+    background-color: #c2c2c2 !important;
+}
+
 @media (max-width: 767px) {
     body {
         background-image: none;

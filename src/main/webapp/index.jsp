@@ -69,10 +69,10 @@
       </div>
 
       <div class="d-flex flex-column w-75">
-        <button class="btn btn-primary rounded-pill">
+        <button class="btn btn-primary rounded-pill btn-hover">
           <a
             href="mobile_login.html"
-            class="fs-2 text-decoration-none text-secondary"
+            class="fs-2 text-decoration-none text-secondary btn-hover"
             >Entrar</a
           >
         </button>
