@@ -151,7 +151,7 @@
                         <p><%=(boletim.getStatus().equalsIgnoreCase("PROCESSANDO") ? "-" : boletim.getNota2())%></p>
                     </td>
                     <td>
-                        <p><%=boletim.getMedia()%></p>
+                        <p><%=(boletim.getStatus().equalsIgnoreCase("PROCESSANDO") ? "-" : boletim.getMedia())%></p>
                     </td>
                     <%
                         String cor;

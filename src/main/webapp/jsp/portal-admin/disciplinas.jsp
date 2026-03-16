@@ -135,7 +135,7 @@
                             %>
                             <p>Sem professor</p>
                             <%} else {%>
-                            <p><%=disciplina.getNomeProfessor()%><%}%></p>
+                            <p><%=disciplina.getEmailProfessor()%><%}%></p>
                         </td>
                         <td class="action-box">
                             <form action="<%=request.getContextPath()%>/admin" method="get">

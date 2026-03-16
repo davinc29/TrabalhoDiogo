@@ -111,35 +111,36 @@ public class ObservacaoDAO extends DAO{
         List<ObservacaoViewDTO> observacoes = new ArrayList<>();
         List<Object> valores = new ArrayList<>();
 
+        valores.add(idAluno);
+
         if (idObservacaoFiltro != null) {
             sql.append("""
-                    AND b.id = ?
+                    AND upper(b.id) = ?
                     """);
             valores.add(idObservacaoFiltro);
         }
         if (nomeDisciplinaFiltro != null) {
             sql.append("""
-                    AND d.nome LIKE ?
+                    AND upper(d.nome) LIKE ?
                     """);
-            valores.add(StringUtils.formatarLike(nomeDisciplinaFiltro));
+            valores.add(StringUtils.formatarLike(nomeDisciplinaFiltro.toUpperCase()));
         }
         if (nomeProfessorFiltro != null) {
             sql.append("""
-                    AND p.nome LIKE ?
+                    AND upper(p.nome) LIKE ?
                     """);
-            valores.add(StringUtils.formatarLike(nomeProfessorFiltro));
+            valores.add(StringUtils.formatarLike(nomeProfessorFiltro.toUpperCase()));
         }
         if (textoObservacaiFiltro != null) {
             sql.append("""
-                    AND o.texto_observacao LIKE ?
+                    AND upper(o.texto_observacao) LIKE ?
                     """);
-            valores.add(StringUtils.formatarLike(textoObservacaiFiltro));
+            valores.add(StringUtils.formatarLike(textoObservacaiFiltro.toUpperCase()));
         }
 
         try(PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
-            pstmt.setObject(1,idAluno);
             for (int i = 0; i < valores.size(); i++){
-                pstmt.setObject(i+2, valores.get(i));
+                pstmt.setObject(i+1, valores.get(i));
             }
 
             ResultSet rs = pstmt.executeQuery();

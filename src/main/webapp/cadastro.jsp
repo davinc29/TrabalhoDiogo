@@ -76,7 +76,11 @@
       </div>
 
       <div class="logo p-5">
-        <img src="assets/logo-temp.svg" alt="Logo Unicode" />
+        <img src="assets/capelus-logo.svg" alt="Logo Unicode" />
+          <div class="subtitle">
+              <h2>Bem-Vindo de volta!</h2>
+              <p>Tudo começa por você, e pra você.</p>
+          </div>
       </div>
 
       <div class="login-container container-md w-75">

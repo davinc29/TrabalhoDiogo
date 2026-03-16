@@ -131,7 +131,7 @@
 
                         <td style="text-align:center;">
                             <p style="color:<%= b.getMedia() >= 7 ? "green" : "red" %>">
-                                <%= b.getMedia() %>
+                                <%=(b.getStatus().equalsIgnoreCase("PROCESSANDO") ? "-" : b.getMedia())%>
                             </p>
                         </td>
 

@@ -77,7 +77,8 @@
         </header>
         <main>
             <div class="filter-box d-flex flex-column">
-                <form action="${pageContext.request.contextPath}/observacoes?usuario=aluno">
+                <form action="${pageContext.request.contextPath}/observacoes">
+                    <input type="hidden" name="usuario" value="aluno"></input>
                     <input type="hidden" name="action" value="read">
                     <input type="hidden" name="id_aluno" value="<%=aluno.getIdAluno()%>">
                     <div class="linha-cima d-flex">
