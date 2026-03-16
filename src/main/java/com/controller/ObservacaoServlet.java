@@ -48,9 +48,9 @@ public class ObservacaoServlet extends HttpServlet {
         try {
             if (usuario != null) {
                 AlunoViewDTO aluno = (AlunoViewDTO) session.getAttribute("usuario");
-                List<ObservacaoViewDTO> boletim = listarPorAluno(aluno.getIdAluno(), req);
+                List<ObservacaoViewDTO> observacoes = listarPorAluno(aluno.getIdAluno(), req);
 
-                req.setAttribute("boletim", boletim);
+                req.setAttribute("observacoes", observacoes);
                 destino = PAGINA_PRINCIPAL_ALUNO;
             }
             else {

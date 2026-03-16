@@ -133,7 +133,7 @@
                   <div class="campo d-flex flex-column">
                     <label for="media">Média Final:</label>
                     <input
-                      value=<%=boletim.getMedia()%>
+                      value=<%=(boletim.getStatus().equalsIgnoreCase("PROCESSANDO") ? "-" : boletim.getMedia())%>
                       type="number"
                       step="0.01"
                       id="media"
