@@ -3,12 +3,8 @@ package com.controller;
 import com.dao.BoletimDAO;
 import com.dao.LoginDAO;
 import com.dao.ObservacaoDAO;
-import com.dto.AlunoViewDTO;
-import com.dto.LoginDTO;
-import com.dto.ObservacaoViewDTO;
-import com.dto.ProfessorDTO;
+import com.dto.*;
 import com.exception.ExcecaoDeJSP;
-import com.model.Professor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -49,6 +44,13 @@ public class HomeServlet extends HttpServlet {
                 destino = PAGINA_PRINCIPAL_PROFESSOR;
             } else {
                 AlunoViewDTO aluno = (AlunoViewDTO) session.getAttribute("usuario");
+
+                List<ObservacaoViewDTO> observacoes = listarObservacoesPorAluno(aluno.getIdAluno());
+                List<BoletimViewDTO> boletim = listarBoletimPorAluno(aluno.getIdAluno());
+
+                req.setAttribute("boletim", boletim);
+                req.setAttribute("observacoes", observacoes);
+
                 destino = PAGINA_PRINCIPAL_ALUNO;
             }
 
@@ -90,6 +92,18 @@ public class HomeServlet extends HttpServlet {
         }
     }
 
+    private List<BoletimViewDTO> listarBoletimPorAluno(UUID idAluno) throws SQLException{
+        try (BoletimDAO dao = new BoletimDAO()) {
+            return dao.listarPorAluno(idAluno, null, null, null, null,null);
+        }
+    }
+
+    private List<ObservacaoViewDTO> listarObservacoesPorAluno(UUID idAluno) throws SQLException{
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+            return dao.listarPorAluno(idAluno, null, null, null, null);
+        }
+    }
+
     public List<String> notasPendentes(UUID idProfessor) throws SQLException{
         try (BoletimDAO dao = new BoletimDAO()) {
             return dao.notasPendentes(idProfessor);
@@ -99,16 +113,6 @@ public class HomeServlet extends HttpServlet {
     public List<ObservacaoViewDTO> listarPorProfessor(UUID idProfessor) throws SQLException{
         try (ObservacaoDAO dao = new ObservacaoDAO()) {
             return dao.listarPorProfessor(idProfessor);
-        }
-    }
-
-    // === LOGOUT ===
-    private void logout(HttpServletRequest req) {
-        HttpSession session = req.getSession(false);
-
-        // Finaliza a sessão do usuário
-        if (session != null) {
-            session.removeAttribute("usuario");
         }
     }
 }

@@ -4,11 +4,7 @@ import com.dao.AdminDAO;
 import com.dao.BoletimDAO;
 import com.dao.LoginDAO;
 import com.dao.ObservacaoDAO;
-import com.dto.AdminDTO;
-import com.dto.AlunoViewDTO;
-import com.dto.LoginDTO;
-import com.dto.ObservacaoViewDTO;
-import com.dto.ProfessorDTO;
+import com.dto.*;
 import com.exception.ExcecaoDeJSP;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet("/sistema-filter")
 public class LoginServlet extends HttpServlet {
@@ -70,6 +67,12 @@ public class LoginServlet extends HttpServlet {
                 case 1 -> {
                     AlunoViewDTO aluno = encontrarAluno(credenciais);
                     HttpSession session = req.getSession(true);
+
+                    List<ObservacaoViewDTO> observacoes = listarObservacoesPorAluno(aluno.getIdAluno());
+                    List<BoletimViewDTO> boletim = listarBoletimPorAluno(aluno.getIdAluno());
+
+                    req.setAttribute("observacoes", observacoes);
+                    req.setAttribute("boletim", boletim);
 
                     session.setAttribute("usuario", aluno);
                     destino = AREA_RESTRITA_ALUNO;
@@ -137,6 +140,18 @@ public class LoginServlet extends HttpServlet {
     private AlunoViewDTO encontrarAluno(LoginDTO credenciais) throws SQLException {
         try (LoginDAO dao = new LoginDAO()) {
             return dao.encontrarAluno(credenciais);
+        }
+    }
+
+    private List<BoletimViewDTO> listarBoletimPorAluno(UUID idAluno) throws SQLException{
+        try (BoletimDAO dao = new BoletimDAO()) {
+            return dao.listarPorAluno(idAluno, null, null, null, null,null);
+        }
+    }
+
+    private List<ObservacaoViewDTO> listarObservacoesPorAluno(UUID idAluno) throws SQLException{
+        try (ObservacaoDAO dao = new ObservacaoDAO()) {
+            return dao.listarPorAluno(idAluno, null, null, null, null);
         }
     }
 

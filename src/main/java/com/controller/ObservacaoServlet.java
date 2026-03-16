@@ -29,62 +29,75 @@ public class ObservacaoServlet extends HttpServlet {
     private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/observacoes-adicionar.jsp";
     private static final String PAGINA_CADASTRO = "/jsp/portal-professor/observacoes-cadastro.jsp";
     private static final String PAGINA_EDICAO = "/jsp/portal-professor/observacoes-editar.jsp";
+
+    private static final String PAGINA_PRINCIPAL_ALUNO = "/jsp/portal-aluno/observacoes.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
 
+        String usuario = req.getParameter("usuario");
+        usuario = (usuario == null || usuario.isBlank() ? null : usuario.trim());
         String action = req.getParameter("action");
-        action = (action == null ? "read" : action.trim());
+        action = (action == null || action.isBlank() ? null : action.trim());
 
         boolean erro = true;
         String destino = null;
 
         try {
-            Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(professor.getId());
+            if (usuario != null) {
+                AlunoViewDTO aluno = (AlunoViewDTO) session.getAttribute("usuario");
+                List<ObservacaoViewDTO> boletim = listarPorAluno(aluno.getIdAluno(), req);
 
-            switch (action) {
-                case "read" -> {
-                    String idAluno = req.getParameter("id_aluno");
-                    List<ObservacaoViewDTO> observacoes = new ArrayList<>();
-                    AlunoViewDTO aluno = null;
+                req.setAttribute("boletim", boletim);
+                destino = PAGINA_PRINCIPAL_ALUNO;
+            }
+            else {
+                ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
+                Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(professor.getId());
 
-                    if (!idAluno.isEmpty()) {
-                        idAluno = idAluno.trim();
-                        UUID idAlunoUuid = UUID.fromString(idAluno);
+                switch (action) {
+                    case "read" -> {
+                        String idAluno = req.getParameter("id_aluno");
+                        List<ObservacaoViewDTO> observacoes = new ArrayList<>();
+                        AlunoViewDTO aluno = null;
 
-                        observacoes = listarPorAluno(idAlunoUuid, req);
-                        aluno = listarAlunoPorId(req);
+                        if (!idAluno.isEmpty()) {
+                            idAluno = idAluno.trim();
+                            UUID idAlunoUuid = UUID.fromString(idAluno);
+
+                            observacoes = listarPorAluno(idAlunoUuid, req);
+                            aluno = listarAlunoPorId(req);
+                        }
+
+                        req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
+                        req.setAttribute("aluno", aluno);
+                        req.setAttribute("observacoes", observacoes);
+
+                        destino = PAGINA_PRINCIPAL_PROFESSOR;
+                        erro = false;
                     }
 
-                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
-                    req.setAttribute("aluno", aluno);
-                    req.setAttribute("observacoes", observacoes);
+                    case "create" -> {
+                        AlunoViewDTO aluno = listarAlunoPorId(req);
 
-                    destino = PAGINA_PRINCIPAL_PROFESSOR;
-                    erro = false;
-                }
+                        req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
+                        req.setAttribute("aluno", aluno);
 
-                case "create" -> {
-                    AlunoViewDTO aluno = listarAlunoPorId(req);
+                        destino = PAGINA_CADASTRO;
+                    }
 
-                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
-                    req.setAttribute("aluno", aluno);
+                    case "update" -> {
+                        AlunoViewDTO aluno = listarAlunoPorId(req);
+                        Observacao observacao = pesquisarPorId(req);
 
-                    destino = PAGINA_CADASTRO;
-                }
+                        req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
+                        req.setAttribute("aluno", aluno);
+                        req.setAttribute("observacao", observacao);
 
-                case "update" -> {
-                    AlunoViewDTO aluno = listarAlunoPorId(req);
-                    Observacao observacao = pesquisarPorId(req);
-
-                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
-                    req.setAttribute("aluno", aluno);
-                    req.setAttribute("observacao", observacao);
-
-                    destino = PAGINA_EDICAO;
+                        destino = PAGINA_EDICAO;
+                    }
                 }
             }
 

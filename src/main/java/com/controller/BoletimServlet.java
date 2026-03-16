@@ -8,8 +8,6 @@ import com.dto.BoletimViewDTO;
 import com.dto.ProfessorDTO;
 import com.exception.ExcecaoDeJSP;
 import com.model.Boletim;
-import com.model.Disciplina;
-import com.model.Professor;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,64 +28,80 @@ public class BoletimServlet extends HttpServlet {
     private static final String PAGINA_PRINCIPAL_PROFESSOR = "/jsp/portal-professor/notas-adicionar.jsp";
     private static final String PAGINA_CADASTRO = "/jsp/portal-professor/notas-cadastro.jsp";
     private static final String PAGINA_EDICAO = "/jsp/portal-professor/notas-editar.jsp";
+
+    private static final String PAGINA_PRINCIPAL_ALUNO = "/jsp/portal-aluno/boletim.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
 
-        String action = req.getParameter("action").trim();
+        String usuario = req.getParameter("usuario");
+        usuario = (usuario == null || usuario.isBlank() ? null : usuario.trim());
+        String action = req.getParameter("action");
+        action = (action == null || action.isBlank() ? null : action.trim());
 
         boolean erro = true;
         String destino = null;
 
         try {
-            Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(professor.getId());
 
-            switch (action) {
-                case "read" -> {
-                    String idAluno = req.getParameter("id_aluno");
-                    List<BoletimViewDTO> boletins = new ArrayList<>();
+            if (usuario != null) {
+                AlunoViewDTO aluno = (AlunoViewDTO) session.getAttribute("usuario");
+                List<BoletimViewDTO> boletim = listarPorAluno(aluno.getIdAluno(), req);
 
-                    AlunoViewDTO aluno = null;
+                req.setAttribute("boletim", boletim);
+                destino = PAGINA_PRINCIPAL_ALUNO;
+            }
 
-                    if (!idAluno.isEmpty()) {
-                        idAluno = idAluno.trim();
-                        UUID idAlunoUuid = UUID.fromString(idAluno);
+            else {
+                ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");
+                Map<String, Integer> mapNomeIdProfessor = mapNomeIdProfessor(professor.getId());
 
-                        boletins = listarPorAluno(idAlunoUuid, req);
-                        aluno = listarAlunoPorId(req);
+                switch (action) {
+                    case "read" -> {
+                        String idAluno = req.getParameter("id_aluno");
+                        List<BoletimViewDTO> boletins = new ArrayList<>();
+
+                        AlunoViewDTO aluno = null;
+
+                        if (!idAluno.isEmpty()) {
+                            idAluno = idAluno.trim();
+                            UUID idAlunoUuid = UUID.fromString(idAluno);
+
+                            boletins = listarPorAluno(idAlunoUuid, req);
+                            aluno = listarAlunoPorId(req);
+                        }
+
+
+                        req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
+                        req.setAttribute("aluno", aluno);
+                        req.setAttribute("boletins", boletins);
+
+
+                        destino = PAGINA_PRINCIPAL_PROFESSOR;
+                        erro = false;
+                    }
+                    case "create" -> {
+                        AlunoViewDTO aluno = listarAlunoPorId(req);
+
+                        req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
+                        req.setAttribute("aluno", aluno);
+
+                        destino = PAGINA_CADASTRO;
                     }
 
+                    case "update" -> {
+                        AlunoViewDTO aluno = listarAlunoPorId(req);
+                        Boletim boletim = pesquisarPorId(req);
 
-                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
-                    req.setAttribute("aluno", aluno);
-                    req.setAttribute("boletins", boletins);
+                        req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
+                        req.setAttribute("aluno", aluno);
+                        req.setAttribute("boletim", boletim);
 
+                        destino = PAGINA_EDICAO;
 
-                    destino = PAGINA_PRINCIPAL_PROFESSOR;
-                    erro = false;
-                }
-                case "create" -> {
-                    AlunoViewDTO aluno = listarAlunoPorId(req);
-
-                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
-                    req.setAttribute("aluno", aluno);
-
-                    destino = PAGINA_CADASTRO;
-                }
-
-                case "update" -> {
-                    AlunoViewDTO aluno = listarAlunoPorId(req);
-                    Boletim boletim = pesquisarPorId(req);
-
-                    req.setAttribute("mapNomeIdProfessor", mapNomeIdProfessor);
-                    req.setAttribute("aluno", aluno);
-                    req.setAttribute("boletim", boletim);
-
-                    destino = PAGINA_EDICAO;
-
+                    }
                 }
             }
 
@@ -119,11 +132,13 @@ public class BoletimServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         String action = req.getParameter("action").trim();
 
+        String usuario = req.getParameter("usuario");
+        usuario = usuario == null || usuario.isBlank() ? null : usuario.trim();
+
         boolean erro = true;
         String destino = PAGINA_ERRO;
 
         try {
-
             switch (action) {
                 case "read" -> {
                     ProfessorDTO professor = (ProfessorDTO) session.getAttribute("usuario");

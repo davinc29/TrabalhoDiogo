@@ -31,18 +31,18 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.jsp">Home</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/home?usuario=aluno">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="boletim.jsp">Boletim</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/boletim?usuario=aluno">Boletim</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.jsp"
+              <a class="page-text" href="${pageContext.request.contextPath}/observacoes?usuario=aluno"
                 >Observações</a
               >
             </li>
             <li class="page-item active">
-              <a class="page-text" href="conta.html">Conta</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-aluno/conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>

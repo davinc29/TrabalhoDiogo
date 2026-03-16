@@ -90,12 +90,15 @@
         </header>
         <main>
             <div class="filter-box d-flex flex-column">
-                <form action="${pageContext.request.contextPath}/observacoes">
+                <form action="${pageContext.request.contextPath}/observacoes?usuario=aluno">
                     <input type="hidden" name="action" value="read">
                     <input type="hidden" name="id_aluno" value="<%=aluno.getIdAluno()%>">
                     <div class="linha-cima d-flex">
-                        <div class="filter-name">
-                            <input name="id_observacao" type="number" placeholder="Buscar por id..." />
+                        <div class="filter-name ms-4">
+                            <input
+                                    type="text" name="id_observacao"
+                                    placeholder="Buscar por id..."
+                            />
                         </div>
                         <div class="filter-name ms-4">
                             <input
@@ -111,10 +114,10 @@
                         </div>
                     </div>
                     <div class="linha-baixo d-flex mt-3 justify-content-between">
+                        <div class="filter-name" style="width: 46%;">
+                            <input type="text" name="texto_observacao" placeholder="Buscar por texto da observação..." />
+                        </div>
                         <div class="d-flex lado-esquerdo">
-                            <div class="filter-name" style="width: 46%;">
-                                <input type="text" name="texto_observacao" placeholder="Buscar por texto da observação..." />
-                            </div>
                             <div class="filter-button ms-4">
                                 <button type="submit">Aplicar Filtro</button>
                             </div>

@@ -7,11 +7,7 @@
 <%
     AlunoViewDTO aluno = (AlunoViewDTO) session.getAttribute("usuario");
 
-    String nome = (String) session.getAttribute("nome");
-
-    BoletimDAO boletimDAO = new BoletimDAO();
-    List<BoletimViewDTO> boletim = boletimDAO.listarPorAluno(aluno.getIdAluno());
-
+    List<BoletimViewDTO> boletim = (List<BoletimViewDTO>) request.getAttribute("boletim");
 %>
 
 <!doctype html>
@@ -36,16 +32,16 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item can-hover">
-              <a class="page-text" href="home.jsp">Home</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/home?usuario=aluno">Home</a>
             </li>
             <li class="page-item active">
-              <a class="page-text" href="boletim.html">Boletim</a>
+              <a class="page-text" href="#">Boletim</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="observacoes.jsp">Observações</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/observacoes?usuario=aluno">Observações</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="conta.jsp">Conta</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-aluno/conta.jsp">Conta</a>
             </li>
           </ul>
         </nav>
@@ -78,34 +74,37 @@
         </header>
         <main>
           <div class="filter-box d-flex flex-column">
-            <div class="linha-cima d-flex">
-              <div class="filter-name">
-                <input type="text" placeholder="Buscar por disciplina..." />
-              </div>
-              <div class="filter-name ms-4">
-                <input
-                  type="text"
-                  placeholder="Buscar por nota do primeiro semestre..."
-                />
-              </div>
-              <div class="filter-name ms-4">
-                <input
-                  type="text"
-                  placeholder="Buscar por nota do segundo semestre..."
-                />
-              </div>
-            </div>
-            <div class="linha-baixo d-flex mt-3">
-              <div class="filter-name">
-                <input type="text" placeholder="Buscar por média..." />
-              </div>
-              <div class="filter-name ms-4">
-                <input type="text" placeholder="Buscar por situação..." />
-              </div>
-              <div class="filter-button ms-4">
-                <button>Aplicar Filtro</button>
-              </div>
-            </div>
+              <form action="${pageContext.request.contextPath}/boletim">
+              <input type="hidden" name="usuario" value="aluno">
+              <input type="hidden" name="id_aluno" value="<%=aluno.getIdAluno()%>">
+                  <div class="linha-cima d-flex">
+                      <div class="filter-name ms-4">
+                          <input
+                                  type="number" step="0.01" name="nota1"
+                                  placeholder="Buscar por nota do primeiro semestre..."
+                          />
+                      </div>
+                      <div class="filter-name ms-4">
+                          <input
+                                  type="number" step="0.01" name="nota2"
+                                  placeholder="Buscar por nota do segundo semestre..."
+                          />
+                      </div>
+                      <div class="filter-name" style="width: 46%;">
+                          <input type="number" step="0.01" name="media" placeholder="Buscar por média..." />
+                      </div>
+                  </div>
+                  <div class="linha-baixo d-flex mt-3 justify-content-between">
+                      <div class="d-flex lado-esquerdo">
+                          <div class="filter-name" style="width: 46%;">
+                              <input type="text" name="nome_disciplina" placeholder="Buscar por nome da disciplina..." />
+                          </div>
+                          <div class="filter-button ms-4">
+                              <button type="submit">Aplicar Filtro</button>
+                          </div>
+                      </div>
+                  </div>
+              </form>
           </div>
 
             <div class="tabela-container">

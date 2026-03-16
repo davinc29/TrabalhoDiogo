@@ -44,12 +44,9 @@
     session.setAttribute("nome", nome);
 
 
-    //Pegando Observações do Aluno
-    ObservacaoDAO observacaoDAO = new ObservacaoDAO();
-    List<ObservacaoViewDTO> observacoes = observacaoDAO.listarPorAluno(aluno.getIdAluno(),null,null,null,null);
-
-    BoletimDAO boletimDAO = new BoletimDAO();
-    List<BoletimViewDTO> boletim = boletimDAO.listarPorAluno(aluno.getIdAluno(),null,null,null,null,null);
+    //Pegando dados do aluno direto do banco de dados
+    List<ObservacaoViewDTO> observacoes = (List<ObservacaoViewDTO>) request.getAttribute("observacoes");
+    List<BoletimViewDTO> boletim = (List<BoletimViewDTO>) request.getAttribute("boletim");
 
     // Pegando o dia da semana
     LocalDate hoje = LocalDate.now();
@@ -96,13 +93,13 @@
         <nav class="text-secondary">
           <ul class="">
             <li class="page-item active">
-              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-aluno/home.jsp">Home</a>
+              <a class="page-text" href="#">Home</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-aluno/boletim.jsp">Boletim</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/boletim?usuario=aluno">Boletim</a>
             </li>
             <li class="page-item can-hover">
-              <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-aluno/observacoes.jsp">Observações</a>
+              <a class="page-text" href="${pageContext.request.contextPath}/observacoes?usuario=aluno">Observações</a>
             </li>
             <li class="page-item can-hover">
               <a class="page-text" href="${pageContext.request.contextPath}/jsp/portal-aluno/conta.jsp">Conta</a>
@@ -202,7 +199,7 @@
                     </div>
 
                     <div class="d-flex justify-content-end me-4">
-                        <a href="${pageContext.request.contextPath}/jsp/portal-aluno/observacoes.jsp"
+                        <a href="${pageContext.request.contextPath}/observacoes?usuario=aluno"
                            class="text-decoration-none" style="color:black">Ver mais ></a>
                     </div>
                     <%
@@ -247,7 +244,7 @@
                         </table>
 
                         <div class="d-flex justify-content-end me-4">
-                            <a href="${pageContext.request.contextPath}/jsp/portal-aluno/boletim.jsp"
+                            <a href="${pageContext.request.contextPath}/boletim?usuario=aluno"
                                class="text-decoration-none" style="color:black">Ver mais ></a>
                         </div>
                         <%
