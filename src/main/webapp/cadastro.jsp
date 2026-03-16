@@ -9,9 +9,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="icon" type="image/x-icon" href="assets/Capelus-icon.ico">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css" />
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/Capelus-icon.ico">
       <script defer src="${pageContext.request.contextPath}/javascript/passwordRequirements.js"></script>
     <title>Cadastro</title>
   </head>
@@ -19,7 +19,7 @@
     <!-- Layout Computer -->
     <section class="d-sm-flex align-items-center vh-100 d-none">
       <div class="login-container container-md">
-          <form action="cadastro-aluno" method="post">
+          <form action="${pageContext.request.contextPath}/cadastro-aluno" method="post">
               <input type="hidden" name="action" value="cadastrar">
 
               <div class="mb-3">
@@ -58,7 +58,7 @@
                       <div class="cadastro-box d-flex justify-content-center">
                           <p>
                               Já tem conta?
-                              <a href="index.jsp" class="text-decoration-none text-primary fw-bold">Logar-se</a>
+                              <a href="${pageContext.request.contextPath}/index.jsp" class="text-decoration-none text-primary fw-bold">Logar-se</a>
                           </p>
                       </div>
                   </div>

@@ -108,7 +108,6 @@
                     </tr>
                     <%
                         if (boletim != null && !boletim.isEmpty()) {
-
                             for (int i = 0; i < boletim.size(); i++) {
                                 BoletimViewDTO b = boletim.get(i);
                     %>

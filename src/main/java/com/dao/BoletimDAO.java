@@ -120,42 +120,42 @@ public class BoletimDAO extends DAO{
         List<BoletimViewDTO> boletins = new ArrayList<>();
         List<Object> valores = new ArrayList<>();
 
-        if (idBoletimFiltro != null) {
-            sql.append("""
+            if (idBoletimFiltro != null) {
+                sql.append("""
                     AND b.id = ?
                     """);
-            valores.add(idBoletimFiltro);
-        }
-        if (nota1Filtro != null) {
-            sql.append("""
+                valores.add(idBoletimFiltro);
+            }
+            if (nota1Filtro != null) {
+                sql.append("""
                     AND b.nota1 = ?
                     """);
-            valores.add(nota1Filtro);
-        }
-        if (nota2Filtro != null) {
-            sql.append("""
+                valores.add(nota1Filtro);
+            }
+            if (nota2Filtro != null) {
+                sql.append("""
                     AND b.nota2 = ?
                     """);
-            valores.add(nota2Filtro);
-        }
-        if (mediaFiltro != null) {
-            sql.append("""
+                valores.add(nota2Filtro);
+            }
+            if (mediaFiltro != null) {
+                sql.append("""
                     AND b.media = ?
                     """);
-            valores.add(mediaFiltro);
-        }
-        if (nomeDisciplinaFiltro != null) {
-            sql.append("""
+                valores.add(mediaFiltro);
+            }
+            if (nomeDisciplinaFiltro != null) {
+                sql.append("""
                     AND upper(d.nome) LIKE ?
                     """);
-            valores.add(StringUtils.formatarLike(nomeDisciplinaFiltro.toUpperCase()));
-        }
-        if (statusFiltro != null) {
-            sql.append("""
+                valores.add(StringUtils.formatarLike(nomeDisciplinaFiltro.toUpperCase()));
+            }
+            if (statusFiltro != null) {
+                sql.append("""
                     AND upper(b.status) LIKE ?
                     """);
-            valores.add(StringUtils.formatarLike(statusFiltro.toUpperCase()));
-        }
+                valores.add(StringUtils.formatarLike(statusFiltro.toUpperCase()));
+            }
 
         sql.append("""
                 ORDER BY

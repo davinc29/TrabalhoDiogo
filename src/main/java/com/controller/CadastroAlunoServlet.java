@@ -53,6 +53,7 @@ public class CadastroAlunoServlet extends HttpServlet {
                     }
 
                     Integer matricula;
+
                     try {
                         matricula = Integer.parseInt(matriculaStr);
                     } catch (NumberFormatException e) {

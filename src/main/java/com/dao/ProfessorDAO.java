@@ -253,11 +253,11 @@ public class ProfessorDAO extends DAO{
         return mapNomeId;
     }
 
-    public void recuperarSenhaProfessor(String email, String senhaHash)
+    public void recuperarSenhaProfessor(String email, String novaSenha)
             throws SQLException {
         String sql = "UPDATE professor SET senha = ? WHERE email = ?";
 
-        ProfessorDTO professor = null;
+        String senhaHash = SenhaUtils.hashear(novaSenha);
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             try {

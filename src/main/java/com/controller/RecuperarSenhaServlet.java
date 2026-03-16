@@ -186,20 +186,18 @@ public class RecuperarSenhaServlet extends HttpServlet {
             throw ExcecaoDeJSP.senhasNaoCoincidem();
         }
 
-        String senhaHash = SenhaUtils.hashear(novaSenha);
-
         if ("aluno".equals(tipoUsuario)) {
             try (OtpDAO otpDao = new OtpDAO()) {
                 UUID idAluno = otpDao.buscarIdAlunoPorEmail(email);
 
                 try (AlunoDAO alunoDao = new AlunoDAO()) {
-                    alunoDao.atualizarSenhaAluno(idAluno, senhaHash);
+                    alunoDao.atualizarSenhaAluno(idAluno, novaSenha);
                 }
             }
         }
         else {
             try (ProfessorDAO professorDAO = new ProfessorDAO()) {
-                professorDAO.recuperarSenhaProfessor(email, senhaHash);
+                professorDAO.recuperarSenhaProfessor(email, novaSenha);
             }
         }
 

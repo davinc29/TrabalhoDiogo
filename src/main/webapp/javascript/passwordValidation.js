@@ -9,9 +9,8 @@ function validarSenha(event) {
     const temTamanho = senha.length >= 8;
     const temLetra = /[a-zA-Z]/.test(senha);
     const temNumero = /[0-9]/.test(senha);
-    const temEspecial = /[^A-Za-z0-9]/.test(senha);
 
-    if (!(temTamanho && temLetra && temNumero && temEspecial)) {
+    if (!(temTamanho && temLetra && temNumero)) {
         event.preventDefault();
         erro.innerText = "A senha deve ter 8 caracteres, letra, número e caractere especial.";
         senhaNova.focus();
