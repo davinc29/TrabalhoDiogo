@@ -9,16 +9,16 @@ public class BoletimViewDTO {
     private Double nota1;
     private Double nota2;
     private Double media;
-    private String situacao;
+    private String status;
 
-    public BoletimViewDTO(Integer id,Integer matricula, String nomeDisciplina, Double nota1, Double nota2, Double media, String situacao) {
+    public BoletimViewDTO(Integer id,Integer matricula, String nomeDisciplina, Double nota1, Double nota2, Double media, String status) {
         this.id = id;
         this.matricula = matricula;
         this.nomeDisciplina = nomeDisciplina;
         this.nota1 = nota1;
         this.nota2 = nota2;
         this.media = media;
-        this.situacao = situacao;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -69,12 +69,12 @@ public class BoletimViewDTO {
         this.media = media;
     }
 
-    public String getSituacao() {
-        return situacao;
+    public String getStatus() {
+        return status;
     }
 
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class BoletimViewDTO {
                 ", nota1=" + nota1 +
                 ", nota2=" + nota2 +
                 ", media=" + media +
-                ", situacao='" + situacao + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

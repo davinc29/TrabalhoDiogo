@@ -73,28 +73,9 @@ public class HomeServlet extends HttpServlet {
         }
     }
 
-    // === LOGIN ===
-    private Integer login(LoginDTO credenciais) throws SQLException, ClassNotFoundException, ExcecaoDeJSP {
-        try (LoginDAO dao = new LoginDAO()) {
-            return dao.login(credenciais);
-        }
-    }
-
-    private ProfessorDTO encontrarProfessor(LoginDTO credenciais) throws SQLException{
-        try (LoginDAO dao = new LoginDAO()) {
-            return dao.encontrarProfessor(credenciais);
-        }
-    }
-
-    private AlunoViewDTO encontrarAluno(LoginDTO credenciais) throws SQLException {
-        try (LoginDAO dao = new LoginDAO()) {
-            return dao.encontrarAluno(credenciais);
-        }
-    }
-
     private List<BoletimViewDTO> listarBoletimPorAluno(UUID idAluno) throws SQLException{
         try (BoletimDAO dao = new BoletimDAO()) {
-            return dao.listarPorAluno(idAluno, null, null, null, null,null);
+            return dao.listarPorAluno(idAluno, null, null, null, null,null, null);
         }
     }
 

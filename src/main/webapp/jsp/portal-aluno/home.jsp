@@ -223,7 +223,7 @@
                                 <th>Nota 1</th>
                                 <th>Nota 2</th>
                                 <th>Média</th>
-                                <th>Situação</th>
+                                <th>Status</th>
                             </tr>
                             <%
                                 int contadorBoletim = 0;
@@ -235,7 +235,22 @@
                                 <td><p><%= b.getNota1() %></p></td>
                                 <td><p><%= b.getNota2() %></p></td>
                                 <td><p><%= b.getMedia() %></p></td>
-                                <td><p><%= b.getSituacao() %></p></td>
+                                <%
+                                    String cor;
+                                    String status = b.getStatus().toUpperCase();
+
+                                    if (status.equals("APROVADO")) {
+                                        cor = "green";
+                                    } else if (status.equals("REPROVADO")) {
+                                        cor = "red";
+                                    } else {
+                                        cor = "#FF8C00";
+                                    }
+                                %>
+                                <td>
+                                    <p style="color:<%=cor%>">
+                                    <%= b.getStatus() %>
+                                </td>
                             </tr>
                             <%
                                     contadorBoletim++;

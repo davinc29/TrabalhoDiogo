@@ -139,6 +139,7 @@
                 <th>Primeiro Semestre</th>
                 <th>Segundo Semestre</th>
                 <th>Média</th>
+                <th>Status</th>
               </tr>
                 <%for (BoletimViewDTO boletim : boletins) {%>
                 <tr>
@@ -162,6 +163,22 @@
                     </td>
                     <td>
                         <p><%=boletim.getMedia()%></p>
+                    </td>
+                    <%
+                        String cor;
+                        String status = boletim.getStatus().toUpperCase();
+
+                        if (status.equals("APROVADO")) {
+                            cor = "green";
+                        } else if (status.equals("REPROVADO")) {
+                            cor = "red";
+                        } else {
+                            cor = "#FF8C00";
+                        }
+                    %>
+                    <td>
+                        <p style="color:<%=cor%>">
+                                <%= boletim.getStatus() %>
                     </td>
                     <%if (mapNomeIdProfessor.get(boletim.getNomeDisciplina()) != null) {%>
                     <td class="action-box">

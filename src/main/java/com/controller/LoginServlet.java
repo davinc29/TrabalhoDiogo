@@ -145,7 +145,7 @@ public class LoginServlet extends HttpServlet {
 
     private List<BoletimViewDTO> listarBoletimPorAluno(UUID idAluno) throws SQLException{
         try (BoletimDAO dao = new BoletimDAO()) {
-            return dao.listarPorAluno(idAluno, null, null, null, null,null);
+            return dao.listarPorAluno(idAluno, null, null, null, null,null, null);
         }
     }
 

@@ -265,12 +265,15 @@ public class BoletimServlet extends HttpServlet {
         temp = req.getParameter("media");
         Double media = (temp == null || temp.isBlank() ? null : Double.parseDouble(temp.trim()));
 
+        temp = req.getParameter("status");
+        String status = (temp == null || temp.isBlank() ? null : temp.trim());
+
         temp = req.getParameter("nome_disciplina");
         String nomeDisciplina = (temp == null || temp.isBlank() ? null : temp.trim());
 
         try (BoletimDAO dao = new BoletimDAO()) {
 
-            return dao.listarPorAluno(idAluno, idBoletim, nota1, nota2, media, nomeDisciplina);
+            return dao.listarPorAluno(idAluno, idBoletim, nota1, nota2, media, nomeDisciplina, status);
         }
     }
 

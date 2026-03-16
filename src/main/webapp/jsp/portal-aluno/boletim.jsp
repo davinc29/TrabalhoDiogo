@@ -114,7 +114,7 @@
                         <th style="text-align:center;">Primeiro Semestre</th>
                         <th style="text-align:center;">Segundo Semestre</th>
                         <th style="text-align:center;">Média</th>
-                        <th style="text-align:center;">Situação</th>
+                        <th style="text-align:center;">Status</th>
                     </tr>
                     <%
                         if (boletim != null && !boletim.isEmpty()) {
@@ -145,10 +145,21 @@
                             </p>
                         </td>
 
-                        <td style="text-align:center;">
-                            <p style="color:<%= b.getSituacao().equalsIgnoreCase("Aprovado") ? "green" : "red" %>; font-weight:bold;">
-                                <%= b.getSituacao() %>
-                            </p>
+                        <%
+                            String cor;
+                            String status = b.getStatus().toUpperCase();
+
+                            if (status.equals("APROVADO")) {
+                                cor = "green";
+                            } else if (status.equals("REPROVADO")) {
+                                cor = "red";
+                            } else {
+                                cor = "#FF8C00";
+                            }
+                        %>
+                        <td>
+                            <p style="color:<%=cor%>">
+                                    <%= b.getStatus() %>
                         </td>
                     </tr>
                     <%

@@ -7,14 +7,16 @@ public class Boletim {
     private Double nota1;
     private Double nota2;
     private Double media;
+    private String status;
     private UUID idAluno;
     private Integer idDisciplina;
 
-    public Boletim(Integer idBoletim, Double nota1, Double nota2, Double media, UUID idAluno, Integer idDisciplina) {
+    public Boletim(Integer idBoletim, Double nota1, Double nota2, Double media, String status, UUID idAluno, Integer idDisciplina) {
         this.id = idBoletim;
         this.nota1 = nota1;
         this.nota2 = nota2;
         this.media = media;
+        this.status = status;
         this.idAluno = idAluno;
         this.idDisciplina = idDisciplina;
     }
@@ -58,6 +60,14 @@ public class Boletim {
         this.media = media;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public UUID getIdAluno() {
         return idAluno;
     }
@@ -75,6 +85,6 @@ public class Boletim {
     }
 
     public String toString() {
-        return String.format("ID Boletim: %d\nNota 1: %.2f\n Nota2: %.2f\nMédia: %.2f\nID Aluno: %s\nID Disciplina: %d\n", id, nota1, nota2, media, idAluno, idDisciplina);
+        return String.format("ID Boletim: %d\nNota 1: %.2f\n Nota2: %.2f\nMédia: %.2f\nStatus: %s\nID Aluno: %s\nID Disciplina: %d\n", id, nota1, nota2, media, idAluno, idDisciplina);
     }
 }
