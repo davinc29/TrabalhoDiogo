@@ -157,6 +157,11 @@ public class BoletimDAO extends DAO{
             valores.add(StringUtils.formatarLike(statusFiltro.toUpperCase()));
         }
 
+        sql.append("""
+                ORDER BY
+                    b.media
+                """);
+
         try(PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
             pstmt.setObject(1,idAluno);
             for (int i = 0; i < valores.size(); i++){
@@ -269,6 +274,8 @@ public class BoletimDAO extends DAO{
                 WHERE
                     p.id = ? AND
                     (b.nota1 is null or b.nota2 is null)
+                ORDER BY
+                    d.nome
                 """;
 
         List<String> notasPendentes = new ArrayList<>();
