@@ -123,10 +123,10 @@
             <div class="tabela-container">
                 <table class="tabela-notas">
                     <tr>
-                        <th>Id</th>
                         <th>Matrícula</th>
                         <th>Nome</th>
                         <th>Email</th>
+                        <th>Turma</th>
                         <th>Senha</th>
                         <th>Ações</th>
                     </tr>
@@ -136,10 +136,10 @@
                             for (AlunoViewDTO aluno : alunos) {
                     %>
                     <tr>
-                        <td><p><%=aluno.getIdAluno().toString().substring(0,8)%></p></td>
                         <td><p><%=aluno.getMatricula()%></p></td>
                         <td><p><%=aluno.getNome()%></p></td>
                         <td><p><%=aluno.getEmail()%></p></td>
+                        <td><p><%=aluno.getTurma_ano()%></p></td>
                         <td><p>********</p></td>
                         <td class="action-box">
                             <form action="<%=request.getContextPath()%>/admin" method="get">

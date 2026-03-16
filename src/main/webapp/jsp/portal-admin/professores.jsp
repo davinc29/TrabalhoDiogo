@@ -111,7 +111,6 @@
             <div class="tabela-container">
                 <table class="tabela-notas">
                     <tr>
-                        <th>Id</th>
                         <th>Username</th>
                         <th>Nome</th>
                         <th>Email</th>
@@ -124,7 +123,6 @@
                             for (ProfessorDTO professor : professores) {
                     %>
                     <tr>
-                        <td><p><%=professor.getId().toString().substring(0,8)%></p></td>
                         <td><p><%=professor.getUsername()%></p></td>
                         <td><p><%=professor.getNome()%></p></td>
                         <td><p><%=professor.getEmail()%></p></td>

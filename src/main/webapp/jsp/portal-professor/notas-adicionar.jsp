@@ -132,7 +132,6 @@
           <div class="tabela-container">
             <table class="tabela-notas">
               <tr>
-                <th>Id</th>
                 <th>Nome</th>
                 <th>Matrícula</th>
                 <th>Turma</th>
@@ -143,9 +142,6 @@
               </tr>
                 <%for (BoletimViewDTO boletim : boletins) {%>
                 <tr>
-                    <td>
-                        <p><%=boletim.getId()%></p>
-                    </td>
                     <td>
                         <p><%=aluno.getNome()%></p>
                     </td>

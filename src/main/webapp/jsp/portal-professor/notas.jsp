@@ -130,6 +130,9 @@
                   <p class="aluno-turma">
                     <span class="fw-bold">Turma: </span><%=aluno.getTurma_ano()%>
                   </p>
+                  <p class="aluno-email">
+                      <span class="fw-bold">Email: </span><%=aluno.getEmail()%>
+                  </p>
                 </div>
                 <div class="aluno-adicionar">
                   <div class="botao-adicionar">
@@ -155,6 +158,9 @@
                         </p>
                         <p class="aluno-turma">
                             <span class="fw-bold">Turma: </span><%=aluno.getTurma_ano()%>
+                        </p>
+                        <p class="aluno-email">
+                            <span class="fw-bold">Email: </span><%=aluno.getEmail()%>
                         </p>
                     </div>
                     <div class="aluno-adicionar">

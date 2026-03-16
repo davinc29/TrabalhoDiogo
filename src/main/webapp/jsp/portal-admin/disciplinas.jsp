@@ -111,7 +111,6 @@
             <div class="tabela-container">
                 <table class="tabela-notas">
                     <tr>
-                        <th>Id</th>
                         <th>Disciplina</th>
                         <th>Professor</th>
                         <th>Email Professor</th>
@@ -123,10 +122,23 @@
                             for (DisciplinaViewDTO disciplina : disciplinas) {
                     %>
                     <tr>
-                        <td><p><%=disciplina.getId()%></p></td>
                         <td><p><%=disciplina.getNomeDisciplina()%></p></td>
-                        <td><p><%=disciplina.getNomeProfessor()%></p></td>
-                        <td><p><%=disciplina.getEmailProfessor()%></p></td>
+                        <td>
+                            <%
+                                if (disciplina.getNomeProfessor() == null) {
+                            %>
+                            <p>Sem professor</p>
+                            <%} else {%>
+                            <p><%=disciplina.getNomeProfessor()%><%}%></p>
+                        </td>
+                        <td>
+                            <%
+                                if (disciplina.getEmailProfessor() == null) {
+                            %>
+                            <p>Sem professor</p>
+                            <%} else {%>
+                            <p><%=disciplina.getNomeProfessor()%><%}%></p>
+                        </td>
                         <td class="action-box">
                             <form action="<%=request.getContextPath()%>/admin" method="get">
                                 <input type="hidden" name="action" value="editDisciplina" />

@@ -53,11 +53,6 @@
                         <div class="d-flex flex-column">
                             <div class="linha-cima d-flex">
                                 <div class="campo d-flex flex-column">
-                                    <label for="id-view">Id:</label>
-                                    <input type="text" id="id-view" value="<%=professor.getId()%>" disabled />
-                                </div>
-
-                                <div class="campo d-flex flex-column">
                                     <label for="username">Username:</label>
                                     <input type="text" id="username" name="username" value="<%=professor.getUsername()%>" required />
                                 </div>

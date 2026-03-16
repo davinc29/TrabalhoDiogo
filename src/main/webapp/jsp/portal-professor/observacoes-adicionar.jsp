@@ -80,9 +80,6 @@
                         alt="Mensagens Icon"
                 />
                 <div class="bg-primary box-name m-3">
-                    <p class="fs-4 fw-bold text-secondary">RE</p>
-                </div>
-                <div class="bg-primary box-name m-3">
                     <p class="fs-4 fw-bold text-secondary"><%=nome2L%></p>
                 </div>
                 <p class="m-3 mt-4 fs-5 fw-bold text-primary"><%=professor.getNome()%></p>
