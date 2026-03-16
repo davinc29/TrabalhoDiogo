@@ -233,7 +233,7 @@
                             <tr>
                                 <td><p><%= b.getNomeDisciplina() %></p></td>
                                 <td><p><%= b.getNota1() %></p></td>
-                                <td><p><%= b.getNota2() %></p></td>
+                                <td><p><%=(b.getStatus().equalsIgnoreCase("PROCESSANDO") ? "-" : b.getNota2())%></p></td>
                                 <td><p><%= b.getMedia() %></p></td>
                                 <%
                                     String cor;

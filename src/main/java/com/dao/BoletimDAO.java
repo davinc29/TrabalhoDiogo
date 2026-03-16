@@ -282,7 +282,7 @@ public class BoletimDAO extends DAO{
                     String turmaAno = rs.getString("turma_ano");
                     String nomeAluno = rs.getString("nome_aluno");
 
-                    notasPendentes.add(String.format("%s - Turma: %s - Aluno: %s", nomeDisciplina, turmaAno, nomeAluno));
+                    notasPendentes.add(String.format("%s\nAluno: %s", nomeDisciplina, turmaAno, nomeAluno));
                 }
             }
         }

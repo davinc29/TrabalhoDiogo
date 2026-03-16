@@ -128,19 +128,19 @@
                         </td>
 
                         <td style="text-align:center;">
-                            <p style="color:<%= b.getNota1() >= 7 ? "green" : "red" %>; font-weight:bold;">
+                            <p style="color:<%= b.getNota1() >= 7 ? "green" : "red" %>">
                                 <%= b.getNota1() %>
                             </p>
                         </td>
 
                         <td style="text-align:center;">
-                            <p style="color:<%= b.getNota2() >= 7 ? "green" : "red" %>; font-weight:bold;">
-                                <%= b.getNota2() %>
+                            <p style="color:<%= b.getNota2() >= 7 ? "green" : "red" %>">
+                                <%=(b.getStatus().equalsIgnoreCase("PROCESSANDO") ? "-" : b.getNota2())%>
                             </p>
                         </td>
 
                         <td style="text-align:center;">
-                            <p style="color:<%= b.getMedia() >= 7 ? "green" : "red" %>; font-weight:bold;">
+                            <p style="color:<%= b.getMedia() >= 7 ? "green" : "red" %>">
                                 <%= b.getMedia() %>
                             </p>
                         </td>

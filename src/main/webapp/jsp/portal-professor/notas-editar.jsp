@@ -131,7 +131,7 @@
                     >
                     <input
                       name="nota2"
-                      value=<%=boletim.getNota2()%>
+                      value=<%=(boletim.getStatus().equalsIgnoreCase("PROCESSANDO") ? "-" : boletim.getNota2())%>
                       type="number"
                       step="0.01"
                       id="segundo-semestre"

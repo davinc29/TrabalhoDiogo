@@ -159,7 +159,7 @@
                         <p><%=boletim.getNota1()%></p>
                     </td>
                     <td>
-                        <p><%=boletim.getNota2()%></p>
+                        <p><%=(boletim.getStatus().equalsIgnoreCase("PROCESSANDO") ? "-" : boletim.getNota2())%></p>
                     </td>
                     <td>
                         <p><%=boletim.getMedia()%></p>
