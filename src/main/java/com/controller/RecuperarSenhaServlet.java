@@ -5,7 +5,6 @@ import com.dao.OtpDAO;
 import com.dao.ProfessorDAO;
 import com.exception.ExcecaoDeJSP;
 import com.utils.EmailUtils;
-import com.utils.SenhaUtils;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -191,7 +190,7 @@ public class RecuperarSenhaServlet extends HttpServlet {
                 UUID idAluno = otpDao.buscarIdAlunoPorEmail(email);
 
                 try (AlunoDAO alunoDao = new AlunoDAO()) {
-                    alunoDao.atualizarSenhaAluno(idAluno, novaSenha);
+                    alunoDao.recuperarSenhaAluno(idAluno, novaSenha);
                 }
             }
         }

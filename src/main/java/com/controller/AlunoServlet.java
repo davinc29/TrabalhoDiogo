@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.UUID;
 
 @WebServlet("/aluno")
 public class AlunoServlet extends HttpServlet {
@@ -111,7 +110,7 @@ public class AlunoServlet extends HttpServlet {
         novaSenha = (novaSenha.isBlank() ? null : novaSenha.trim());
 
         try (AlunoDAO dao = new AlunoDAO()) {
-            dao.atualizarSenhaAlunoAluno(email, senhaAtual, novaSenha);
+            dao.atualizarSenhaPortalAluno(email, senhaAtual, novaSenha);
         }
 
         req.setAttribute("destinoFinal", AREA_RESTRITA_ALUNO);

@@ -137,10 +137,11 @@ public class ProfessorDAO extends DAO{
                 }
 
                 conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
             }
         }
-
-        conn.rollback();
         return professores;
     }
 
@@ -197,62 +198,6 @@ public class ProfessorDAO extends DAO{
         return professor;
     }
 
-    public ProfessorDTO pesquisarPorEmail(String email) throws SQLException{
-        String sql = """
-                SELECT
-                    id, nome, username
-                FROM
-                    professor
-                WHERE
-                    email = ?
-                """;
-
-        ProfessorDTO professor = null;
-
-        try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, email);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                String nome = rs.getString("nome");
-                String username = rs.getString("username");
-                UUID id = rs.getObject("id", UUID.class);
-
-                professor = new ProfessorDTO(id, nome, username, email);
-            }
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
-        }
-
-        conn.commit();
-        return professor;
-    }
-
-    public Map<String, UUID> mapNomeId () throws SQLException {
-        String sql = """
-                SELECT
-                    id,
-                    nome
-                FROM
-                    professor
-                """;
-
-        Map<String, UUID> mapNomeId = new HashMap<>();
-
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-            while(rs.next()) {
-                String nome = rs.getString("nome");
-                UUID id = rs.getObject("id", UUID.class);
-
-                mapNomeId.put(nome, id);
-            }
-        }
-
-        return mapNomeId;
-    }
-
     public void recuperarSenhaProfessor(String email, String novaSenha)
             throws SQLException {
         String sql = "UPDATE professor SET senha = ? WHERE email = ?";
@@ -269,45 +214,6 @@ public class ProfessorDAO extends DAO{
                 conn.rollback();
                 throw e;
             }
-        }
-    }
-
-    public void atualizarSenhaProfessor(String email, String senhaAtual, String senhaNova) throws SQLException{
-        String sql = """
-                SELECT
-                    senha
-                FROM
-                    professor
-                WHERE
-                    email = ?
-                """;
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, email);
-
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                String senha = rs.getString("senha");
-
-                if (SenhaUtils.comparar(senhaAtual, senha)) {
-                    String update = "UPDATE professor SET senha = ? WHERE email = ?";
-                    String senhaHash = SenhaUtils.hashear(senhaNova);
-
-
-                    try (PreparedStatement pstmt2 = conn.prepareStatement(update)) {
-                        pstmt2.setString(1, senhaHash);
-                        pstmt2.setString(2, email);
-                        pstmt2.executeUpdate();
-                        conn.commit();
-                    } catch (SQLException e) {
-                        conn.rollback();
-                        throw e;
-                    }
-                }
-            }
-        } catch (SQLException err) {
-            conn.rollback();
-            throw err;
         }
     }
 }

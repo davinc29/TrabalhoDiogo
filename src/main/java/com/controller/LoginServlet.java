@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        boolean erro = true;
+            boolean erro = true;
         String destino = PAGINA_ERRO;
 
         try {

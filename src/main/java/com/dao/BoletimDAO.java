@@ -38,7 +38,7 @@ public class BoletimDAO extends DAO{
             if (nota2 == null) {
                 pstmt.setObject(2,null);
             } else {
-                pstmt.setDouble(1,nota2);
+                pstmt.setDouble(2,nota2);
             }
 
             pstmt.setObject(3,idAluno);
@@ -289,7 +289,7 @@ public class BoletimDAO extends DAO{
                     String turmaAno = rs.getString("turma_ano");
                     String nomeAluno = rs.getString("nome_aluno");
 
-                    notasPendentes.add(String.format("%s\nAluno: %s", nomeDisciplina, turmaAno, nomeAluno));
+                    notasPendentes.add(String.format("%s | Aluno: %s", nomeDisciplina, nomeAluno));
                 }
             }
         }

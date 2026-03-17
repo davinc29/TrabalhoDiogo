@@ -1,5 +1,6 @@
 package com.filter;
 
+import com.dto.AdminDTO;
 import com.dto.AlunoViewDTO;
 import com.dto.ProfessorDTO;
 import jakarta.servlet.FilterChain;
@@ -49,7 +50,7 @@ public class SistemaFilter extends HttpFilter {
         HttpSession session = req.getSession(false);
 
         // Não tem usuário, redireciona para página de login
-        if (session != null && (session.getAttribute("usuario") instanceof ProfessorDTO || session.getAttribute("usuario") instanceof AlunoViewDTO)) {
+        if (session != null && (session.getAttribute("usuario") instanceof ProfessorDTO || session.getAttribute("usuario") instanceof AlunoViewDTO || session.getAttribute("usuario") instanceof AdminDTO)) {
             chain.doFilter(req, resp);
 
         } else {
