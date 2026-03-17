@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <form onsubmit="validarSenha(event)" id="atualizarSenha" action="${pageContext.request.contextPath}/professores?action=update&usuario=professor" method="post">
+                <form onsubmit="validarSenha(event)" id="atualizarSenha" action="${pageContext.request.contextPath}/professores" method="post">
                     <div class="campos" style="margin-top: 40px">
                         <div class="email d-flex flex-column mb-4">
                             <label for="email-id">E-mail atual:</label>

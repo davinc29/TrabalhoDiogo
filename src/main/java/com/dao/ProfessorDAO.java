@@ -216,4 +216,43 @@ public class ProfessorDAO extends DAO{
             }
         }
     }
+
+    public void atualizarSenhaProfessor(String email, String senhaAtual, String senhaNova) throws SQLException{
+        String sql = """
+                SELECT
+                    senha
+                FROM
+                    professor
+                WHERE
+                    email = ?
+                """;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String senha = rs.getString("senha");
+
+                if (SenhaUtils.comparar(senhaAtual, senha)) {
+                    String update = "UPDATE professor SET senha = ? WHERE email = ?";
+                    String senhaHash = SenhaUtils.hashear(senhaNova);
+
+
+                    try (PreparedStatement pstmt2 = conn.prepareStatement(update)) {
+                        pstmt2.setString(1, senhaHash);
+                        pstmt2.setString(2, email);
+                        pstmt2.executeUpdate();
+                        conn.commit();
+                    } catch (SQLException e) {
+                        conn.rollback();
+                        throw e;
+                    }
+                }
+            }
+        } catch (SQLException err) {
+            conn.rollback();
+            throw err;
+        }
+    }
 }

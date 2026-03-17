@@ -12,7 +12,7 @@ function validarSenha(event) {
 
     if (!(temTamanho && temLetra && temNumero)) {
         event.preventDefault();
-        erro.innerText = "A senha deve ter 8 caracteres, letra, número e caractere especial.";
+        erro.innerText = "A senha deve ter 8 caracteres, letra e número.";
         senhaNova.focus();
         return;
     }
