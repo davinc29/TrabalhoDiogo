@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
 
     private static final String AREA_RESTRITA_ALUNO = "/jsp/portal-aluno/home.jsp";
     private static final String AREA_RESTRITA_PROFESSOR = "/jsp/portal-professor/home.jsp";
-    private static final String AREA_RESTRITA_ADMIN = "/jsp/portal-admin/alunos.jsp";
 
     private static final String PAGINA_LOGIN = "/index.jsp";
     private static final String PAGINA_ERRO = "/html/erro.html";
@@ -56,12 +55,11 @@ public class LoginServlet extends HttpServlet {
                         throw ExcecaoDeJSP.falhaLogin();
                     }
                     HttpSession session = req.getSession(true);
-
                     session.setAttribute("usuario", admin);
                     session.setAttribute("senha", senha);
 
-                    destino = "/admin?action=readAlunos";
-                    erro = false;
+                    resp.sendRedirect(req.getContextPath() + "/admin?action=readAlunos");
+                    return;
                 }
 
                 case 1 -> {
@@ -73,10 +71,10 @@ public class LoginServlet extends HttpServlet {
 
                     req.setAttribute("observacoes", observacoes);
                     req.setAttribute("boletim", boletim);
-
                     session.setAttribute("usuario", aluno);
-                    destino = AREA_RESTRITA_ALUNO;
-                    erro = false;
+
+                    req.getRequestDispatcher(AREA_RESTRITA_ALUNO).forward(req, resp);
+                    return;
                 }
 
                 case 2 -> {
@@ -90,8 +88,8 @@ public class LoginServlet extends HttpServlet {
                     req.setAttribute("notasPendentes", notasPendentes);
                     session.setAttribute("usuario", professor);
 
-                    destino = AREA_RESTRITA_PROFESSOR;
-                    erro = false;
+                    req.getRequestDispatcher(AREA_RESTRITA_PROFESSOR).forward(req, resp);
+                    return;
                 }
             }
 
@@ -116,11 +114,8 @@ public class LoginServlet extends HttpServlet {
             System.err.println("Erro inesperado:");
             e.printStackTrace(System.err);
         }
-        if (erro) {
-            resp.sendRedirect(req.getContextPath() + destino);
-        } else {
-            req.getRequestDispatcher(destino).forward(req, resp);
-        }
+
+        resp.sendRedirect(req.getContextPath() + PAGINA_ERRO);
 
     }
 

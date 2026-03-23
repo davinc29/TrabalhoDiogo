@@ -16,7 +16,16 @@ import java.util.Set;
 
 // Servlet para filtrar o acesso a páginas JSP do portal-professor, uma vez que não estamos utilizando WEB-INF
 
-@WebFilter(filterName = "sistema-filter", urlPatterns = "/jsp/*")
+@WebFilter(filterName = "sistema-filter", urlPatterns = {
+        "/jsp/*",
+        "/admin",
+        "/home",
+        "/aluno",
+        "/alunos-professor",
+        "/boletim",
+        "/observacoes",
+        "/professores"
+})
 public class SistemaFilter extends HttpFilter {
 
     private static final String PAGINA_LOGIN = "/index.jsp";

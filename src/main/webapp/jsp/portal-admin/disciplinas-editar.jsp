@@ -71,7 +71,7 @@
 
                                 <div class="campo d-flex flex-column">
                                     <label for="idProfessor">Professor:</label>
-                                    <select id="idProfessor" name="idProfessor" required>
+                                    <select id="idProfessor" name="idProfessor">
                                         <option value="">Selecione um professor</option>
                                         <%
                                             if (professores != null) {
